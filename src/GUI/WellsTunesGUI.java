@@ -32,13 +32,14 @@ public final class WellsTunesGUI {
         Panels = new Panels();
         Boxes = new Boxes();
         ActionHandler = new Actions(this);
-        
+        //These Objects Need To Be Registered With The ActionHandler. 
         SongList = new SongList(ActionHandler);
         AlbumList = new AlbumList(ActionHandler);
         ArtistList = new ArtistList(ActionHandler);
         Menu = new Menus(ActionHandler);
-        //Last One Needed For ActionHandler Refactor
-        Buttons = new Buttons(MP3Player,Menu);    
+        Buttons = new Buttons(ActionHandler);        
+
+            
         this.initGUI();
         }
      

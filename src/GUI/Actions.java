@@ -7,17 +7,12 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer.Status;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -42,29 +37,39 @@ public class Actions implements ActionListener, MouseListener{
                     Object choice = e.getSource();
                     if (choice.equals(App.Menu.File.Quit)) {
                       System.exit(0);
-                    }else if(choice.equals(App.Menu.File.MusicPath)){
+                    }
+                    if(choice.equals(App.Menu.File.MusicPath)){
                             String path="C:\\Users\\wellsnp\\Documents\\PlayMusicLib";
                                  //Folders = new FolderInfo(path) ;
                                  App.Folders.setPath(path);
-                    }else if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
+                    }
+                    if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
                         
                         try {
                             App.Folders.RunGlobalDuplicationCheck();
                         } catch (IOException ex) {
                             Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                                 
-                    }else if((choice.equals(App.Menu.Player.Play)) & (App.Folders.path!=null)){
-                              this.handelPlay();
+                        }             
                     }
-                    else if((choice.equals(App.Menu.Player.Stop)) & (App.Folders.path!=null)){
-                              this.handelStop();
+                    if((choice.equals(App.Menu.Player.Play)) & (App.Folders.path!=null)){
+                        this.handelPlay();
                     }
-                    else if((choice.equals(App.Menu.Player.Pause)) & (App.Folders.path!=null)){
-                              this.handelPause();
-                           
-                    }else{
+                    if((choice.equals(App.Menu.Player.Stop)) & (App.Folders.path!=null)){
+                        this.handelStop();
+                    }
+                    if((choice.equals(App.Menu.Player.Pause)) & (App.Folders.path!=null)){
+                        this.handelPause();
+                    }
+                    if(choice.equals(App.Buttons.STOP)){
+                        this.handelStop();
+                    }
+                    if(choice.equals(App.Buttons.PLAY)){
+                        this.handelPlay();
+                    }
+                    if(choice.equals(App.Buttons.PAUSE)){
+                        this.handelPause();
+                    }
+                    else{
                         System.out.println("Item clicked: "+e.getActionCommand()); 
                     }
                         
