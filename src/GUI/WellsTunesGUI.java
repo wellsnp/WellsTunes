@@ -14,7 +14,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import FileAndDirectory.FolderInfo;
-import java.awt.event.ActionEvent;
 public final class WellsTunesGUI {
         FolderInfo Folders;
         ArtistList ArtistList;
@@ -48,8 +47,6 @@ public final class WellsTunesGUI {
        WellsTunesGUI App=new WellsTunesGUI();
        App.checkMusicLib(); 
 
-       
-      
     }
     private void initGUI(){
         this.initFrame();
@@ -99,7 +96,6 @@ public final class WellsTunesGUI {
        
        frame.repaint();
     }
-
     public void checkMusicLib() throws InterruptedException{
         while(true){
                if(Folders.path!=null){

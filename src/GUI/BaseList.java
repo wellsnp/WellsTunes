@@ -14,11 +14,7 @@ import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.io.File;
-import FileAndDirectory.FolderInfo;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.DefaultListModel;
 public class BaseList extends JScrollPane{
     
