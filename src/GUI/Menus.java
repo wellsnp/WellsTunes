@@ -25,49 +25,50 @@ public class Menus{
     PlayerMenu Player;
     HelpMenu Help;
     AboutMenu About;
-    FolderInfo Folders;
-    AudioMedia MP3Player;
-    SongList SongList;
-    Menus(FolderInfo Folders, SongList Songs, AudioMedia MP3Player){
+    Actions ActionHandler;
+    Menus(Actions ActionHandler){
         menubar = new JMenuBar();
-        File = new FileMenu(menubar);
-        Lib  = new LibMenu(menubar);
-        Player  = new PlayerMenu(menubar);
-        Help  = new HelpMenu(menubar);
-        About  = new AboutMenu(menubar);
-        this.Folders= Folders;   
-        this.MP3Player = MP3Player;
-        this.SongList = Songs;
+        File = new FileMenu(menubar,ActionHandler);
+        Lib  = new LibMenu(menubar,ActionHandler);
+        Player  = new PlayerMenu(menubar,ActionHandler);
+        Help  = new HelpMenu(menubar,ActionHandler);
+        About  = new AboutMenu(menubar,ActionHandler);
+        this.ActionHandler=ActionHandler;
         }
                         
 
 
 /////////Menue Classes
-
-       class FileMenu {
+       class BaseMenu {
+             Actions ActionHandler;
+                BaseMenu(Actions ActionHandler){
+                    this.ActionHandler=ActionHandler;
+                }
+        }
+       class FileMenu extends BaseMenu {
         JMenu file;
         MenuItem MusicPath;
         MenuItem Quit;
                     
-        FileMenu(JMenuBar menubar){
-         //menubar = new JMenuBar();
+        FileMenu(JMenuBar menubar,Actions ActionHandler ){
+         super(ActionHandler);
          file = new JMenu("File");
-         MusicPath = new MenuItem("MusicPath");
-         Quit = new MenuItem("Quit");
+         MusicPath = new MenuItem("MusicPath",this.ActionHandler);
+         Quit = new MenuItem("Quit",this.ActionHandler);
          file.add(MusicPath);
          file.add(Quit);     
          menubar.add(file);
         }
  }
  
-       class LibMenu {
+       class LibMenu extends BaseMenu{
        JMenu Lib;
        MenuItem Duplicates;
        
-       LibMenu(JMenuBar menubar){
-         //menubar = new JMenuBar();
+       LibMenu(JMenuBar menubar, Actions ActionHandler){
+         super(ActionHandler);
          Lib = new JMenu("Library");
-         Duplicates = new MenuItem("Check Duplicates");
+         Duplicates = new MenuItem("Check Duplicates",this.ActionHandler);
          Lib.add(Duplicates);
          Lib.setEnabled(false);
          menubar.add(Lib);
@@ -75,48 +76,49 @@ public class Menus{
         }
  }             
 
-       class HelpMenu {
+       class HelpMenu extends BaseMenu{
         JMenu Help;
         MenuItem NoHelp ;
                           
-        HelpMenu(JMenuBar menubar){
-         //menubar = new JMenuBar();
+        HelpMenu(JMenuBar menubar,Actions ActionHandler){
+         super(ActionHandler);
          Help = new JMenu("Help");
-         NoHelp = new MenuItem("NoHelp");
+         NoHelp = new MenuItem("NoHelp",this.ActionHandler);
          Help.add(NoHelp);
          menubar.add(Help);
         }
        }
               
-       class AboutMenu {
+       class AboutMenu extends BaseMenu {
         JMenu About;
         MenuItem version ;
         MenuItem LibInfo ;
         
                           
-        AboutMenu(JMenuBar menubar){
+        AboutMenu(JMenuBar menubar,Actions ActionHandler){
          //menubar = new JMenuBar();
+         super(ActionHandler);
          About = new JMenu("About");
-         version = new MenuItem("version");
-         LibInfo = new MenuItem("LibInfo");
+         version = new MenuItem("version",this.ActionHandler);
+         LibInfo = new MenuItem("LibInfo",this.ActionHandler);
          About.add(version);
          About.add(LibInfo);
          menubar.add(About);
         }
        }
 
-       class PlayerMenu {
+       class PlayerMenu extends BaseMenu {
        JMenu Player;
        MenuItem Play;
        MenuItem Pause;
        MenuItem Stop;
        
-       PlayerMenu(JMenuBar menubar){
-         //menubar = new JMenuBar();
+       PlayerMenu(JMenuBar menubar,Actions ActionHandler){
+         super(ActionHandler);
          Player = new JMenu("Controls");
-         Play = new MenuItem("Play");
-         Pause = new MenuItem("Pause");
-         Stop = new MenuItem("Stop");
+         Play = new MenuItem("Play",this.ActionHandler);
+         Pause = new MenuItem("Pause",this.ActionHandler);
+         Stop = new MenuItem("Stop",this.ActionHandler);
          Player.add(Play);
          Player.add(Pause);
          Player.add(Stop);
@@ -126,85 +128,17 @@ public class Menus{
         }   
        }
        
-//Menu Item & Actions 
+       
+    
+        
+//Menu Item
  
         //Generic Menu Item. All Actions Are Based on Which Menue Item is Slected
-         class MenuItem extends JMenuItem implements ActionListener{
+         class MenuItem extends JMenuItem{
                    
-                public MenuItem(String Text){
+                public MenuItem(String Text, Actions ActionHandler){
                     super(Text);
-                    addActionListener(this);
-                }
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //System.out.println("Item clicked: "+e.getActionCommand());    
-                    String choice = e.getActionCommand();
-                    if (choice.equals("Quit")) {
-                      System.exit(0);
-                    }
-                    else if(choice.equals("MusicPath")){
-                            String path="C:\\Users\\wellsnp\\Documents\\PlayMusicLib";
-                                 //Folders = new FolderInfo(path) ;
-                                 Folders.setPath(path);
-                    }
-                    else if((choice.equals("Check Duplicates")) & (Folders.path!=null)){
-                        try {
-                            Folders.RunGlobalDuplicationCheck();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Menus.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                                 
-                    }
-                    else if((choice.equals("Play")) & (Folders.path!=null)){
-                              this.handelPlay();
-                    }
-                    else if((choice.equals("Stop")) & (Folders.path!=null)){
-                              this.handelStop();
-                    }
-                    else if((choice.equals("Pause")) & (Folders.path!=null)){
-                              this.handelPause();
-                           
-                    }
-                    
-                    
-                    else{
-                        System.out.println("Item clicked: "+e.getActionCommand()); 
-                    }
-                        
-                }
-                
-                
-                public void handelPlay(){
-                        
-                        if(MP3Player.mediaPlayer!=null){
-                        Status CurrentStatus=MP3Player.mediaPlayer.getStatus();
-                        System.out.println(CurrentStatus);
-                            if(CurrentStatus==Status.STOPPED){
-                                MP3Player.mediaPlayer.dispose();
-                                SongList.buildSongList();
-                                MP3Player.playSongList();
-                            }  
-                            if(CurrentStatus==Status.PAUSED){
-                                MP3Player.mediaPlayer.play();
-                            } 
-                        }else{
-                                //System.out.println("MediaPlayerDoesNotExistYet");
-                                MP3Player.playSongList(); 
-                                }
-                }
-                public void handelPause(){
-                    Status CurrentStatus=MP3Player.mediaPlayer.getStatus();
-                        if(CurrentStatus==Status.PLAYING){
-                            MP3Player.pauseSong();
-                        }      
-                }
-                public void handelStop(){
-                    Status CurrentStatus=MP3Player.mediaPlayer.getStatus();
-                        System.out.println(CurrentStatus);
-                        if(CurrentStatus==Status.PLAYING){
-                            MP3Player.stopSong();
-                        }       
+                    addActionListener(ActionHandler);
                 }
         }
-
 }

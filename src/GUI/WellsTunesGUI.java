@@ -14,7 +14,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import FileAndDirectory.FolderInfo;
-import java.awt.event.ActionEvent;
 public final class WellsTunesGUI {
         FolderInfo Folders;
         ArtistList ArtistList;
@@ -26,25 +25,21 @@ public final class WellsTunesGUI {
         Boxes Boxes;
         Panels Panels;
         JFrame frame;
-        
+        Actions ActionHandler;
         WellsTunesGUI(){
         MP3Player = new AudioMedia();
         Folders = new FolderInfo();
         Panels = new Panels();
         Boxes = new Boxes();
-        
-        //Song List Will Build The Media File Array Needed For the MP3 Player
-        //Clicking the Song List Will Also Control The MP3 Player.
-        SongList = new SongList(MP3Player);
-        
-        //Album List Will Populate the Song List Object with the Current Selected Album
-        AlbumList = new AlbumList(SongList);
-        //Artist List Will Populate the Album List with the Artists Current Albums.
-        ArtistList = new ArtistList(AlbumList);
-        //Menu Will Have the Ability to Set the Folder Object Path. Upon Settin This Path, Folder Object Run's It's Init Method 
-        //Then We Check In Main For This Event, and Populate teh Artist List. All Other Lists Are Populated Via Mouse Click. 
-        Menu = new Menus(Folders,SongList,MP3Player);
-        Buttons = new Buttons(MP3Player,Menu);    
+        ActionHandler = new Actions(this);
+        //These Objects Need To Be Registered With The ActionHandler. 
+        SongList = new SongList(ActionHandler);
+        AlbumList = new AlbumList(ActionHandler);
+        ArtistList = new ArtistList(ActionHandler);
+        Menu = new Menus(ActionHandler);
+        Buttons = new Buttons(ActionHandler);        
+
+            
         this.initGUI();
         }
      
@@ -53,8 +48,6 @@ public final class WellsTunesGUI {
        WellsTunesGUI App=new WellsTunesGUI();
        App.checkMusicLib(); 
 
-       
-      
     }
     private void initGUI(){
         this.initFrame();
@@ -104,7 +97,6 @@ public final class WellsTunesGUI {
        
        frame.repaint();
     }
-
     public void checkMusicLib() throws InterruptedException{
         while(true){
                if(Folders.path!=null){
