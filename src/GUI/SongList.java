@@ -14,19 +14,21 @@ import java.util.ArrayList;
 
 import java.io.File;
 import FileAndDirectory.FolderInfo;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Iterator;
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
+//import java.util.Iterator;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer.Status;
-import javax.swing.JList;
+//import javafx.scene.media.MediaPlayer.Status;
+//import javax.swing.JList;
 public class SongList extends BaseList{
- 
-    AudioMedia MP3Player;
     File CurrentAlbum;
-    public SongList(AudioMedia Player){
-        MP3Player=Player;
+    public SongList(Actions ActionHandler)
+    {   
+        super(ActionHandler);
+        //MP3Player=Player;
     }
     
     @Override
@@ -46,9 +48,8 @@ public class SongList extends BaseList{
             
             System.out.println(CurrentSong.getName());
         }
-        this.buildSongList();
-        System.out.println("Media List Size");
-        System.out.println(MP3Player.mediaList.size());
+        //this.buildSongList();
+       
      
     }
     
@@ -70,67 +71,24 @@ public class SongList extends BaseList{
             //listmodel.addElement(Songs[j].getName());
             
         }
-        this.buildSongList();
+        //this.buildSongList();
     }
-            public void buildSongList(){
-                 List<File> Songs=this.ScrollListFiles;   
-                 MP3Player.mediaList.clear();
-                for (File CurrentSong:Songs) {
+            public ObservableList<Media>  buildSongList(){
+                 List<File> Songs=this.ScrollListFiles;  
+                 ObservableList<Media> mediaList = FXCollections.observableArrayList();
+                 for (File CurrentSong:Songs) {
                     Media NewSong = new Media(CurrentSong.toURI().toString());
-                    MP3Player.mediaList.add(NewSong);
+                    mediaList.add(NewSong);
                 }
+                 return mediaList;
            } 
-     @Override
-    public void initMouseAdapter(JList list){  
-       mouseListener = new MouseAdapter() {
-      @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    int selectedItem = (int) list.getSelectedIndex();
-                    
-                    //Rebuild The Song List and Play From Here:
-                    //if(!MP3Player.status){
-                    if(ScrollListFiles!=null){
-                    System.out.println(selectedItem);
-                    }
-                     
-                     
-                     if(MP3Player.mediaPlayer!=null){
-                        Status CurrentStatus=MP3Player.mediaPlayer.getStatus();
-                        System.out.println(CurrentStatus);
-                            if(CurrentStatus==Status.STOPPED){
-                                MP3Player.mediaPlayer.dispose();
-                                UpdateListFromSelection(selectedItem);
-                                MP3Player.playSongList();
-                            }
-                            if(CurrentStatus==Status.PLAYING){
-                                MP3Player.mediaPlayer.stop();
-                                MP3Player.mediaPlayer.dispose();
-                                UpdateListFromSelection(selectedItem);
-                                MP3Player.playSongList();
-                            }
-                            if(CurrentStatus==Status.PAUSED){
-                                MP3Player.mediaPlayer.play();
-                            } 
-                      }else{
-                                UpdateListFromSelection(selectedItem);
-                                MP3Player.playSongList();
-                      }
-                     //MP3Player.playSongList();
-                    //}else{
-                    //    MP3Player.stopSong();
-                    //    MP3Player.setStatus(false);
-                    //    MP3Player.Song=null;
-                    //    MP3Player.mediaPlayer=null;
-                        //MP3Player.addSong(Song);
-                       // MP3Player.playSong();
-                        
-                    //}
-                    //System.out.println(selectedItem);
-               
-                }
-            }
-        };
-    }
+//     @Override
+//    public void initMouseAdapter(){  
+//       mouseListener = new MouseAdapter() {
+//      @Override
+//            public void mouseClicked(MouseEvent e) {
+//                
+//        };
+//    }
 
 }

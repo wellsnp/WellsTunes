@@ -26,24 +26,19 @@ public final class WellsTunesGUI {
         Boxes Boxes;
         Panels Panels;
         JFrame frame;
-        
+        Actions ActionHandler;
         WellsTunesGUI(){
         MP3Player = new AudioMedia();
         Folders = new FolderInfo();
         Panels = new Panels();
         Boxes = new Boxes();
+        ActionHandler = new Actions(this);
         
-        //Song List Will Build The Media File Array Needed For the MP3 Player
-        //Clicking the Song List Will Also Control The MP3 Player.
-        SongList = new SongList(MP3Player);
-        
-        //Album List Will Populate the Song List Object with the Current Selected Album
-        AlbumList = new AlbumList(SongList);
-        //Artist List Will Populate the Album List with the Artists Current Albums.
-        ArtistList = new ArtistList(AlbumList);
-        //Menu Will Have the Ability to Set the Folder Object Path. Upon Settin This Path, Folder Object Run's It's Init Method 
-        //Then We Check In Main For This Event, and Populate teh Artist List. All Other Lists Are Populated Via Mouse Click. 
-        Menu = new Menus(Folders,SongList,MP3Player);
+        SongList = new SongList(ActionHandler);
+        AlbumList = new AlbumList(ActionHandler);
+        ArtistList = new ArtistList(ActionHandler);
+        Menu = new Menus(ActionHandler);
+        //Last One Needed For ActionHandler Refactor
         Buttons = new Buttons(MP3Player,Menu);    
         this.initGUI();
         }

@@ -46,13 +46,13 @@ public class Buttons implements ActionListener {
        
        Object choice = e.getSource();
        if(choice.equals(STOP)){
-            Menus.Player.Play.handelStop();
+            //Menus.Player.Play.handelStop();
        }
        if(choice.equals(PLAY)){
-            Menus.Player.Play.handelPlay();
+            //Menus.Player.Play.handelPlay();
        }
        if(choice.equals(PAUSE)){
-            Menus.Player.Play.handelPause();
+            //Menus.Player.Play.handelPause();
        }
                  
     }

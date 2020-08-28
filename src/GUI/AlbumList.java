@@ -10,42 +10,35 @@ package GUI;
  * @author wellsnp
  */
 import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
+
 import java.io.File;
 import FileAndDirectory.FolderInfo;
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.DefaultListModel;
 
 public class AlbumList extends BaseList{
-    SongList Songs;
     
-    public AlbumList(SongList Songs){
-    this.Songs = Songs;
-    
+    public AlbumList(Actions ActionHandler){
+            super(ActionHandler);
     }
               
-    @Override
-    public void initMouseAdapter(JList list){  
-       mouseListener = new MouseAdapter() {
-      @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    int selectedItem = (int) list.getSelectedIndex();
-                    //Updates the Song List Display with All the Songs in the Album
-                    Songs.UpdateList(ScrollListFiles.get(selectedItem));     
-                    //System.out.println(selectedItem);
-                    if(ScrollListFiles!=null){
-                    System.out.println(ScrollListFiles.get(selectedItem));
-                    }
-                }
-            }
-        };
-    }
+//    @Override
+//    public void initMouseAdapter(){  
+//       mouseListener = new MouseAdapter() {
+//      @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (e.getClickCount() == 1) {
+//                    int selectedItem = (int) list.getSelectedIndex();
+//                    //Updates the Song List Display with All the Songs in the Album
+//                    Songs.UpdateList(ScrollListFiles.get(selectedItem));     
+//                    //System.out.println(selectedItem);
+//                    if(ScrollListFiles!=null){
+//                    System.out.println(ScrollListFiles.get(selectedItem));
+//                    }
+//                }
+//            }
+//        };
+//    }
 
     @Override
  public void UpdateList(File InputFile){

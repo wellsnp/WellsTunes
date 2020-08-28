@@ -24,11 +24,11 @@ public class BaseList extends JScrollPane{
     
     List<String> ScrollListNames;
     public List<File> ScrollListFiles;
-    MouseListener mouseListener;
+    Actions ActionHandler; 
     JList<String> list;
     DefaultListModel<String> listmodel;
     
-    public BaseList(){          
+    public BaseList(Actions ActionHandler){          
           List<String> myList = new ArrayList<>(10);
           listmodel = new DefaultListModel<>();
           list = new JList<String>(listmodel);
@@ -41,23 +41,12 @@ public class BaseList extends JScrollPane{
           this.setViewportView(list);
           this.setPreferredSize(new Dimension (100,500));
           list.setLayoutOrientation(JList.VERTICAL);
-          this.initMouseAdapter(list);
-          list.addMouseListener(mouseListener);
+          //this.initMouseAdapter();
+          list.addMouseListener(ActionHandler);
        
     }
     public void UpdateList(File InputFile){
      listmodel.removeAllElements();
     }
-    public void initMouseAdapter(JList list){  
-     mouseListener = new MouseAdapter() {
-         @Override
-         public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    int selectedItem = (int) list.getSelectedIndex();
-                    System.out.println(selectedItem);
-                }
-            }
-            
-     };
-    }
 }
+

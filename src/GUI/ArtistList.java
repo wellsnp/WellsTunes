@@ -10,44 +10,17 @@ package GUI;
  * @author wellsnp
  */
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
+
 import java.io.File;
 import FileAndDirectory.FolderInfo;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.DefaultListModel;
-//Make a Scrollable List of Artists.
+import java.util.ArrayList;
 public class ArtistList extends BaseList{
     //FolderInfo Folders;
     //File[] Artists;
    
-    AlbumList Albums;
-    public ArtistList(AlbumList Albums){
-          
-          this.Albums=Albums;
-            
-}
-    
-    @Override
-    public void initMouseAdapter(JList list){  
-       mouseListener = new MouseAdapter() {
-      @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    int selectedItem = (int) list.getSelectedIndex();
-                    System.out.println(selectedItem);
-                    if(ScrollListFiles!=null){
-                    System.out.println(ScrollListFiles.get(selectedItem));
-                    Albums.UpdateList(ScrollListFiles.get(selectedItem));
-                    }
-                }
-            }
-        };
+    //AlbumList Albums;
+    public ArtistList(Actions ActionHandler){
+          super(ActionHandler);
     }
 
  public void UpdateList(FolderInfo Folders){
@@ -60,7 +33,6 @@ public class ArtistList extends BaseList{
             listmodel.addElement(CurrentArtist.getName());
             
         }
-
  }
 }
 
