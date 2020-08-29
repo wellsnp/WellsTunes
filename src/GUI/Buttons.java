@@ -8,7 +8,6 @@ package GUI;
 import Audio.AudioMedia;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
-import java.awt.*;
 import java.awt.event.*;
 
 /**

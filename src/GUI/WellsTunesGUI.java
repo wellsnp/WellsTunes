@@ -14,6 +14,11 @@ import javax.swing.*;
 
 import java.awt.*;
 import FileAndDirectory.FolderInfo;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 public final class WellsTunesGUI {
         FolderInfo Folders;
         ArtistList ArtistList;
@@ -39,13 +44,12 @@ public final class WellsTunesGUI {
         Menu = new Menus(ActionHandler);
         Buttons = new Buttons(ActionHandler);        
 
-            
-        this.initGUI();
         }
      
-        public static void main(String args[]) throws InterruptedException{
+        public static void main(String args[]) throws InterruptedException, IOException{
       // JFrame frame = new JFrame("WellsTunes v0.1");
        WellsTunesGUI App=new WellsTunesGUI();
+       App.initGUI(); 
        App.checkMusicLib(); 
 
     }
@@ -97,10 +101,19 @@ public final class WellsTunesGUI {
        
        frame.repaint();
     }
-    public void checkMusicLib() throws InterruptedException{
+    public void checkMusicLib() throws InterruptedException, FileNotFoundException, IOException{
         while(true){
+               
+                String path_save="C:\\Users\\wellsnp\\Documents\\NetBeansProjects\\TestFileStructureRead\\WellsTunesPathInfo.txt";
+                File tempDir = new File(path_save);
+                if(tempDir.exists()){
+                    BufferedReader br = new BufferedReader(new FileReader(tempDir)); 
+                    String path=br.readLine();
+                    Folders.setPath(path);
+                    Thread.sleep(6);
+                }
                if(Folders.path!=null){
-                        
+                        Thread.sleep(3);
                         String Num = Integer.toString(Folders.Artists.length);
                         
                         Boxes.ArtistInfo.Field.setText(Num);

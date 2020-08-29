@@ -5,14 +5,20 @@
  */
 package GUI;
 
+import FileAndDirectory.FolderInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer.Status;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -39,9 +45,13 @@ public class Actions implements ActionListener, MouseListener{
                       System.exit(0);
                     }
                     if(choice.equals(App.Menu.File.MusicPath)){
-                            String path="C:\\Users\\wellsnp\\Documents\\PlayMusicLib";
-                                 //Folders = new FolderInfo(path) ;
-                                 App.Folders.setPath(path);
+                        try {
+                            this.handelPath();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
                         
@@ -76,6 +86,28 @@ public class Actions implements ActionListener, MouseListener{
                 }
        
 //Action Methods  
+                public void handelPath() throws IOException, InterruptedException{
+                JFrame frame = new JFrame("Swing Tester");
+                            JFileChooser fileChooser = new JFileChooser();
+                            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                            int option = fileChooser.showOpenDialog(frame);
+                            if(option == JFileChooser.APPROVE_OPTION){
+                            File file = fileChooser.getSelectedFile();
+                                System.out.println("Folder Selected: " + file.getAbsolutePath());
+                                String path = file.getAbsolutePath(); 
+                                //App.Folders.setPath(path);
+                                //App.checkMusicLib();
+                                String path_save="C:\\Users\\wellsnp\\Documents\\NetBeansProjects\\TestFileStructureRead\\WellsTunesPathInfo.txt";
+                                BufferedWriter writer = new BufferedWriter(new FileWriter(path_save));
+                                writer.write(path);
+                                writer.close();
+                                App.checkMusicLib();
+                            }else{
+                                System.out.println("Open command canceled");
+                            }
+                
+                
+                }
                 public void handelPlay(){
                         
                         if(App.MP3Player.mediaPlayer!=null){
