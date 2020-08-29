@@ -75,14 +75,14 @@ public class Panels {
         public CenterPanel(String TxtLabel) {
             
             this.setPanelLayOut();
-            this.setPanelLabel(TxtLabel);
+            //this.setPanelLabel(TxtLabel);
             this.setPreferredSize(new Dimension(1000, 800));
             this.setBackground(Color.lightGray);
            // 
         }
         //@Override
         public void setPanelLayOut(){
-            boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+            boxlayout = new BoxLayout(this, BoxLayout.X_AXIS);
             this.setLayout(boxlayout);
         }   
     }

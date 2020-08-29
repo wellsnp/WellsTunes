@@ -30,7 +30,7 @@ public class mp3tags {
    private String albumName;
    private int genre;
    private String trackNumber;
-   private long songLength;
+   private String songLength;
    
    //
    public mp3tags()  {
@@ -51,7 +51,7 @@ public class mp3tags {
            this.setAlbumName(ID3v2Tag.getAlbum());
            this.setSongName(ID3v2Tag.getTitle());
            this.setTrackNumber(ID3v2Tag.getTrack());
-           this.setSongLength(mp3File.getLengthInSeconds());
+           this.setSongLength(convertTimeMMSS(mp3File.getLengthInSeconds()));
            //System.out.println(ID3v2Tag);
            this.setGenre(ID3v2Tag.getGenre());
            //System.out.println("");
@@ -59,6 +59,22 @@ public class mp3tags {
         
         return(mp3File.hasId3v2Tag());
        
+   }
+   
+   private String convertTimeMMSS(Long Time){
+   //Inputs Time In Seconds
+   //Outputs Sting in MM:SS Format    
+   String Minutes=Long.toString(Time/60);
+   Long SecondsCheck = Time%60;
+   String Seconds="";
+   if(SecondsCheck<10){
+       Seconds="0"+Long.toString(Time%60);
+   }else
+   {
+       Seconds=Long.toString(Time%60);
+   }
+   String TimeString=Minutes+":"+Seconds;
+   return TimeString;
    }
    
 //Class getters          
@@ -82,7 +98,7 @@ public class mp3tags {
         return trackNumber;
     }
 
-    public long getSongLength() {
+    public String getSongLength() {
         return songLength;
     }
 
@@ -108,7 +124,7 @@ public class mp3tags {
         this.trackNumber = trackNumber;
     }
 
-    private void setSongLength(long songLength) {
+    private void setSongLength(String songLength) {
         this.songLength = songLength;
     }
 

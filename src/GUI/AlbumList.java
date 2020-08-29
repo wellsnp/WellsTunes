@@ -13,6 +13,10 @@ import java.util.ArrayList;
 
 import java.io.File;
 import FileAndDirectory.FolderInfo;
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
 
 public class AlbumList extends BaseList{
     

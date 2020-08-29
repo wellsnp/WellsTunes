@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public final class WellsTunesGUI {
         FolderInfo Folders;
         ArtistList ArtistList;
@@ -31,7 +33,11 @@ public final class WellsTunesGUI {
         Panels Panels;
         JFrame frame;
         Actions ActionHandler;
+        public static InitThread InitGUIThread;
+        public static LibCheckThread CheckLibThread;
         WellsTunesGUI(){
+        InitGUIThread = new InitThread();
+        CheckLibThread = new LibCheckThread(); 
         MP3Player = new AudioMedia();
         Folders = new FolderInfo();
         Panels = new Panels();
@@ -49,15 +55,25 @@ public final class WellsTunesGUI {
         public static void main(String args[]) throws InterruptedException, IOException{
       // JFrame frame = new JFrame("WellsTunes v0.1");
        WellsTunesGUI App=new WellsTunesGUI();
-       App.initGUI(); 
-       App.checkMusicLib(); 
+       InitGUIThread.start();
+       CheckLibThread.start();
+       boolean check=true;
+       while(check){
+            check=CheckLibThread.isAlive();
+   
+       }
+       System.out.println("LibCheck Done");
 
     }
-    private void initGUI(){
+    public void initGUI() throws InterruptedException{
         this.initFrame();
+        //Thread.sleep(10);
         this.initLeftPanel();
+        //Thread.sleep(10);
         this.initCenterPanel();
+        //Thread.sleep(10);
         this.initBottomPanel();
+        //Thread.sleep(10);
     }
     private void initFrame(){
        frame = new JFrame("WellsTunes v0.1");
@@ -91,7 +107,9 @@ public final class WellsTunesGUI {
     }
     private void initCenterPanel(){
        Panels.pCenter.add(SongList);
-       
+       Panels.pCenter.add(SongList.AlbumTag);
+       Panels.pCenter.add(SongList.ArtistTag);
+       Panels.pCenter.add(SongList.LengthTag);
        frame.repaint();
     }
     private void initBottomPanel(){
@@ -110,10 +128,10 @@ public final class WellsTunesGUI {
                     BufferedReader br = new BufferedReader(new FileReader(tempDir)); 
                     String path=br.readLine();
                     Folders.setPath(path);
-                    Thread.sleep(6);
+                    Thread.sleep(300);
                 }
                if(Folders.path!=null){
-                        Thread.sleep(3);
+                        
                         String Num = Integer.toString(Folders.Artists.length);
                         
                         Boxes.ArtistInfo.Field.setText(Num);
@@ -136,5 +154,27 @@ public final class WellsTunesGUI {
     }
 
 
+    public final class InitThread extends Thread {
+
+    public void run(){
+        try {
+            initGUI();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(WellsTunesGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       System.out.println("My GUI Is Running");
+    }
+  }
+    public final class LibCheckThread extends Thread {
+
+    public void run(){
+        try {
+            checkMusicLib();
+            System.out.println("Lib Check Is Running");
+        } catch (InterruptedException | IOException ex) {
+            Logger.getLogger(WellsTunesGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+  }
 }
     
