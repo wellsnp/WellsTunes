@@ -66,7 +66,7 @@ public class mp3tags {
    //Outputs Sting in MM:SS Format    
    String Minutes=Long.toString(Time/60);
    Long SecondsCheck = Time%60;
-   String Seconds="";
+   String Seconds;
    if(SecondsCheck<10){
        Seconds="0"+Long.toString(Time%60);
    }else

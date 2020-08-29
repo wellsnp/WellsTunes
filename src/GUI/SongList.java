@@ -22,7 +22,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -114,7 +113,7 @@ public class SongList extends BaseList{
                  return mediaList;
            } 
     @Override
-    public ListCellRenderer<? super String> getRenderer() {
+    public final ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
             @Override
             public Component getListCellRendererComponent(JList<?> list,
