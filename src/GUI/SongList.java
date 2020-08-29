@@ -9,6 +9,7 @@ package GUI;
  *
  * @author wellsnp
  */
+import Audio.mp3tags;
 import java.util.ArrayList;
 import java.io.File;
 import FileAndDirectory.FolderInfo;
@@ -20,9 +21,11 @@ import javafx.scene.media.Media;
 
 public class SongList extends BaseList{
     File CurrentAlbum;
+    mp3tags tagger;
     public SongList(Actions ActionHandler)
     {   
         super(ActionHandler);
+        tagger = new mp3tags();
     }
     
     @Override
@@ -36,9 +39,17 @@ public class SongList extends BaseList{
         this.ScrollListFiles = new ArrayList<>();
         listmodel.removeAllElements();
         for(File CurrentSong:Songs){
+           
             ScrollListFiles.add(CurrentSong);    
-            listmodel.addElement(CurrentSong.getName());
-            System.out.println(CurrentSong.getName());
+            if(tagger.checkID3v2(CurrentSong)){
+                listmodel.addElement(tagger.getSongName());
+                //Populate Other Lists That We Will Build For The Tags
+                //System.out.println(CurrentSong.getName());
+            }else{
+                  //If there is no Tagged Song name, use the literal file name. 
+                  listmodel.addElement(CurrentSong.getName());
+             }
+                
         }
   
     }
