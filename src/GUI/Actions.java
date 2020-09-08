@@ -38,7 +38,6 @@ public class Actions implements ActionListener, MouseListener{
             tasker = new TimerTask() {
             @Override
             public void run() {
-                
                 updatePB();
             }
         };
@@ -260,8 +259,8 @@ public class Actions implements ActionListener, MouseListener{
         App.PB.setCurrentTime(App.MP3Player.mediaPlayer.getCurrentTime().toSeconds());
         App.PB.setSongLength(App.MP3Player.mediaPlayer.getMedia().getDuration().toSeconds());
         App.PB.setString(App.MP3Player.getCurrentSongName());
-        System.out.println(App.PB.SongLength);
-        System.out.println(App.PB.CurrentTime);
+        //System.out.println(App.PB.SongLength);
+        //System.out.println(App.PB.CurrentTime);
         App.PB.UpdatePB();
     }
     

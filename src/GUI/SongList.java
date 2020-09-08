@@ -67,7 +67,7 @@ public class SongList extends BaseList{
         for(File CurrentSong:Songs){
            
             ScrollListFiles.add(CurrentSong);
-            ScrollListNames.add(CurrentSong.getName());
+            //ScrollListNames.add(CurrentSong.getName());
             if(tagger.checkID3v2(CurrentSong)){
                 listmodel.addElement(tagger.getSongName());
                 AlbumTag.listmodel.addElement(tagger.getAlbumName());
@@ -76,12 +76,14 @@ public class SongList extends BaseList{
                 //Base Model Used A String List
                 //GenreTag.listmodel.addElement(tagger.getGenre());
                 LengthTag.listmodel.addElement(tagger.getSongLength());
+                ScrollListNames.add(tagger.getSongName());
                                 
 //Populate Other Lists That We Will Build For The Tags
                 //System.out.println(CurrentSong.getName());
             }else{
                   //If there is no Tagged Song name, use the literal file name. 
                   listmodel.addElement(CurrentSong.getName());
+                  ScrollListNames.add(CurrentSong.getName());
              }
                 
         }
@@ -102,7 +104,7 @@ public class SongList extends BaseList{
             System.out.println(Songs[j]);
             
             this.ScrollListFiles.add(Songs[j]);
-            this.ScrollListNames.add(Songs[j].getName());
+            this.ScrollListNames.add(listmodel.get(j));
          }
     
     }
