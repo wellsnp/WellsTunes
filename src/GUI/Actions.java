@@ -13,11 +13,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer.Status;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+
 
 /**
  *
@@ -27,10 +30,20 @@ import javax.swing.JFrame;
 
 public class Actions implements ActionListener, MouseListener{
         WellsTunesGUI App;
-       
+        Timer timer;
+        TimerTask tasker;
         public Actions(WellsTunesGUI App){
             this.App=App;
-           
+            timer = new Timer();
+            tasker = new TimerTask() {
+            @Override
+            public void run() {
+                
+                updatePB();
+            }
+        };
+    
+            
         } 
     //Action Choices(Menus Items Only At This Point).
     @Override
@@ -96,7 +109,7 @@ public class Actions implements ActionListener, MouseListener{
                                 String path = file.getAbsolutePath(); 
                                 //App.Folders.setPath(path);
                                 //App.checkMusicLib();
-                                String path_save="C:\\Users\\wellsnp\\Documents\\NetBeansProjects\\TestFileStructureRead\\WellsTunesPathInfo.txt";
+                                String path_save="C:\\Users\\wells\\OneDrive\\Documents\\NetBeansProjects\\WellsTunes\\WellsTunesPathInfo.txt";
                                 BufferedWriter writer = new BufferedWriter(new FileWriter(path_save));
                                 writer.write(path);
                                 writer.close();
@@ -114,9 +127,9 @@ public class Actions implements ActionListener, MouseListener{
                         System.out.println(CurrentStatus);
                             if(CurrentStatus==Status.STOPPED){
                                 App.MP3Player.mediaPlayer.dispose();
-                                App.MP3Player.mediaList.clear();
+                                App.MP3Player.clearMedia();
                                 App.SongList.UpdateList(App.SongList.CurrentAlbum);
-                                App.MP3Player.mediaList=App.SongList.buildSongList();
+                                App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.playSongList();
                             }  
                             if(CurrentStatus==Status.PAUSED){
@@ -125,15 +138,17 @@ public class Actions implements ActionListener, MouseListener{
                             if(CurrentStatus==Status.PLAYING){
                                 this.handelStop();
                                 App.MP3Player.mediaPlayer.dispose();
-                                App.MP3Player.mediaList.clear();
-                                App.MP3Player.mediaList=App.SongList.buildSongList();
+                                App.MP3Player.clearMedia();
+                                App.MP3Player.setMedia(App.SongList.buildSongList());
+                               
                                 App.MP3Player.playSongList();
                             } 
                         }else{
                                 System.out.println("MediaPlayerDoesNotExistYet");
-                                App.MP3Player.mediaList.clear();
-                                App.MP3Player.mediaList=App.SongList.buildSongList();
+                                //App.MP3Player.clearMedia();
+                                App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.playSongList(); 
+                                timer.schedule(tasker, 0 , 1000);
                                 }
                 }
                 public void handelPause(){
@@ -235,6 +250,22 @@ public class Actions implements ActionListener, MouseListener{
                
                 }
             }
+    
+    //Function for updating Current Song Time For Progress Bar
+    //Should Be Called In A Time Task event to update periodically.
+    
+
+    public void updatePB(){
+    
+        App.PB.setCurrentTime(App.MP3Player.mediaPlayer.getCurrentTime().toSeconds());
+        App.PB.setSongLength(App.MP3Player.mediaPlayer.getMedia().getDuration().toSeconds());
+        App.PB.setString(App.MP3Player.getCurrentSongName());
+        System.out.println(App.PB.SongLength);
+        System.out.println(App.PB.CurrentTime);
+        App.PB.UpdatePB();
+    }
+    
+    
     /////More Mouse Stuff Needed For Abstact Implementation
     @Override
     public void mousePressed(MouseEvent e) {

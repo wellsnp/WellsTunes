@@ -57,6 +57,7 @@ public class SongList extends BaseList{
         System.out.println(this.CurrentAlbum.getName());
         File[] Songs=Folders.ListSongs(InputFile);
         this.ScrollListFiles = new ArrayList<>();
+        this.ScrollListNames = new ArrayList<>();
         listmodel.removeAllElements();
         AlbumTag.clearList();
         GenreTag.clearList();
@@ -65,7 +66,8 @@ public class SongList extends BaseList{
         LengthTag.clearList();
         for(File CurrentSong:Songs){
            
-            ScrollListFiles.add(CurrentSong);    
+            ScrollListFiles.add(CurrentSong);
+            ScrollListNames.add(CurrentSong.getName());
             if(tagger.checkID3v2(CurrentSong)){
                 listmodel.addElement(tagger.getSongName());
                 AlbumTag.listmodel.addElement(tagger.getAlbumName());
@@ -93,25 +95,32 @@ public class SongList extends BaseList{
         File[] Songs=Folders.ListSongs(this.CurrentAlbum);
         
         this.ScrollListFiles.clear();
-        
+        this.ScrollListNames.clear();
         for(int j=Index; j<Songs.length; j++){
            
             System.out.println(j);
             System.out.println(Songs[j]);
             
-            this.ScrollListFiles.add(Songs[j]);    
+            this.ScrollListFiles.add(Songs[j]);
+            this.ScrollListNames.add(Songs[j].getName());
          }
     
     }
-    public ObservableList<Media>  buildSongList(){
-                 List<File> Songs=this.ScrollListFiles;  
-                 ObservableList<Media> mediaList = FXCollections.observableArrayList();
-                 for (File CurrentSong:Songs) {
+    public SongMedia  buildSongList(){
+                  List<File> Songs=this.ScrollListFiles;  
+                  ObservableList<Media>   mediaList = FXCollections.observableArrayList();
+                  ObservableList<String> mediaName = FXCollections.observableArrayList();
+                  SongMedia MP3Media = new SongMedia();
+                  for (File CurrentSong:Songs) {
                     Media NewSong = new Media(CurrentSong.toURI().toString());
                     mediaList.add(NewSong);
+                    mediaName.add(ScrollListNames.remove(0));
                 }
-                 return mediaList;
+                  MP3Media.setMediaList(mediaList);
+                  MP3Media.setMediaName(mediaName);
+                 return MP3Media;
            } 
+    
     @Override
     public final ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
@@ -133,4 +142,33 @@ public class SongList extends BaseList{
             }
         };
     }
+
+
+public static class SongMedia{
+private ObservableList<Media>   mediaList;
+private ObservableList<String>   mediaName;
+        public SongMedia(){
+        
+        };
+
+        public ObservableList<Media> getMediaList() {
+            return mediaList;
+        }
+
+        public ObservableList<String> getMediaName() {
+            return mediaName;
+        }
+        public void setMediaList(ObservableList<Media> mediaList) {
+            this.mediaList = mediaList;
+        }
+
+        public void setMediaName(ObservableList<String> mediaName) {
+            this.mediaName = mediaName;
+        }
+
+
+
+
+}
+
 }

@@ -33,6 +33,7 @@ public final class WellsTunesGUI {
         Panels Panels;
         JFrame frame;
         Actions ActionHandler;
+        ProgressBar PB;
         public static InitThread InitGUIThread;
         public static LibCheckThread CheckLibThread;
         WellsTunesGUI(){
@@ -42,6 +43,7 @@ public final class WellsTunesGUI {
         Folders = new FolderInfo();
         Panels = new Panels();
         Boxes = new Boxes();
+        PB=new ProgressBar();
         ActionHandler = new Actions(this);
         //These Objects Need To Be Registered With The ActionHandler. 
         SongList = new SongList(ActionHandler);
@@ -106,6 +108,7 @@ public final class WellsTunesGUI {
        frame.repaint();
     }
     private void initCenterPanel(){
+       Panels.pCenter.add(SongList.TrackTag);
        Panels.pCenter.add(SongList);
        Panels.pCenter.add(SongList.AlbumTag);
        Panels.pCenter.add(SongList.ArtistTag);
@@ -116,13 +119,13 @@ public final class WellsTunesGUI {
        Panels.pBottom.add(Buttons.PLAY);
        Panels.pBottom.add(Buttons.PAUSE);
        Panels.pBottom.add(Buttons.STOP);
-       
+       Panels.pBottom.add(PB);
        frame.repaint();
     }
     public void checkMusicLib() throws InterruptedException, FileNotFoundException, IOException{
         while(true){
                
-                String path_save="C:\\Users\\wellsnp\\Documents\\NetBeansProjects\\TestFileStructureRead\\WellsTunesPathInfo.txt";
+                String path_save="C:\\Users\\wells\\OneDrive\\Documents\\NetBeansProjects\\WellsTunes\\WellsTunesPathInfo.txt";
                 File tempDir = new File(path_save);
                 if(tempDir.exists()){
                     BufferedReader br = new BufferedReader(new FileReader(tempDir)); 

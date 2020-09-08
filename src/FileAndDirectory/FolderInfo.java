@@ -182,6 +182,7 @@ public class FolderInfo {
               }
                     
         }
+        DeleteDuplication();
        System.out.println(this.DupDetector.dupcnt);
 }
     

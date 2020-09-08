@@ -48,10 +48,10 @@ public class BaseList extends JScrollPane{
           listmodel = new DefaultListModel<>();
           list = new JList<String>(listmodel);
           //list = new JList<String>(myList.toArray(new String[myList.size()]));
-          for (int index = 0; index < 20; index++) {
-            myList.add("ListItem: " + index);
-            listmodel.addElement(myList.get(index));
-          }
+          //for (int index = 0; index < 20; index++) {
+          //  myList.add("ListItem: " + index);
+          //  listmodel.addElement(myList.get(index));
+          //}
           this.defineColors();
           this.setViewportView(list);
           this.setPreferredSize(new Dimension (200,500));

@@ -9,28 +9,45 @@ package Audio;
  *
  * @author wellsnp
  */
+import GUI.SongList.SongMedia;
 import java.io.File;
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.embed.swing.JFXPanel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 public class AudioMedia {
        public Media Song; 
-       
-       public ObservableList<Media> mediaList;
+       private SongMedia MP3Media;
+       //private ObservableList<Media> mediaList;
+       //private ObservableList<String> SongNames;
+       private String CurrentSongName;
+
+ 
        public boolean status;
        public MediaPlayer mediaPlayer;
         public AudioMedia(){
           //JFXPanel Is only here to make this work!
           //https://stackoverflow.com/questions/6045384/playing-mp3-and-wav-in-java
           status=false;
-         
-          this.mediaList = FXCollections.observableArrayList();  
+          MP3Media = new SongMedia(); 
+          //this.mediaList = FXCollections.observableArrayList();  
           final JFXPanel fxPanel = new JFXPanel();
          }
+
+    public void setMedia(SongMedia media) {
+        this.MP3Media = media;
+    }
+    public void clearMedia() {
+        this.MP3Media.getMediaList().clear();
+        this.MP3Media.getMediaName().clear();
+    }
+//    public void setSongNames(ObservableList<String> SongNames) {
+//        this.SongNames = SongNames;
+//    }
        
-        
+    public String getCurrentSongName() {
+        return CurrentSongName;
+    }       
         public void addSong(File Song){
           this.status=true;
           this.Song= new Media(Song.toURI().toString());
@@ -41,13 +58,14 @@ public class AudioMedia {
         }
 
         public void playSongList(){
-              if (this.mediaList.isEmpty()){
+              if (this.MP3Media.getMediaList().isEmpty()){
                   System.out.println("No Media List");
                   return;
               }
-              this.mediaPlayer = new MediaPlayer(mediaList.remove(0));
+              this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().remove(0));
+              this.CurrentSongName=MP3Media.getMediaName().remove(0);
               this.mediaPlayer.play();
-
+               
               this.mediaPlayer.setOnEndOfMedia(new Runnable() {
                 @Override
                     public void run() {
