@@ -127,7 +127,7 @@ public class Actions implements ActionListener, MouseListener{
                             if(CurrentStatus==Status.STOPPED){
                                 App.MP3Player.mediaPlayer.dispose();
                                 App.MP3Player.clearMedia();
-                                App.SongList.UpdateList(App.SongList.CurrentAlbum);
+                                //App.SongList.UpdateList(App.SongList.CurrentAlbum);
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.playSongList();
                             }  
@@ -161,6 +161,8 @@ public class Actions implements ActionListener, MouseListener{
                         System.out.println(CurrentStatus);
                         if(CurrentStatus==Status.PLAYING){
                             App.MP3Player.stopSong();
+                             App.SongList.UpdateList(App.SongList.CurrentAlbum);
+                            
                         }       
                 }
 
@@ -229,6 +231,8 @@ public class Actions implements ActionListener, MouseListener{
                         Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
                         System.out.println(CurrentStatus);
                             if(CurrentStatus==Status.STOPPED){
+                                App.SongList.UpdateListFromSelection(selectedItem);
+                                System.out.println("STOPPED and Clicked");
                                  this.handelPlay();
                             }
                             if(CurrentStatus==Status.PLAYING){

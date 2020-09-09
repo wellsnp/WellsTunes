@@ -116,10 +116,20 @@ public final class WellsTunesGUI {
        frame.repaint();
     }
     private void initBottomPanel(){
-       Panels.pBottom.add(Buttons.PLAY);
-       Panels.pBottom.add(Buttons.PAUSE);
-       Panels.pBottom.add(Buttons.STOP);
-       Panels.pBottom.add(PB);
+       //Panels.pBottom.c.anchor = GridBagConstraints.CENTER; //bottom of space
+       Panels.pBottom.c.gridy=0;
+       Panels.pBottom.c.gridx=0;       
+       Panels.pBottom.add(Buttons.PLAY,Panels.pBottom.c);
+        Panels.pBottom.c.gridx=GridBagConstraints.RELATIVE;
+       Panels.pBottom.add(Buttons.PAUSE,Panels.pBottom.c);
+        //Panels.pBottom.c.gridx=1;
+       Panels.pBottom.add(Buttons.STOP,Panels.pBottom.c);
+       Panels.pBottom.c.gridy=5;
+       Panels.pBottom.c.gridx=1; 
+       //Panels.pBottom.c.weighty = 1.0;   //request any extra vertical space
+       Panels.pBottom.c.insets = new Insets(20,0,0,0);  //top padding
+      // Panels.pBottom.c.anchor = GridBagCo2nstraints.PAGE_END; //bottom of space
+       Panels.pBottom.add(PB,Panels.pBottom.c);
        frame.repaint();
     }
     public void checkMusicLib() throws InterruptedException, FileNotFoundException, IOException{
