@@ -7,6 +7,8 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
@@ -28,7 +30,7 @@ import javax.swing.JFrame;
  */
 
 
-public class Actions implements ActionListener, MouseListener{
+public class Actions implements ActionListener, MouseListener, ItemListener{
         WellsTunesGUI App;
         Timer timer;
         TimerTask tasker;
@@ -190,6 +192,22 @@ public class Actions implements ActionListener, MouseListener{
         
         }
 
+    
+        @Override
+    public void itemStateChanged(ItemEvent e) {
+       Object choice = e.getItem();
+       if(choice.equals(App.Buttons.SHUFFLE)) {
+        System.out.println("Shuffle Button");
+                if(App.Buttons.SHUFFLE.isSelected()){;
+                    App.Buttons.SHUFFLE.setText("Shuffle");
+                }
+                else{
+                    App.Buttons.SHUFFLE.setText("Normal");
+                }
+        }
+    }
+    
+    
     void handelArtists(int clicks)
     {
         if (clicks == 1) {
@@ -289,6 +307,8 @@ public class Actions implements ActionListener, MouseListener{
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
 }                
                 
         
