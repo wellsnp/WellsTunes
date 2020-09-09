@@ -105,19 +105,22 @@ public class Panels {
     }
     final class BottomPanel extends BasicPanel{
         
-        BoxLayout layout;
-
+        GridBagLayout layout;
+        GridBagConstraints c;
         public BottomPanel(String TxtLabel) {
-            
+            this.c = new GridBagConstraints();
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
             this.setPreferredSize(new Dimension(1920, 100));
-           this.setBackground(Color.lightGray);
+            this.setBackground(Color.lightGray);
+            
+            //this.c.gridwidth=5;
+            this.c.gridheight=3;
         }
         //@Override
         public void setPanelLayOut(){
-            //layout = new BoxLayout(this,BoxLayout.X_AXIS);
-            //this.setLayout(layout);
+            layout = new GridBagLayout();
+            this.setLayout(layout);
         }   
     }   
 }
