@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import java.awt.Dimension;
 import javax.swing.JProgressBar;
 
 /**
@@ -18,6 +19,7 @@ public class ProgressBar extends JProgressBar {
     
         this.setValue(0);
         this.setStringPainted(true);
+        this.setPreferredSize(new Dimension (500,20));
         //this.setVisible(true);
         
     }

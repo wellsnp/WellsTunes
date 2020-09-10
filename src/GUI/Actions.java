@@ -199,10 +199,19 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
        if(choice.equals(App.Buttons.SHUFFLE)) {
         System.out.println("Shuffle Button");
                 if(App.Buttons.SHUFFLE.isSelected()){;
-                    App.Buttons.SHUFFLE.setText("Shuffle");
+                    App.Buttons.SHUFFLE.setText("Shuffle On");
                 }
                 else{
-                    App.Buttons.SHUFFLE.setText("Normal");
+                    App.Buttons.SHUFFLE.setText("Shuffle Off");
+                }
+        }
+       if(choice.equals(App.Buttons.REPEAT)) {
+        System.out.println("REPEAT Button");
+                if(App.Buttons.REPEAT.isSelected()){;
+                    App.Buttons.REPEAT.setText("REPEAT On");
+                }
+                else{
+                    App.Buttons.REPEAT.setText("REPEAT Off");
                 }
         }
     }
