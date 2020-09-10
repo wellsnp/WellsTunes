@@ -28,6 +28,7 @@ import javax.swing.ListCellRenderer;
 
 public class SongList extends BaseList{
     File CurrentAlbum;
+    int CurrentSongIndex;
     mp3tags tagger;
     TaggList AlbumTag;
     TaggList GenreTag;
@@ -52,6 +53,7 @@ public class SongList extends BaseList{
     public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Songs of Album
+        CurrentSongIndex=0;
         CurrentAlbum = InputFile;
         System.out.println("Current Album");
         System.out.println(this.CurrentAlbum.getName());
@@ -90,6 +92,7 @@ public class SongList extends BaseList{
   
     }
     public void UpdateListFromSelection(int Index){
+        CurrentSongIndex=Index;
         FolderInfo Folders = new FolderInfo();
         //Get Songs of Album
         System.out.println("Current Album");

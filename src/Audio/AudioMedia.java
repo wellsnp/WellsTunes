@@ -10,6 +10,8 @@ package Audio;
  * @author wellsnp
  */
 import GUI.SongList.SongMedia;
+import GUI.TristateButton;
+import GUI.TristateButton.TristateState;
 import java.io.File;
 
 import javafx.scene.media.Media;
@@ -52,6 +54,7 @@ public class AudioMedia {
           this.status=true;
           this.Song= new Media(Song.toURI().toString());
           this.mediaPlayer=new MediaPlayer(this.Song);
+          
         }
         public void playSong(){
               mediaPlayer.play();
@@ -63,9 +66,17 @@ public class AudioMedia {
                   return;
               }
               this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().remove(0));
+              mediaPlayer.setOnError(() -> System.out.println("Error : " + mediaPlayer.getError().toString()));
               this.CurrentSongName=MP3Media.getMediaName().remove(0);
-              this.mediaPlayer.play();
-               
+              this.mediaPlayer.setOnReady(new Runnable(){
+                  @Override
+                  public void run(){
+                  mediaPlayer.play();
+                  
+              }
+              });
+              //this.mediaPlayer.play();
+               System.out.println("PlaySongList Play");
               this.mediaPlayer.setOnEndOfMedia(new Runnable() {
                 @Override
                     public void run() {
@@ -73,6 +84,17 @@ public class AudioMedia {
                     }
               });
         }
+        
+        public void repeatSong(){
+            
+              this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().get(0));
+              this.CurrentSongName=MP3Media.getMediaName().get(0);
+              this.mediaPlayer.play();
+               
+            
+              };
+        
+        
               
         public void stopSong(){
                this.mediaPlayer.stop();
