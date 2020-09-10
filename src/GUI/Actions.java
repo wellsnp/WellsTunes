@@ -35,7 +35,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
         WellsTunesGUI App;
         Timer timer;
         TimerTask tasker;
-        public Actions(WellsTunesGUI App){
+//Constructor
+    public Actions(WellsTunesGUI App){
             this.App=App;
             timer = new Timer();
             tasker = new TimerTask() {
@@ -46,7 +47,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
         };
    
         } 
-    //Action Choices.
+//Action Choices
     @Override
     public void actionPerformed(ActionEvent e) {
         //row new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -167,9 +168,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 }
         }
     }
-    
-    
 //Action Methods  
+               //Menus Methods
                 public void handelPath() throws IOException, InterruptedException{
                 JFrame frame = new JFrame("Swing Tester");
                             JFileChooser fileChooser = new JFileChooser();
@@ -192,6 +192,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 
                 
                 }
+                //Player Methods
                 public void handelPlay(){
                         
                         if(App.MP3Player.mediaPlayer!=null){
@@ -222,6 +223,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.playSongList(); 
                                 
+                                
                                 timer.schedule(tasker, 0 , 200);
                                 }
                 }
@@ -241,16 +243,27 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         }       
                 }
                 public void handelRepeatOne(){
-                    System.out.println("HandelReapeatOne");
+                    //System.out.println("HandelReapeatOne");
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
                         if(App.MP3Player.mediaPlayer!=null){
                             
                         Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
                         //System.out.println(CurrentStatus);
-                            if(CurrentStatus==Status.STOPPED){
-                                App.MP3Player.mediaPlayer.dispose();
+                            
+                            if(CurrentStatus==Status.PAUSED){
+                                App.MP3Player.mediaPlayer.play();
+                            }else{//PLAYING OR STOPPED
+                                
                                 App.MP3Player.clearMedia();
-                                App.MP3Player.setMedia(App.SongList.buildSongList());
+                                if(CurrentStatus==Status.STOPPED){
+                                    App.MP3Player.setMedia(App.SongList.buildSongList());
+                                
+                                }
+                                if(CurrentStatus==Status.PLAYING || CurrentStatus==Status.UNKNOWN){
+                                    App.SongList.UpdateListFromSelection(App.SongList.CurrentSongIndex);
+                                    App.MP3Player.setMedia(App.SongList.buildSongList());
+                                }
+                                App.MP3Player.mediaPlayer.dispose();
                                 App.MP3Player.repeatSong();
                                 App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
                                 @Override
@@ -258,17 +271,10 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                         handelRepeatOne();
                                     }
                                 }); 
-                            }  
-                            if(CurrentStatus==Status.PAUSED){
-                                App.MP3Player.mediaPlayer.play();
                             } 
-                            if(CurrentStatus==Status.PLAYING){
-                                System.out.println("Playing");
-                                App.MP3Player.mediaPlayer.dispose();
-                                App.MP3Player.clearMedia();
+                        }else{//MP3Player.mediaPlayer is Not Null
                                 App.SongList.UpdateListFromSelection(App.SongList.CurrentSongIndex);
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
-                                
                                 App.MP3Player.repeatSong();
                                 App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
                                 @Override
@@ -276,22 +282,6 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                         handelRepeatOne();
                                     }
                                 });
-                                
-                            } 
-                        }else{
-                                //System.out.println("MediaPlayerDoesNotExistYet");
-                                //App.MP3Player.clearMedia();
-                                App.SongList.UpdateListFromSelection(App.SongList.CurrentSongIndex);
-                                App.MP3Player.setMedia(App.SongList.buildSongList());
-                                App.MP3Player.repeatSong();
-                                App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
-                                @Override
-                                    public void run() {
-                                        
-                                        handelRepeatOne();
-                                    }
-                                });
-                                
                                 timer.schedule(tasker, 0 , 1000);
                                 }
                     }else{//No Longer Repeating
@@ -300,48 +290,36 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         return;
                     }
                 }
-
-    void handelArtists(int clicks)
-    {
-        if (clicks == 1) {
-                    int selectedItem = (int) App.ArtistList.list.getSelectedIndex();
-                    System.out.println(selectedItem);
-                    if(App.ArtistList.ScrollListFiles!=null){
-                    System.out.println(App.ArtistList.ScrollListFiles.get(selectedItem));
-                    App.AlbumList.UpdateList(App.ArtistList.ScrollListFiles.get(selectedItem));
+                //List Methods
+                public void handelArtists(int clicks){
+                    if (clicks == 1) {
+                        int selectedItem = (int) App.ArtistList.list.getSelectedIndex();
+                        if(App.ArtistList.ScrollListFiles!=null){
+                            App.AlbumList.UpdateList(App.ArtistList.ScrollListFiles.get(selectedItem));
+                        }
                     }
                 }
-    }
-    void handelAlbums(int clicks)
-    {
-        if (clicks == 1) {
-            
-                    int selectedItem = (int) App.AlbumList.list.getSelectedIndex();
-                    //Updates the Song List Display with All the Songs in the Album
-                    App.SongList.UpdateList(App.AlbumList.ScrollListFiles.get(selectedItem));     
-                    //App.MP3Player.mediaList.clear();
-                    //App.MP3Player.mediaList=App.SongList.buildSongList();
-                  
-        }
-                
-    }
-    
-    void handelSongs(int clicks){
-            
-            if (clicks == 2) {
-                    int selectedItem = (int) App.SongList.list.getSelectedIndex();
-                    
-                    //Rebuild The Song List and Play From Here:
-                    //if(!MP3Player.status){
-                    if(App.SongList.ScrollListFiles!=null){
-                    System.out.println(selectedItem);
+                public void handelAlbums(int clicks){
+                    if (clicks == 1){
+                        int selectedItem = (int) App.AlbumList.list.getSelectedIndex();
+                        //Updates the Song List Display with All the Songs in the Album
+                        App.SongList.UpdateList(App.AlbumList.ScrollListFiles.get(selectedItem));           
                     }
-                     
-                     
-                     if(App.MP3Player.mediaPlayer!=null){
-                        Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
-                        System.out.println("Handel Songs Player Status");
-                        System.out.println(CurrentStatus);
+                }
+                public void handelSongs(int clicks){
+                    if (clicks == 2) {
+                        int selectedItem = (int) App.SongList.list.getSelectedIndex();
+                    
+                        //Rebuild The Song List and Play From Here:
+                        //if(!MP3Player.status){
+                        if(App.SongList.ScrollListFiles!=null){
+                            System.out.println(selectedItem);
+                        }
+
+                        if(App.MP3Player.mediaPlayer!=null){
+                            Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                            System.out.println("Handel Songs Player Status");
+                            System.out.println(CurrentStatus);
 
                             if(CurrentStatus==Status.PAUSED){
                                 this.handelPlay();
@@ -352,37 +330,30 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                 }else{
                                         this.handelPlay();
                                 }
-                            
                             } 
-                      }else{
-                         System.out.println("Handel Songs Null Player");
-                                App.SongList.UpdateListFromSelection(selectedItem);
-                                if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
-                                        this.handelRepeatOne();
-                                }else{
-                                        this.handelPlay();
-                                }
-                     
-               
+                        }else{
+                            System.out.println("Handel Songs Null Player");
+                            App.SongList.UpdateListFromSelection(selectedItem);
+                            if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
+                                this.handelRepeatOne();
+                            }else{
+                                this.handelPlay();
+                            }
+                        }
+                    }
                 }
-            
-            }
-    }
-    
-    //Function for updating Current Song Time For Progress Bar
-    //Should Be Called In A Time Task event to update periodically.
-  
-    public void updatePB(){
-    
-        App.PB.setCurrentTime(App.MP3Player.mediaPlayer.getCurrentTime().toSeconds());
-        App.PB.setSongLength(App.MP3Player.mediaPlayer.getMedia().getDuration().toSeconds());
-        App.PB.setString(App.MP3Player.getCurrentSongName());
-        //System.out.println(App.PB.SongLength);
-        //System.out.println(App.PB.CurrentTime);
-        App.PB.UpdatePB();
-    }
-    
-    
+                //Progress Bar Methods
+                public void updatePB(){
+                //Function for updating Current Song Time For Progress Bar
+                //Should Be Called In A Time Task event to update periodically.
+                    App.PB.setCurrentTime(App.MP3Player.mediaPlayer.getCurrentTime().toSeconds());
+                    App.PB.setSongLength(App.MP3Player.mediaPlayer.getMedia().getDuration().toSeconds());
+                    App.PB.setString(App.MP3Player.getCurrentSongName());
+                    //System.out.println(App.PB.SongLength);
+                    //System.out.println(App.PB.CurrentTime);
+                    App.PB.UpdatePB();
+                }
+
     /////More Mouse Stuff Needed For Abstact Implementation
     @Override
     public void mousePressed(MouseEvent e) {
@@ -403,7 +374,5 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
 }                
      
