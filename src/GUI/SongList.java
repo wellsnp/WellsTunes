@@ -17,11 +17,13 @@ import java.awt.Color;
 import java.awt.Component;
 
 import java.util.List;
+import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -29,6 +31,7 @@ import javax.swing.ListCellRenderer;
 public class SongList extends BaseList{
     File CurrentAlbum;
     int CurrentSongIndex;
+    int[] ShuffleArray;
     mp3tags tagger;
     TaggList AlbumTag;
     TaggList GenreTag;
@@ -60,14 +63,18 @@ public class SongList extends BaseList{
         File[] Songs=Folders.ListSongs(InputFile);
         this.ScrollListFiles = new ArrayList<>();
         this.ScrollListNames = new ArrayList<>();
+        ShuffleArray = new int[Songs.length];
         listmodel.removeAllElements();
         AlbumTag.clearList();
         GenreTag.clearList();
         ArtistTag.clearList();
         TrackTag.clearList();
         LengthTag.clearList();
+        
+        int n=0;
         for(File CurrentSong:Songs){
-           
+           ShuffleArray[n]=n;
+           n++;        
             ScrollListFiles.add(CurrentSong);
             //ScrollListNames.add(CurrentSong.getName());
             if(tagger.checkID3v2(CurrentSong)){
@@ -103,14 +110,56 @@ public class SongList extends BaseList{
         this.ScrollListNames.clear();
         for(int j=Index; j<Songs.length; j++){
            
-            System.out.println(j);
-            System.out.println(Songs[j]);
+            //System.out.println(j);
+            //System.out.println(Songs[j]);
             
-            this.ScrollListFiles.add(Songs[j]);
+            this.ScrollListFiles.add(Songs[ShuffleArray[j]]);
             this.ScrollListNames.add(listmodel.get(j));
          }
     
     }
+    
+    public void ShuffleList(){
+            Random rng = new Random();   // i.e., java.util.Random.
+            int n = listmodel.getSize();       // The number of items left to shuffle (loop invariant).
+            System.out.println("List Size");
+            System.out.println(n);
+            FolderInfo Folders = new FolderInfo();
+            File[] Songs=Folders.ListSongs(this.CurrentAlbum);
+             while (n > 1){
+                int k = rng.nextInt(n);  // 0 <= k < n.
+                n--;
+                this.listmodel=ShuffleGuts(listmodel, n, k);
+                this.TrackTag.listmodel=ShuffleGuts(TrackTag.listmodel, n, k);
+                this.ArtistTag.listmodel=ShuffleGuts(ArtistTag.listmodel, n, k);
+                this.AlbumTag.listmodel=ShuffleGuts(AlbumTag.listmodel, n, k);
+                this.LengthTag.listmodel=ShuffleGuts(LengthTag.listmodel, n, k); 
+                this.ShuffleArray=ShuffleGuts(ShuffleArray,n,k);
+            }
+           this.ScrollListFiles.clear();
+           this.ScrollListNames.clear();
+           for(int j=0; j<n; j++){
+            this.ScrollListFiles.add(Songs[ShuffleArray[j]]);
+            this.ScrollListNames.add(listmodel.get(j));
+         }
+
+    };
+    
+    private DefaultListModel<String> ShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
+                String temp = listmodel.get(n); // n is now the last pertinent index;
+                listmodel.setElementAt(listmodel.get(k), n);
+                listmodel.setElementAt(temp, k);
+                return listmodel;
+        
+    }
+     private int[] ShuffleGuts(int[] Array, int n, int k){
+                int temp = Array[n]; // n is now the last pertinent index;
+                Array[n]=k;
+                Array[k]=temp;
+                return Array;
+        
+    }
+ 
     public SongMedia  buildSongList(){
                   List<File> Songs=this.ScrollListFiles;  
                   ObservableList<Media>   mediaList = FXCollections.observableArrayList();

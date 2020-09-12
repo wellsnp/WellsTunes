@@ -76,16 +76,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         }             
                     }
                     if((choice.equals(App.Menu.Player.Play)) & (App.Folders.path!=null)){
-                        if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
-                                        this.handelRepeatOne();
-                                }else{
-                            
-                                       Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
-                                       if(CurrentStatus!=Status.PLAYING){
-                                        this.handelPlay();
-                                       }
-                                       
-                                }
+                        this.handelPlayButtonMenu();
                       
                     }
                     if((choice.equals(App.Menu.Player.Stop)) & (App.Folders.path!=null)){
@@ -98,16 +89,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         this.handelStop();
                     }
                     if(choice.equals(App.Buttons.PLAY)){
-                        if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
-                                        this.handelRepeatOne();
-                                }else{
-                            
-                                       Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
-                                       if(CurrentStatus!=Status.PLAYING){
-                                        this.handelPlay();
-                                       }
-                                       
-                                }
+                        this.handelPlayButtonMenu();
                         
                     }
                     if(choice.equals(App.Buttons.PAUSE)){
@@ -153,18 +135,11 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
         System.out.println("Shuffle Button");
                 if(App.Buttons.SHUFFLE.isSelected()){;
                     App.Buttons.SHUFFLE.setText("Shuffle On");
+                    App.SongList.ShuffleList();
                 }
                 else{
                     App.Buttons.SHUFFLE.setText("Shuffle Off");
-                }
-        }
-       if(choice.equals(App.Buttons.REPEAT)) {
-        System.out.println("REPEAT Button");
-                if(App.Buttons.REPEAT.isSelected()){;
-                    App.Buttons.REPEAT.setText("REPEAT On");
-                }
-                else{
-                    App.Buttons.REPEAT.setText("REPEAT Off");
+                    App.SongList.UpdateList(App.SongList.CurrentAlbum);
                 }
         }
     }
@@ -192,6 +167,21 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 
                 
                 }
+                public void handelPlayButtonMenu(){
+                    if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
+                            this.handelRepeatOne();
+                    }else{    
+                            if(App.MP3Player.mediaPlayer!=null){
+                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
+                                    if(CurrentStatus!=Status.PLAYING){
+                                            this.handelPlay();
+                                    }                                       
+                            }else{
+                                this.handelPlay();
+                            }
+                    }
+                
+                }
                 //Player Methods
                 public void handelPlay(){
                         
@@ -209,7 +199,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             if(CurrentStatus==Status.PAUSED){
                                 App.MP3Player.mediaPlayer.play();
                             } 
-                            if(CurrentStatus==Status.PLAYING){
+                            if(CurrentStatus==Status.PLAYING || CurrentStatus==Status.UNKNOWN){
                                 System.out.println("Playing");
                                 App.MP3Player.mediaPlayer.dispose();
                                 App.MP3Player.clearMedia();
