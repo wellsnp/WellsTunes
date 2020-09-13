@@ -66,6 +66,7 @@ public class AudioMedia {
                   return;
               }
               this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().remove(0));
+              this.mediaPlayer.setVolume(1.0);
               mediaPlayer.setOnError(() -> System.out.println("Error : " + mediaPlayer.getError().toString()));
               this.CurrentSongName=MP3Media.getMediaName().remove(0);
               this.mediaPlayer.setOnReady(new Runnable(){

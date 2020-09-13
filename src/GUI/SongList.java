@@ -15,6 +15,7 @@ import java.io.File;
 import FileAndDirectory.FolderInfo;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import java.util.List;
 import java.util.Random;
@@ -184,7 +185,7 @@ public class SongList extends BaseList{
                     boolean cellHasFocus) {
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
                 listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
-               
+               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
                 if (index % 2 == 0) {    
                     listCellRendererComponent.setBackground(getEven());
                     

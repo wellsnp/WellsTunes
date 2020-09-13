@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.io.File;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -89,6 +90,7 @@ public class BaseList extends JScrollPane{
                 JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
                 listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
                listCellRendererComponent.setHorizontalAlignment(JLabel.CENTER);
+               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
                 if (index % 2 == 0) {    
                     listCellRendererComponent.setBackground(Even);
                     

@@ -79,7 +79,7 @@ public final class WellsTunesGUI {
     }
     private void initFrame(){
        frame = new JFrame("WellsTunes v0.1");
-       frame.setPreferredSize(new Dimension(1600,1000));
+       frame.setPreferredSize(new Dimension(1600,700));
        frame.setLayout(new BorderLayout());
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -104,7 +104,7 @@ public final class WellsTunesGUI {
        Panels.pLeft.add(Boxes.AlbumInfo.Label);
        Panels.pLeft.add(Boxes.AlbumInfo.Field);
        Panels.pLeft.add(AlbumList);
-       Panels.pLeft.add(Boxes.Box3.Field);
+       //Panels.pLeft.add(Boxes.Box3.Field);
        frame.repaint();
     }
     private void initCenterPanel(){

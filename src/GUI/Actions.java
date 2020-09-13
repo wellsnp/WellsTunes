@@ -228,8 +228,13 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         System.out.println(CurrentStatus);
                         if(CurrentStatus==Status.PLAYING){
                             App.MP3Player.stopSong();
-                             App.SongList.UpdateList(App.SongList.CurrentAlbum);
-                            
+                            if(App.Buttons.SHUFFLE.isSelected())
+                            {
+                                App.SongList.UpdateListFromSelection(0);
+                            }
+                            else{
+                                App.SongList.UpdateList(App.SongList.CurrentAlbum);
+                            }
                         }       
                 }
                 public void handelRepeatOne(){
@@ -272,7 +277,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                         handelRepeatOne();
                                     }
                                 });
-                                timer.schedule(tasker, 0 , 1000);
+                                timer.schedule(tasker, 0 , 200);
                                 }
                     }else{//No Longer Repeating
                         System.out.println("Exit Handel Repeat One");
