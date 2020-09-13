@@ -95,6 +95,9 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                     if(choice.equals(App.Buttons.PAUSE)){
                         this.handelPause();
                     }
+                    if(choice.equals(App.Search.SearchBox)){
+                        System.out.println("Search Enter"); 
+                    }
                     else{
                         System.out.println("Item clicked: "+e.getActionCommand()); 
                     }

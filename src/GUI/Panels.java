@@ -23,9 +23,9 @@ public class Panels {
  
     public Panels(){
      pLeft = new LeftPanel("Library Info: ");
-     pRight = new RightPanel("Filler: ");
+     pRight = new RightPanel("Search Library: ");
      pCenter = new CenterPanel("Song Lists: ");
-     pBottom = new BottomPanel("");
+     pBottom = new BottomPanel("Search Library");
     }
     
     
@@ -88,19 +88,22 @@ public class Panels {
     }
     final class RightPanel extends BasicPanel{
         
-        BoxLayout boxlayout;
+        GridLayout gridlayout;
 
         public RightPanel(String TxtLabel) {
             
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
+            this.plabel.setPreferredSize(new Dimension(10, 10));
             this.setPreferredSize(new Dimension(200, 800));
-           
+            this.setBackground(Color.lightGray);
         }
         //@Override
         public void setPanelLayOut(){
-            //boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-            //this.setLayout(boxlayout);
+            gridlayout = new GridLayout(10,1);
+            this.setLayout(gridlayout);
+            //this.setBorder(BorderFactory.createTitledBorder(
+            //      BorderFactory.createEtchedBorder(), "Search Library"));
         }   
     }
     final class BottomPanel extends BasicPanel{

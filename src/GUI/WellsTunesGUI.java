@@ -34,6 +34,7 @@ public final class WellsTunesGUI {
         JFrame frame;
         Actions ActionHandler;
         ProgressBar PB;
+        LibraryFilter Search;
         public static InitThread InitGUIThread;
         public static LibCheckThread CheckLibThread;
         WellsTunesGUI(){
@@ -50,7 +51,8 @@ public final class WellsTunesGUI {
         AlbumList = new AlbumList(ActionHandler);
         ArtistList = new ArtistList(ActionHandler);
         Menu = new Menus(ActionHandler);
-        Buttons = new Buttons(ActionHandler);        
+        Buttons = new Buttons(ActionHandler);  
+        Search = new LibraryFilter(ActionHandler);
 
         }
      
@@ -76,6 +78,7 @@ public final class WellsTunesGUI {
         //Thread.sleep(10);
         this.initBottomPanel();
         //Thread.sleep(10);
+        this.initRightPanel();
     }
     private void initFrame(){
        frame = new JFrame("WellsTunes v0.1");
@@ -138,6 +141,17 @@ public final class WellsTunesGUI {
        Panels.pBottom.add(PB,Panels.pBottom.c);
        frame.repaint();
     }
+    private void initRightPanel(){
+       Panels.pRight.add(Search.SearchBox);
+       Panels.pRight.add(Search.SongName);
+       Panels.pRight.add(Search.AlbumName);
+       Panels.pRight.add(Search.ArtistName);
+       //Panels.pRight.add(Boxes.Box3.Field);
+            
+       
+       frame.repaint();
+    }
+    
     public void checkMusicLib() throws InterruptedException, FileNotFoundException, IOException{
         while(true){
                
