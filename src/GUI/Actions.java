@@ -96,7 +96,10 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         this.handelPause();
                     }
                     if(choice.equals(App.Search.SearchBox)){
-                        System.out.println("Search Enter"); 
+                        System.out.println("Search Enter");
+                        if(App.Search.AlbumName.isSelected()){
+                            App.SongList.UpdateList(App.Search.searchAlbums(App.Folders));
+                        }
                     }
                     else{
                         System.out.println("Item clicked: "+e.getActionCommand()); 
@@ -142,7 +145,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 }
                 else{
                     App.Buttons.SHUFFLE.setText("Shuffle Off");
-                    App.SongList.UpdateList(App.SongList.CurrentAlbum);
+                    App.SongList.UnShuffleList();
                 }
         }
     }

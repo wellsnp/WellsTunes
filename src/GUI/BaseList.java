@@ -32,6 +32,8 @@ public class BaseList extends JScrollPane{
     DefaultListModel<String> listmodel;
     private Color Even;
 
+  
+
 
     private Color Odd;
     //Overloaded Constructors
@@ -80,6 +82,11 @@ public class BaseList extends JScrollPane{
                     this.Odd = new Color(Field.getRed(),Field.getGreen(),Field.getBlue(),20);
     
     }
+  
+    public void setScrollListFiles(List<File> ScrollListFiles) {
+        this.ScrollListFiles = ScrollListFiles;
+    }
+    
     
     public ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
