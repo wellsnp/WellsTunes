@@ -214,14 +214,14 @@ public class SongList extends BaseList{
                 this.LengthTag.listmodel=UnShuffleGuts(LengthTag.listmodel, j, k); 
                 this.ShuffleArray=UnShuffleGuts(ShuffleArray,j,k);
             }
-            ArrayList<File> Songs = this.copyFileList();
+            //ArrayList<File> Songs = this.copyFileList();
             System.out.println("Songs Size");
             System.out.println(Songs.size());
             this.ScrollListFiles.clear();
             this.ScrollListNames.clear();
             for(int j=0; j<Songs.size(); j++){
-                this.ScrollListFiles.add(Songs.get(ShuffleArray[j]));
-                this.ScrollListNames.add(listmodel.get(ShuffleArray[j]));
+                this.ScrollListFiles.add((File) Songs.get(j));
+                this.ScrollListNames.add(listmodel.get(j));
                 System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
             }

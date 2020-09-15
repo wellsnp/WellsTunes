@@ -146,7 +146,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 else{
                     App.Buttons.SHUFFLE.setText("Shuffle Off");
                     App.SongList.UnShuffleList();
-                    App.SongList.UpdateListFromSelection(0);
+                    //App.SongList.UpdateListFromSelection(0);
                 }
         }
     }
