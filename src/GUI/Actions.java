@@ -146,6 +146,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 else{
                     App.Buttons.SHUFFLE.setText("Shuffle Off");
                     App.SongList.UnShuffleList();
+                    App.SongList.UpdateListFromSelection(0);
                 }
         }
     }
@@ -234,15 +235,12 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         System.out.println(CurrentStatus);
                         if(CurrentStatus==Status.PLAYING){
                             App.MP3Player.stopSong();
-                            if(App.Buttons.SHUFFLE.isSelected())
-                            {
-                                App.SongList.UpdateListFromSelection(0);
-                            }
-                            else{
-                                App.SongList.UpdateList(App.SongList.CurrentAlbum);
+                            App.SongList.UpdateListFromSelection(0);
+                               
+                                
                             }
                         }       
-                }
+                
                 public void handelRepeatOne(){
                     //System.out.println("HandelReapeatOne");
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){

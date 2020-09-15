@@ -101,6 +101,7 @@ public class SongList extends BaseList{
              }
                 
         }
+        //Sets the Master List of Songs. Never WIll Change Size By Clicking List. 
             this.Songs=this.copyFileList();
     }
     public void UpdateList(ArrayList Songs){
@@ -111,7 +112,7 @@ public class SongList extends BaseList{
         
         this.ScrollListFiles = new ArrayList<>();
         this.ScrollListNames = new ArrayList<>();
-        this.setScrollListFiles(Songs);
+       
         ShuffleArray = new int[Songs.size()];
         listmodel.removeAllElements();
         AlbumTag.clearList();
@@ -124,8 +125,9 @@ public class SongList extends BaseList{
         for(int j=0; j<Songs.size();j++){
            ShuffleArray[j]=j;
                    
-            //ScrollListFiles.add(CurrentSong);
+            
             File CurrentSong = (File) Songs.get(j);
+            ScrollListFiles.add(CurrentSong);
             ScrollListNames.add(CurrentSong.getName());
             if(tagger.checkID3v2(CurrentSong)){
                 listmodel.addElement(tagger.getSongName());
@@ -146,20 +148,15 @@ public class SongList extends BaseList{
              }
                 
         }
-            this.Songs=this.copyFileList();
+        //Sets the Master List of Songs. Never WIll Change Size By Clicking List. 
+            this.Songs=this.copyFileList(); 
     }
     public void UpdateListFromSelection(int Index){
-        CurrentSongIndex=Index;
-        //FolderInfo Folders = new FolderInfo();
-        //Get Songs of Album
-        //System.out.println("Current Album");
-        //System.out.println(this.CurrentAlbum.getName());
-        //File[] Songs=Folders.ListSongs(this.CurrentAlbum);
-        ArrayList<File> Songs = this.copyFileList();
         this.ScrollListFiles.clear();
         this.ScrollListNames.clear();
+        //Update From Master Songs List//
         for(int j=Index; j<Songs.size(); j++){        
-            this.ScrollListFiles.add(Songs.get(ShuffleArray[j]));
+            this.ScrollListFiles.add((File) Songs.get(ShuffleArray[j]));
             this.ScrollListNames.add(listmodel.get(j));
          }
     
@@ -188,8 +185,10 @@ public class SongList extends BaseList{
            this.ScrollListFiles.clear();
            this.ScrollListNames.clear();
            for(int j=0; j<Songs.size(); j++){
+            //Songs Is Not Shuffled So We Need The Shuffle Array   
             this.ScrollListFiles.add(Songs.get(ShuffleArray[j]));
-            this.ScrollListNames.add(listmodel.get(ShuffleArray[j]));
+            //listmode is Shuffled So We Do Not Need The Shuffle Array.
+            this.ScrollListNames.add(listmodel.get(j));
             System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
          }
@@ -298,6 +297,7 @@ public class SongList extends BaseList{
     }
  
     public SongMedia  buildSongList(){
+                 System.out.println("buildSongList");
                   List<File> Songs=this.ScrollListFiles;  
                   ObservableList<Media>   mediaList = FXCollections.observableArrayList();
                   ObservableList<String> mediaName = FXCollections.observableArrayList();
