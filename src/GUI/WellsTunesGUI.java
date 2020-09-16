@@ -111,6 +111,10 @@ public final class WellsTunesGUI {
        frame.repaint();
     }
     private void initCenterPanel(){
+       
+ 
+        
+        
        Panels.pCenter.add(SongList.getTrackTag());
        Panels.pCenter.add(SongList);
        Panels.pCenter.add(SongList.getAlbumTag());

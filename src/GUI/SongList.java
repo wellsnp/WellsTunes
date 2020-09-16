@@ -28,6 +28,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
 
 public class SongList extends BaseList{
@@ -57,6 +58,7 @@ public class SongList extends BaseList{
         ListCellRenderer<? super String> renderer = getRenderer();
         this.setPreferredSize(new Dimension (600,500));
         this.list.setCellRenderer(getRenderer());
+        this.bindScrollBars();
     }
     
     @Override
@@ -283,7 +285,18 @@ public class SongList extends BaseList{
         } 
         return Songs;
     }
-    
+ 
+    private void bindScrollBars(){
+        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        TrackTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        AlbumTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        ArtistTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        
+        this.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
+        TrackTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
+        AlbumTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
+        ArtistTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
+    }
     public TaggList getAlbumTag() {
         return AlbumTag;
     }
