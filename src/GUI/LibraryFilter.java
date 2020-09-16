@@ -39,6 +39,7 @@ public class LibraryFilter {
         SongName = new JRadioButton("Songs");
         //SongName.setPreferredSize(new Dimension(10, 10));
         AlbumName = new JRadioButton("Albums");
+        AlbumName.setSelected(true);
         //AlbumName.setPreferredSize(new Dimension(10, 10));
         ArtistName = new JRadioButton("Artists");
         //ArtistName.setPreferredSize(new Dimension(10, 10));

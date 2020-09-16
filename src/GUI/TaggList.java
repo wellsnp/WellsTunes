@@ -23,7 +23,7 @@ public class TaggList extends BaseList{
     public TaggList() {
        list.setCellRenderer(super.getRenderer());
        this.setViewportView(list);
-       this.setPreferredSize(new Dimension (50,500));
+       this.setPreferredSize(new Dimension (10,100));
     }
     
     //Methods

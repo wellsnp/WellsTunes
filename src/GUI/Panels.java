@@ -25,7 +25,7 @@ public class Panels {
      pLeft = new LeftPanel("Library Info: ");
      pRight = new RightPanel("Search Library: ");
      pCenter = new CenterPanel("Song Lists: ");
-     pBottom = new BottomPanel("Search Library");
+     pBottom = new BottomPanel("");
     }
     
     
@@ -76,7 +76,7 @@ public class Panels {
             
             this.setPanelLayOut();
             //this.setPanelLabel(TxtLabel);
-            this.setPreferredSize(new Dimension(1000, 800));
+            this.setPreferredSize(new Dimension(1500, 800));
             this.setBackground(Color.lightGray);
            // 
         }
@@ -95,7 +95,7 @@ public class Panels {
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
             this.plabel.setPreferredSize(new Dimension(10, 10));
-            this.setPreferredSize(new Dimension(200, 800));
+            this.setPreferredSize(new Dimension(100, 800));
             this.setBackground(Color.lightGray);
         }
         //@Override

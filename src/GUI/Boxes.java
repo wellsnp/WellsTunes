@@ -47,7 +47,7 @@ public class Boxes {
         
         AlbumTextBox(){
             
-            Field.setPreferredSize(new Dimension(100, 20));
+            Field.setPreferredSize(new Dimension(100, 10));
             Field.setEditable(false);
         }
     }
@@ -61,7 +61,7 @@ public class Boxes {
         
         ArtistTextBox(){
             
-            Field.setPreferredSize(new Dimension(100, 20)); 
+            Field.setPreferredSize(new Dimension(100, 10)); 
             Field.setEditable(false);
         }
     }

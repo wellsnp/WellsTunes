@@ -39,7 +39,7 @@ public class BaseList extends JScrollPane{
           list = new JList<String>(listmodel);
           this.defineColors();
           this.setViewportView(list);
-          this.setPreferredSize(new Dimension (50,500));
+          //this.setPreferredSize(new Dimension (80,500));
           list.setLayoutOrientation(JList.VERTICAL);
     };
     public BaseList(Actions ActionHandler){          

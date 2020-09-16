@@ -15,6 +15,7 @@ import java.io.File;
 import FileAndDirectory.FolderInfo;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import java.util.List;
@@ -45,12 +46,16 @@ public class SongList extends BaseList{
         super(ActionHandler);
         tagger =    new mp3tags();
         AlbumTag =  new TaggList();
+        AlbumTag.setPreferredSize(new Dimension (600,800));
         GenreTag =  new TaggList();
         TrackTag =  new TaggList();
+        TrackTag.setPreferredSize(new Dimension (95,800));
         LengthTag = new TaggList();
+        LengthTag.setPreferredSize(new Dimension (95,800));
         ArtistTag = new TaggList();
+        ArtistTag.setPreferredSize(new Dimension (400,800));
         ListCellRenderer<? super String> renderer = getRenderer();
-        
+        this.setPreferredSize(new Dimension (600,500));
         this.list.setCellRenderer(getRenderer());
     }
     
