@@ -25,16 +25,12 @@ import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 public class BaseList extends JScrollPane{
     
-    List<String> ScrollListNames;
-    public List<File> ScrollListFiles;
-    Actions ActionHandler; 
-    JList<String> list;
-    DefaultListModel<String> listmodel;
+    private List<String> ScrollListNames;
+    private List<File> ScrollListFiles;
+    private Actions ActionHandler; 
+    protected JList<String> list;
+    protected DefaultListModel<String> listmodel;
     private Color Even;
-
-  
-
-
     private Color Odd;
     //Overloaded Constructors
     public BaseList(){
@@ -63,13 +59,33 @@ public class BaseList extends JScrollPane{
           list.addMouseListener(ActionHandler);
        
     }
+
+
     public Color getEven() {
         return Even;
     }
-
     public Color getOdd() {
         return Odd;
     }
+
+    public List<String> getScrollListNames() {
+        return ScrollListNames;
+    }
+    public String getScrollListNames(int n) {
+        return ScrollListNames.get(n);
+    }
+
+    
+    public List<File> getScrollListFiles() {
+        return ScrollListFiles;
+    }
+    public File getScrollListFiles(int n) {
+        return ScrollListFiles.get(n);
+    }    
+        public int getScrollListFilesSize() {
+        return ScrollListFiles.size();
+    }
+    
     
     public void UpdateList(File InputFile){
      listmodel.removeAllElements();
@@ -86,8 +102,37 @@ public class BaseList extends JScrollPane{
     public void setScrollListFiles(List<File> ScrollListFiles) {
         this.ScrollListFiles = ScrollListFiles;
     }
+    public void addToScrollListFiles(File File){
+            this.ScrollListFiles.add(File);
+    }
+    public void setScrollListNames(List<String> ScrollListNames) {
+        this.ScrollListNames = ScrollListNames;
+    }
+    public void addToScrollListNames(String String){
+            this.ScrollListNames.add(String);
+    }
+    
+    public File removeFromScrollListFiles(){
+            return ScrollListFiles.remove(0);
+    }
+    
+
+    public String removeFromScrollListNames(){
+            return ScrollListNames.remove(0);
+    }
+    
+    public void clearScrollLists(){
+                this.ScrollListFiles.clear();
+                this.ScrollListNames.clear();
+    }
     
     
+    public boolean isNullScrollListFiles(){
+        return this.ScrollListFiles == null;
+    }
+    public boolean isNullScrollListNames(){
+        return this.ScrollListNames == null;
+    }
     public ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
             @Override

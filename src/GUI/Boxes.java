@@ -9,7 +9,6 @@ package GUI;
  *
  * @author wellsnp
  */
-import FileAndDirectory.FolderInfo;
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,13 +18,14 @@ public class Boxes {
     ArtistTextBox ArtistInfo = new ArtistTextBox();
     BaseTextBox   Box3 = new BaseTextBox("");
     BaseTextBox   Box4 = new BaseTextBox("");
-    Boxes(){
-        //this.Folders=Folders;
     
+    
+    public Boxes(){
+       
     }
     
     
-    class BaseTextBox {
+    public class BaseTextBox {
     //File Menus
         //JMenuBar menubar;
         
@@ -39,7 +39,7 @@ public class Boxes {
     }
     
     
-    class AlbumTextBox {
+    public class AlbumTextBox {
     //File Menus
         //JMenuBar menubar;
          JLabel Label = new JLabel("Number of Albums");
@@ -53,7 +53,7 @@ public class Boxes {
     }
 
    
-    class ArtistTextBox {
+    public class ArtistTextBox {
     //File Menus
         //JMenuBar menubar;
         JLabel Label = new JLabel("Number of Artists");

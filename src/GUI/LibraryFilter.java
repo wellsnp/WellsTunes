@@ -6,14 +6,11 @@
 package GUI;
 
 import FileAndDirectory.FolderInfo;
-import java.awt.Dimension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -23,11 +20,11 @@ import javax.swing.JTextField;
  */
 public class LibraryFilter {
     
-    JTextField SearchBox;
-    ButtonGroup group;
-    JRadioButton SongName;
-    JRadioButton AlbumName;
-    JRadioButton ArtistName;
+    public JTextField SearchBox;
+    private final ButtonGroup group;
+    public JRadioButton SongName;
+    public JRadioButton AlbumName;
+    public JRadioButton ArtistName;
     
     public LibraryFilter(Actions ActionHandler){
      
@@ -53,12 +50,6 @@ public class LibraryFilter {
         
     
     }
-    
-    //Function To Generate a New SongList ScrollListFiles
-    
-    
-    
-    
     
     public ArrayList searchAlbums(FolderInfo Folders){
         Pattern pattern = Pattern.compile(this.SearchBox.getText());

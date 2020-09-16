@@ -111,11 +111,11 @@ public final class WellsTunesGUI {
        frame.repaint();
     }
     private void initCenterPanel(){
-       Panels.pCenter.add(SongList.TrackTag);
+       Panels.pCenter.add(SongList.getTrackTag());
        Panels.pCenter.add(SongList);
-       Panels.pCenter.add(SongList.AlbumTag);
-       Panels.pCenter.add(SongList.ArtistTag);
-       Panels.pCenter.add(SongList.LengthTag);
+       Panels.pCenter.add(SongList.getAlbumTag());
+       Panels.pCenter.add(SongList.getArtistTag());
+       Panels.pCenter.add(SongList.getLengthTag());
        frame.repaint();
     }
     private void initBottomPanel(){
@@ -185,7 +185,6 @@ public final class WellsTunesGUI {
        }
     
     }
-
 
     public final class InitThread extends Thread {
 

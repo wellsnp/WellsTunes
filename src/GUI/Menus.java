@@ -33,12 +33,10 @@ public class Menus{
         Player  = new PlayerMenu(menubar,ActionHandler);
         Help  = new HelpMenu(menubar,ActionHandler);
         About  = new AboutMenu(menubar,ActionHandler);
-        this.ActionHandler=ActionHandler;
+        //this.ActionHandler=ActionHandler;
         }
-                        
 
-
-/////////Menue Classes
+/////////Menu Classes
        class BaseMenu {
              Actions ActionHandler;
                 BaseMenu(Actions ActionHandler){
@@ -59,8 +57,7 @@ public class Menus{
          file.add(Quit);     
          menubar.add(file);
         }
- }
- 
+       }
        class LibMenu extends BaseMenu{
        JMenu Lib;
        MenuItem Duplicates;
@@ -75,7 +72,6 @@ public class Menus{
         
         }
  }             
-
        class HelpMenu extends BaseMenu{
         JMenu Help;
         MenuItem NoHelp ;
@@ -88,7 +84,6 @@ public class Menus{
          menubar.add(Help);
         }
        }
-              
        class AboutMenu extends BaseMenu {
         JMenu About;
         MenuItem version ;
@@ -106,7 +101,6 @@ public class Menus{
          menubar.add(About);
         }
        }
-
        class PlayerMenu extends BaseMenu {
        JMenu Player;
        MenuItem Play;
@@ -127,14 +121,9 @@ public class Menus{
         
         }   
        }
-       
-       
-    
-        
-//Menu Item
- 
+         //Menu Item
         //Generic Menu Item. All Actions Are Based on Which Menue Item is Slected
-         class MenuItem extends JMenuItem{
+       class MenuItem extends JMenuItem{
                    
                 public MenuItem(String Text, Actions ActionHandler){
                     super(Text);

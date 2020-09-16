@@ -96,7 +96,7 @@ public class TristateButton extends JToggleButton{
   public TristateState getState() {
     return state;
   }
-    private void displayState() {
+  private void displayState() {
    
     super.setSelected(state != TristateState.DESELECTED);
    //super.setArmed(state == TristateState.INDETERMINATE);

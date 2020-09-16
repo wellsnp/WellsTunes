@@ -259,7 +259,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                 
                                 }
                                 if(CurrentStatus==Status.PLAYING || CurrentStatus==Status.UNKNOWN){
-                                    App.SongList.UpdateListFromSelection(App.SongList.CurrentSongIndex);
+                                    App.SongList.UpdateListFromSelection(App.SongList.getCurrentSongIndex());
                                     App.MP3Player.setMedia(App.SongList.buildSongList());
                                 }
                                 App.MP3Player.mediaPlayer.dispose();
@@ -272,7 +272,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                 }); 
                             } 
                         }else{//MP3Player.mediaPlayer is Not Null
-                                App.SongList.UpdateListFromSelection(App.SongList.CurrentSongIndex);
+                                App.SongList.UpdateListFromSelection(App.SongList.getCurrentSongIndex());
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.repeatSong();
                                 App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -293,8 +293,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 public void handelArtists(int clicks){
                     if (clicks == 1) {
                         int selectedItem = (int) App.ArtistList.list.getSelectedIndex();
-                        if(App.ArtistList.ScrollListFiles!=null){
-                            App.AlbumList.UpdateList(App.ArtistList.ScrollListFiles.get(selectedItem));
+                        if(!App.ArtistList.isNullScrollListFiles()){
+                            App.AlbumList.UpdateList(App.ArtistList.getScrollListFiles(selectedItem));
                         }
                     }
                 }
@@ -302,19 +302,13 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                     if (clicks == 1){
                         int selectedItem = (int) App.AlbumList.list.getSelectedIndex();
                         //Updates the Song List Display with All the Songs in the Album
-                        App.SongList.UpdateList(App.AlbumList.ScrollListFiles.get(selectedItem));           
+                        App.SongList.UpdateList(App.AlbumList.getScrollListFiles(selectedItem));           
                     }
                 }
                 public void handelSongs(int clicks){
                     if (clicks == 2) {
                         int selectedItem = (int) App.SongList.list.getSelectedIndex();
-                    
-                        //Rebuild The Song List and Play From Here:
-                        //if(!MP3Player.status){
-                        if(App.SongList.ScrollListFiles!=null){
-                            System.out.println(selectedItem);
-                        }
-
+                 
                         if(App.MP3Player.mediaPlayer!=null){
                             Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
                             System.out.println("Handel Songs Player Status");

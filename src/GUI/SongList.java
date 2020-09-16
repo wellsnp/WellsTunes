@@ -30,16 +30,16 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 public class SongList extends BaseList{
-    File CurrentAlbum;
-    int CurrentSongIndex;
-    int[] ShuffleArray;
-    mp3tags tagger;
-    TaggList AlbumTag;
-    TaggList GenreTag;
-    TaggList TrackTag;
-    TaggList LengthTag;
-    TaggList ArtistTag;
-    ArrayList Songs;
+    private File CurrentAlbum;
+    private int CurrentSongIndex;
+    private int[] ShuffleArray;
+    private final mp3tags tagger;
+    private final TaggList AlbumTag;
+    private final TaggList GenreTag;
+    private final TaggList TrackTag;
+    private final TaggList LengthTag;
+    private final TaggList ArtistTag;
+    private ArrayList Songs;
     public SongList(Actions ActionHandler)
     {   
         super(ActionHandler);
@@ -58,13 +58,28 @@ public class SongList extends BaseList{
     public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Songs of Album
-        CurrentSongIndex=0;
+        
         CurrentAlbum = InputFile;
         System.out.println("Current Album");
         System.out.println(this.CurrentAlbum.getName());
         File[] Songs=Folders.ListSongs(InputFile);
-        this.ScrollListFiles = new ArrayList<>();
-        this.ScrollListNames = new ArrayList<>();
+        
+        this.UpdateListGuts(Songs);
+
+    }
+    public void UpdateList(ArrayList<File> Songs){
+     
+        File SongList[] =Songs.toArray(new File[Songs.size()]);
+        this.UpdateListGuts(SongList);
+
+    }
+    
+    private void UpdateListGuts(File[] Songs){
+    
+    
+        this.CurrentSongIndex=0;
+        setScrollListFiles(new ArrayList<>());
+        setScrollListNames(new ArrayList<>());
         ShuffleArray = new int[Songs.length];
         listmodel.removeAllElements();
         AlbumTag.clearList();
@@ -72,7 +87,7 @@ public class SongList extends BaseList{
         ArtistTag.clearList();
         TrackTag.clearList();
         LengthTag.clearList();
-        
+     
         int n=0;
         for(File CurrentSong:Songs){
            ShuffleArray[n]=n;
@@ -80,84 +95,39 @@ public class SongList extends BaseList{
            System.out.println(ShuffleArray[n]);
            
            n++;        
-            ScrollListFiles.add(CurrentSong);
+            this.addToScrollListFiles(CurrentSong);
             //ScrollListNames.add(CurrentSong.getName());
+           
             if(tagger.checkID3v2(CurrentSong)){
-                listmodel.addElement(tagger.getSongName());
-                AlbumTag.listmodel.addElement(tagger.getAlbumName());
-                ArtistTag.listmodel.addElement(tagger.getArtistName());
-                TrackTag.listmodel.addElement(tagger.getTrackNumber());
+                listmodel.addElement((tagger.getSongName()==null)? "-":tagger.getSongName());
+                AlbumTag.listmodel.addElement((tagger.getAlbumName()==null)? "-":tagger.getAlbumName());
+                ArtistTag.listmodel.addElement((tagger.getArtistName()==null)? "-":tagger.getArtistName());
+                TrackTag.listmodel.addElement((tagger.getTrackNumber()==null)? "-":tagger.getTrackNumber());
                 //Base Model Used A String List
                 //GenreTag.listmodel.addElement(tagger.getGenre());
-                LengthTag.listmodel.addElement(tagger.getSongLength());
-                ScrollListNames.add(tagger.getSongName());
+                LengthTag.listmodel.addElement((tagger.getSongLength()==null)? "-":tagger.getSongLength());
+                this.addToScrollListNames((tagger.getSongName()==null)? "-":tagger.getSongName());
                                 
 //Populate Other Lists That We Will Build For The Tags
                 //System.out.println(CurrentSong.getName());
             }else{
                   //If there is no Tagged Song name, use the literal file name. 
-                  listmodel.addElement(CurrentSong.getName());
-                  ScrollListNames.add(CurrentSong.getName());
+                 listmodel.addElement(CurrentSong.getName());
+                 this.addToScrollListNames(CurrentSong.getName());
              }
                 
         }
         //Sets the Master List of Songs. Never WIll Change Size By Clicking List. 
             this.Songs=this.copyFileList();
+    
     }
-    public void UpdateList(ArrayList Songs){
-        FolderInfo Folders = new FolderInfo();
-      //Get Songs of Album
-        CurrentSongIndex=0;
-        
-        
-        this.ScrollListFiles = new ArrayList<>();
-        this.ScrollListNames = new ArrayList<>();
-       
-        ShuffleArray = new int[Songs.size()];
-        listmodel.removeAllElements();
-        AlbumTag.clearList();
-        GenreTag.clearList();
-        ArtistTag.clearList();
-        TrackTag.clearList();
-        LengthTag.clearList();
-        
-        
-        for(int j=0; j<Songs.size();j++){
-           ShuffleArray[j]=j;
-                   
-            
-            File CurrentSong = (File) Songs.get(j);
-            ScrollListFiles.add(CurrentSong);
-            ScrollListNames.add(CurrentSong.getName());
-            if(tagger.checkID3v2(CurrentSong)){
-                listmodel.addElement(tagger.getSongName());
-                AlbumTag.listmodel.addElement(tagger.getAlbumName());
-                ArtistTag.listmodel.addElement(tagger.getArtistName());
-                TrackTag.listmodel.addElement(tagger.getTrackNumber());
-                //Base Model Used A String List
-                //GenreTag.listmodel.addElement(tagger.getGenre());
-                LengthTag.listmodel.addElement(tagger.getSongLength());
-                ScrollListNames.add(tagger.getSongName());
-                                
-//Populate Other Lists That We Will Build For The Tags
-                //System.out.println(CurrentSong.getName());
-            }else{
-                  //If there is no Tagged Song name, use the literal file name. 
-                  listmodel.addElement(CurrentSong.getName());
-                  ScrollListNames.add(CurrentSong.getName());
-             }
-                
-        }
-        //Sets the Master List of Songs. Never WIll Change Size By Clicking List. 
-            this.Songs=this.copyFileList(); 
-    }
+    
     public void UpdateListFromSelection(int Index){
-        this.ScrollListFiles.clear();
-        this.ScrollListNames.clear();
+         this.clearScrollLists();
         //Update From Master Songs List//
         for(int j=Index; j<Songs.size(); j++){        
-            this.ScrollListFiles.add((File) Songs.get(ShuffleArray[j]));
-            this.ScrollListNames.add(listmodel.get(j));
+            this.addToScrollListFiles((File) Songs.get(ShuffleArray[j]));
+            this.addToScrollListNames(listmodel.get(j));
          }
     
     }
@@ -182,19 +152,18 @@ public class SongList extends BaseList{
            ArrayList<File> Songs = this.copyFileList();
            System.out.println("Songs Size");
             System.out.println(Songs.size());
-           this.ScrollListFiles.clear();
-           this.ScrollListNames.clear();
+           this.clearScrollLists();
            for(int j=0; j<Songs.size(); j++){
             //Songs Is Not Shuffled So We Need The Shuffle Array   
-            this.ScrollListFiles.add(Songs.get(ShuffleArray[j]));
+            this.addToScrollListFiles(Songs.get(ShuffleArray[j]));
             //listmode is Shuffled So We Do Not Need The Shuffle Array.
-            this.ScrollListNames.add(listmodel.get(j));
+            this.addToScrollListNames(listmodel.get(j));
             System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
          }
 
     };
-     public void UnShuffleList(){
+    public void UnShuffleList(){
             int n = listmodel.getSize();   
             System.out.println("List Size");
             System.out.println(n);// The number of items left to shuffle (loop invariant).
@@ -204,6 +173,7 @@ public class SongList extends BaseList{
                  
                     if(j==ShuffleArray[l]){
                         k=l;
+                        break;
                     }
                 }
                         
@@ -217,52 +187,15 @@ public class SongList extends BaseList{
             //ArrayList<File> Songs = this.copyFileList();
             System.out.println("Songs Size");
             System.out.println(Songs.size());
-            this.ScrollListFiles.clear();
-            this.ScrollListNames.clear();
+            this.clearScrollLists();
             for(int j=0; j<Songs.size(); j++){
-                this.ScrollListFiles.add((File) Songs.get(j));
-                this.ScrollListNames.add(listmodel.get(j));
+                this.addToScrollListFiles((File) Songs.get(j));
+                this.addToScrollListNames(listmodel.get(j));
                 System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
             }
      }
-//     public void UnShuffleList(){
-//          listmodel.removeAllElements();
-//          AlbumTag.clearList();
-//          GenreTag.clearList();
-//          ArtistTag.clearList();
-//          TrackTag.clearList();
-//          LengthTag.clearList();
-//          this.ScrollListFiles.clear();
-//          this.ScrollListNames.clear();
-//         for(int j=0; j<Songs.size(); j++){
-//            ShuffleArray[j]=j;
-//            this.ScrollListFiles.add((File)Songs.get(j));
-//            File CurrentSong = (File) Songs.get(j);
-//            ScrollListNames.add(CurrentSong.getName());
-//            if(tagger.checkID3v2(CurrentSong)){
-//                listmodel.addElement(tagger.getSongName());
-//                AlbumTag.listmodel.addElement(tagger.getAlbumName());
-//                ArtistTag.listmodel.addElement(tagger.getArtistName());
-//                TrackTag.listmodel.addElement(tagger.getTrackNumber());
-//                //Base Model Used A String List
-//                //GenreTag.listmodel.addElement(tagger.getGenre());
-//                LengthTag.listmodel.addElement(tagger.getSongLength());
-//                ScrollListNames.add(tagger.getSongName());
-//                                
-////Populate Other Lists That We Will Build For The Tags
-//                //System.out.println(CurrentSong.getName());
-//            }else{
-//                  //If there is no Tagged Song name, use the literal file name. 
-//                  listmodel.addElement(CurrentSong.getName());
-//                  ScrollListNames.add(CurrentSong.getName());
-//             }
-//         
-//         
-//         
-//         }
-//    };
-    
+
     private DefaultListModel<String> ShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
                 String temp = listmodel.get(n); // n is now the last pertinent index;
                 listmodel.setElementAt(listmodel.get(k), n);
@@ -271,14 +204,14 @@ public class SongList extends BaseList{
                 return listmodel;
         
     }
-     private int[] ShuffleGuts(int[] Array, int n, int k){
+    private int[] ShuffleGuts(int[] Array, int n, int k){
                 int temp = Array[n]; // n is now the last pertinent index;
                 Array[n]=Array[k];
                 Array[k]=temp;
                 return Array;
         
     }
-         private DefaultListModel<String> UnShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
+    private DefaultListModel<String> UnShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
                 String temp1 = listmodel.get(n); // n is now the last pertinent index;
                 String temp2 = listmodel.get(k);
                 listmodel.setElementAt(temp2, n);
@@ -286,7 +219,7 @@ public class SongList extends BaseList{
                 return listmodel;
         
     }
-      private int[] UnShuffleGuts(int[] Array, int n, int k){
+    private int[] UnShuffleGuts(int[] Array, int n, int k){
                 //Swap Indicied n and k
                 int temp1 = Array[n];
                 int temp2 = Array[k];
@@ -298,14 +231,14 @@ public class SongList extends BaseList{
  
     public SongMedia  buildSongList(){
                  System.out.println("buildSongList");
-                  List<File> Songs=this.ScrollListFiles;  
+                  List<File> Songs=this.getScrollListFiles();  
                   ObservableList<Media>   mediaList = FXCollections.observableArrayList();
                   ObservableList<String> mediaName = FXCollections.observableArrayList();
                   SongMedia MP3Media = new SongMedia();
                   for (File CurrentSong:Songs) {
                     Media NewSong = new Media(CurrentSong.toURI().toString());
                     mediaList.add(NewSong);
-                    mediaName.add(ScrollListNames.remove(0));
+                    mediaName.add(removeFromScrollListNames());
                 }
                   MP3Media.setMediaList(mediaList);
                   MP3Media.setMediaName(mediaName);
@@ -337,15 +270,44 @@ public class SongList extends BaseList{
     
     public ArrayList<File> copyFileList(){
         ArrayList<File> Songs = new ArrayList<>();
-        int N=this.ScrollListFiles.size();
+        
+        int N=getScrollListFilesSize();
+        List<File> CurrentSongList = this.getScrollListFiles();
         for (int j=0; j<N; j++){
-            Songs.add(this.ScrollListFiles.get(j));
+            Songs.add(CurrentSongList.get(j));
         } 
         return Songs;
     }
     
-            
+    public TaggList getAlbumTag() {
+        return AlbumTag;
+    }
 
+    public TaggList getGenreTag() {
+        return GenreTag;
+    }
+
+    public TaggList getTrackTag() {
+        return TrackTag;
+    }
+
+    public TaggList getLengthTag() {
+        return LengthTag;
+    }
+
+    public TaggList getArtistTag() {
+        return ArtistTag;
+    }  
+    
+    public File getCurrentAlbum() {
+        return CurrentAlbum;
+    }
+
+    public int getCurrentSongIndex() {
+        return CurrentSongIndex;
+    }    
+    
+//This Class Is Used To Package Up The Data Needed For The AudioMedia Object.
 public static class SongMedia{
 private ObservableList<Media>   mediaList;
 private ObservableList<String>   mediaName;

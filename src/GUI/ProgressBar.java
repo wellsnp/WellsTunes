@@ -14,17 +14,14 @@ import javax.swing.JProgressBar;
  */
 public class ProgressBar extends JProgressBar {
     
-    
+    private double SongLength;
+    private double CurrentTime;
     public ProgressBar(){
-    
         this.setValue(0);
         this.setStringPainted(true);
-        this.setPreferredSize(new Dimension (500,20));
-        //this.setVisible(true);
-        
+        this.setPreferredSize(new Dimension (500,20)); 
     }
-    double SongLength;
-    double CurrentTime;
+
 
     public void setSongLength(double SongLength) {
         this.SongLength = SongLength;

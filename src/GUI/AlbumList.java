@@ -26,11 +26,11 @@ public class AlbumList extends BaseList{
       //Get Albums of Artist
         File[] Albums=Folders.ListAlbums(InputFile);
         //this.ScrollListNames = new ArrayList<>();
-        this.ScrollListFiles = new ArrayList<>();
+        this.setScrollListFiles(new ArrayList<>());
         listmodel.removeAllElements();
         for(File CurrentAlbum:Albums){
             //ScrollListNames.add(CurrentArtist.getName());
-            ScrollListFiles.add(CurrentAlbum);    
+            this.addToScrollListFiles(CurrentAlbum);    
             listmodel.addElement(CurrentAlbum.getName());
         }
 

@@ -21,12 +21,6 @@ import javax.swing.ListCellRenderer;
 public class TaggList extends BaseList{
     
     public TaggList() {
-       //DefaultListCellRenderer renderer =  (DefaultListCellRenderer)list.getCellRenderer();
-       //list.setBackground(Color.red);
-       //list.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-       //renderer.setHorizontalAlignment(JLabel.CENTER); 
-       //renderer.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-      // this.defineColors();
        list.setCellRenderer(super.getRenderer());
        this.setViewportView(list);
        this.setPreferredSize(new Dimension (50,500));

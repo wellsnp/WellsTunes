@@ -23,10 +23,10 @@ public ArtistList(Actions ActionHandler){
 
 public void UpdateList(FolderInfo Folders){
         //this.ScrollListNames = new ArrayList<>();
-        this.ScrollListFiles = new ArrayList<>();
+        this.setScrollListFiles(new ArrayList<>());
         listmodel.removeAllElements();
         for(File CurrentArtist:Folders.Artists){
-            ScrollListFiles.add(CurrentArtist);    
+            this.addToScrollListFiles(CurrentArtist);    
             listmodel.addElement(CurrentArtist.getName());
         }
  }
