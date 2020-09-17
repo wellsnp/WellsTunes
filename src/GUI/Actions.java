@@ -100,6 +100,12 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         if(App.Search.AlbumName.isSelected()){
                             App.SongList.UpdateList(App.Search.searchAlbums(App.Folders));
                         }
+                        if(App.Search.ArtistName.isSelected()){
+                            App.SongList.UpdateList(App.Search.searchArtists(App.Folders));
+                        }
+                        if(App.Search.SongName.isSelected()){
+                            App.SongList.UpdateList(App.Search.searchSongs(App.Folders));
+                        }
                     }
                     else{
                         System.out.println("Item clicked: "+e.getActionCommand()); 

@@ -75,5 +75,47 @@ public class LibraryFilter {
                 
                 return FilteredScrollListFiles;
     }
-
+    public ArrayList searchArtists(FolderInfo Folders){
+        Pattern pattern = Pattern.compile(this.SearchBox.getText());
+        Matcher matcher; 
+       
+                ArrayList FilteredScrollListFiles = new ArrayList<>();
+                for(File CurrentArtist:Folders.Artists){    
+                    String CurrentName = CurrentArtist.getName();
+                    matcher=pattern.matcher(CurrentName);
+                    if(matcher.find()){
+                        File[] Albums=Folders.ListAlbums(CurrentArtist);
+                        for (File CurrentAlbum:Albums){
+                            File[] Songs=Folders.ListSongs(CurrentAlbum);
+                            for(File CurrentSong:Songs){
+                                FilteredScrollListFiles.add(CurrentSong);
+                            }
+                        }
+                    }
+                } 
+                return FilteredScrollListFiles;
+    }
+    public ArrayList searchSongs(FolderInfo Folders){
+        Pattern pattern = Pattern.compile(this.SearchBox.getText());
+        Matcher matcher; 
+       
+                ArrayList FilteredScrollListFiles = new ArrayList<>();
+                for(File CurrentArtist:Folders.Artists){
+                        File[] Albums=Folders.ListAlbums(CurrentArtist);
+                        for (File CurrentAlbum:Albums){
+                                 File[] Songs=Folders.ListSongs(CurrentAlbum);
+                                 for(File CurrentSong:Songs){
+                                    String CurrentName = CurrentSong.getName();
+                                    matcher=pattern.matcher(CurrentName);         
+                                     if(matcher.find()){
+                                     FilteredScrollListFiles.add(CurrentSong);
+                                    }
+                             }
+                        }
+                            
+                }
+                
+                
+                return FilteredScrollListFiles;
+    }
 }
