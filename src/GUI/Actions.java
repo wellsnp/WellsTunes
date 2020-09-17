@@ -183,7 +183,17 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 public void handelPlayButtonMenu(){
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
                             this.handelRepeatOne();
-                    }else{    
+                    }else if (App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
+                        if(App.MP3Player.mediaPlayer!=null){
+                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
+                                 if(CurrentStatus!=Status.PLAYING){
+                                            this.handelRepeatAll();
+                                    }    
+                        }else{
+                                this.handelRepeatAll();
+                        }
+                    }else{
+                        
                             if(App.MP3Player.mediaPlayer!=null){
                                 Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
                                     if(CurrentStatus!=Status.PLAYING){
@@ -247,6 +257,39 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             }
                         }       
                 
+                 public void handelRepeatAll(){
+                    if(App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
+                        handelPlay();   
+                        Timer timer = new Timer();
+                        TimerTask tasker = new TimerTask(){
+                            @Override
+                            public void run() {
+                                System.out.println("Repeat Tasker");
+                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                                
+                                       if(App.MP3Player.MP3Media.getMediaList().isEmpty()){
+                                           App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
+                                            @Override
+                                            public void run() { 
+                                           
+                                            System.out.println("Play Again!");
+                                            App.SongList.UpdateListFromSelection(0);
+                                            timer.cancel();
+                                            handelRepeatAll();
+                                        }});            
+                                    }
+                                       if(CurrentStatus==Status.STOPPED){
+                                        timer.cancel();
+                                        this.cancel();
+                                       }
+                                
+                            }
+                        };
+                        timer.schedule(tasker, 1000, 1000);
+                        
+                        
+                 }
+                 }
                 public void handelRepeatOne(){
                     //System.out.println("HandelReapeatOne");
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
@@ -325,9 +368,11 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             }else{
                                 App.SongList.UpdateListFromSelection(selectedItem);
                                 if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
-                                        this.handelRepeatOne();
+                                    this.handelRepeatOne();
+                                }else if (App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
+                                    this.handelRepeatAll();
                                 }else{
-                                        this.handelPlay();
+                                    this.handelPlay();
                                 }
                             } 
                         }else{
@@ -335,6 +380,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             App.SongList.UpdateListFromSelection(selectedItem);
                             if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
                                 this.handelRepeatOne();
+                            }else if (App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
+                                this.handelRepeatAll();
                             }else{
                                 this.handelPlay();
                             }

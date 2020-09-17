@@ -18,7 +18,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.embed.swing.JFXPanel;
 public class AudioMedia {
        public Media Song; 
-       private SongMedia MP3Media;
+       public SongMedia MP3Media;
        //private ObservableList<Media> mediaList;
        //private ObservableList<String> SongNames;
        private String CurrentSongName;
@@ -62,6 +62,7 @@ public class AudioMedia {
         public void playSongList(){
               if (this.MP3Media.getMediaList().isEmpty()){
                   System.out.println("No Media List");
+                  //this.mediaPlayer.dispose();
                   return;
               }
               this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().remove(0));
