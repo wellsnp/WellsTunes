@@ -159,13 +159,14 @@ public final class WellsTunesGUI {
     public void checkMusicLib() throws InterruptedException, FileNotFoundException, IOException{
         while(true){
                
-                String path_save="C:\\Users\\wells\\OneDrive\\Documents\\NetBeansProjects\\WellsTunes\\WellsTunesPathInfo.txt";
-                File tempDir = new File(path_save);
+                String path_save="/WellsTunesPathInfo.txt";
+                File tempDir = new File("./"+path_save);
+               
                 if(tempDir.exists()){
                     BufferedReader br = new BufferedReader(new FileReader(tempDir)); 
                     String path=br.readLine();
                     Folders.setPath(path);
-                    Thread.sleep(300);
+                    Thread.sleep(300); 
                 }
                if(Folders.path!=null){
                         

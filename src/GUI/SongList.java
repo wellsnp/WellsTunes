@@ -65,7 +65,7 @@ public class SongList extends BaseList{
     public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Songs of Album
-        
+        this.CurrentSongIndex=0;
         CurrentAlbum = InputFile;
         System.out.println("Current Album");
         System.out.println(this.CurrentAlbum.getName());
@@ -84,7 +84,7 @@ public class SongList extends BaseList{
     private void UpdateListGuts(File[] Songs){
     
     
-        this.CurrentSongIndex=0;
+        
         setScrollListFiles(new ArrayList<>());
         setScrollListNames(new ArrayList<>());
         ShuffleArray = new int[Songs.length];
@@ -136,7 +136,7 @@ public class SongList extends BaseList{
             this.addToScrollListFiles((File) Songs.get(ShuffleArray[j]));
             this.addToScrollListNames(listmodel.get(j));
          }
-    
+    this.CurrentSongIndex=Index;
     }
     
     public void ShuffleList(){

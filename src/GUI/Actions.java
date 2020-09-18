@@ -169,8 +169,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                                 String path = file.getAbsolutePath(); 
                                 //App.Folders.setPath(path);
                                 //App.checkMusicLib();
-                                String path_save="C:\\Users\\wells\\OneDrive\\Documents\\NetBeansProjects\\WellsTunes\\WellsTunesPathInfo.txt";
-                                BufferedWriter writer = new BufferedWriter(new FileWriter(path_save));
+                                String path_save="/WellsTunesPathInfo.txt";
+                                BufferedWriter writer = new BufferedWriter(new FileWriter("./"+path_save));
                                 writer.write(path);
                                 writer.close();
                                 App.checkMusicLib();
@@ -257,38 +257,36 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             }
                         }       
                 
-                 public void handelRepeatAll(){
+                public void handelRepeatAll(){
                     if(App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
                         handelPlay();   
                         Timer timer = new Timer();
                         TimerTask tasker = new TimerTask(){
                             @Override
                             public void run() {
-                                System.out.println("Repeat Tasker");
+                                //System.out.println("Repeat Tasker");
                                 Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
                                 
                                        if(App.MP3Player.MP3Media.getMediaList().isEmpty()){
+                                           timer.cancel();
                                            App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
-                                            @Override
-                                            public void run() { 
-                                           
-                                            System.out.println("Play Again!");
-                                            App.SongList.UpdateListFromSelection(0);
-                                            timer.cancel();
-                                            handelRepeatAll();
-                                        }});            
-                                    }
+                                                @Override
+                                                public void run() { 
+                                                    System.out.println("Play Again!");
+                                                    App.SongList.UpdateListFromSelection(0);
+                                                //timer.cancel();
+                                                handelRepeatAll();
+                                                }
+                                            });            
+                                        }
                                        if(CurrentStatus==Status.STOPPED){
-                                        timer.cancel();
-                                        this.cancel();
-                                       }
-                                
+                                            timer.cancel();
+                                            this.cancel();
+                                       }                          
                             }
                         };
                         timer.schedule(tasker, 1000, 1000);
-                        
-                        
-                 }
+                    }
                  }
                 public void handelRepeatOne(){
                     //System.out.println("HandelReapeatOne");
