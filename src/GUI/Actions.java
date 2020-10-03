@@ -16,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer.Status;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 
 
 /**
@@ -68,12 +70,27 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                         }
                     }
                     if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
-                        
                         try {
-                            App.Folders.RunGlobalDuplicationCheck();
+                            this.handelDupCheck();
+//                        try {
+//                            App.Folders.RunGlobalDuplicationCheck();
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+//                        }             
                         } catch (IOException ex) {
                             Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        }             
+                        }
+                    }
+                    if(choice.equals(App.Menu.Lib.DupWindow.Delete) & (App.Folders.path!=null)){
+                     
+                        try {
+                            App.Folders.DeleteDuplication();
+                            
+                            App.Menu.Lib.DupWindow.close();
+                            App.Menu.Lib.DupWindow.DuplicationList.removeAll();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     if((choice.equals(App.Menu.Player.Play)) & (App.Folders.path!=null)){
                         this.handelPlayButtonMenu();
@@ -180,6 +197,22 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                 
                 
                 }
+                
+                public void handelDupCheck() throws IOException{
+                    
+                    App.Folders.RunGlobalDuplicationCheck();
+                    
+                    int NumDuplicates = App.Folders.DupDetector.dupcnt;
+                    //List<File> Duplicates = App.Folders.DupDetector.DuplicationList;
+                    List<String>  Names = App.Folders.DupDetector.DuplicationListNames; 
+                    final JList<String> list = new JList<String>(Names.toArray(new String[Names.size()]));
+                    App.Menu.Lib.DupWindow.DuplicationInfo.setText(String.valueOf(NumDuplicates));
+                    if(NumDuplicates>0){
+                          App.Menu.Lib.DupWindow.DuplicationList.setViewportView(list);            
+                    }
+                    App.Menu.Lib.DupWindow.show();
+                }
+                
                 public void handelPlayButtonMenu(){
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
                             this.handelRepeatOne();

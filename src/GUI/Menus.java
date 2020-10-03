@@ -9,14 +9,11 @@ package GUI;
  *
  * @author wellsnp
  */
-import Audio.AudioMedia;
-import FileAndDirectory.FolderInfo;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.media.MediaPlayer.Status;
 
 public class Menus{
     JMenuBar menubar;
@@ -61,16 +58,78 @@ public class Menus{
        class LibMenu extends BaseMenu{
        JMenu Lib;
        MenuItem Duplicates;
-       
+       popMenuDup DupWindow;
        LibMenu(JMenuBar menubar, Actions ActionHandler){
          super(ActionHandler);
+         DupWindow = new popMenuDup(ActionHandler);
          Lib = new JMenu("Library");
          Duplicates = new MenuItem("Check Duplicates",this.ActionHandler);
          Lib.add(Duplicates);
          Lib.setEnabled(false);
          menubar.add(Lib);
+         
         
         }
+       
+       class popMenuDup{
+            JFrame frame;
+            JButton Delete;
+            //JCheckBox Delete;'
+            JLabel Label;
+            JTextField DuplicationInfo;
+            JPanel Panel;
+            JScrollPane DuplicationList;
+            BoxLayout boxlayout;
+            popMenuDup(Actions ActionHandler){
+                frame=new JFrame("Duplication Check");
+                frame.setSize(400, 800); 
+                
+                
+                Panel= new JPanel();
+                boxlayout = new BoxLayout(Panel, BoxLayout.Y_AXIS);
+                Panel.setLayout(boxlayout);
+                
+                DuplicationList = new JScrollPane();
+                List<String> myList = new ArrayList<>(10);
+                for (int index = 0; index < 20; index++) {
+                myList.add("List Item " + index);
+                }
+                final JList<String> list = new JList<String>(myList.toArray(new String[myList.size()]));
+                list.setLayoutOrientation(JList.VERTICAL);
+                //DuplicationList.setViewportView(list);
+                
+                
+                DuplicationList.setVisible(true);
+                DuplicationList.setPreferredSize(new Dimension(400, 600));
+                Label=new JLabel("Number of Duplicates Found");
+                Label.setPreferredSize(new Dimension(400, 50));
+                DuplicationInfo=new JTextField();
+                DuplicationInfo.setPreferredSize(new Dimension(400, 100));
+                Delete = new JButton("Delete?");
+                Delete.setPreferredSize(new Dimension(400, 50));
+                Delete.addActionListener(ActionHandler);
+                //Delete = new JCheckBox("Delete");
+                //Delete.setSelected(false);
+                Panel.add(DuplicationList);
+                Panel.add(Label);
+                Panel.add(DuplicationInfo);
+                //Panel.add(Run);
+                Panel.add(Delete);
+                frame.add(Panel);
+                
+                
+            }
+            public void show(){
+                this.frame.setVisible(true);
+            }
+            public void close(){
+                this.frame.setVisible(false);
+            }
+       
+       }
+       
+       
+ 
  }             
        class HelpMenu extends BaseMenu{
         JMenu Help;

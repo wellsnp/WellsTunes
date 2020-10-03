@@ -19,7 +19,7 @@ public class FolderInfo {
     public String path;
     public File[] Artists;
     FileFilters FileFilter;
-    DuplicationDetection DupDetector;
+    public DuplicationDetection DupDetector;
     public int Albums;
     public int Songs;
     public int RandomSongs;
@@ -178,25 +178,34 @@ public class FolderInfo {
               for( File CurrentAlbum:AlbumList){
                   System.out.println("Current Album: "+CurrentAlbum.getName());
                   File[] TheseSongs=ListSongs(CurrentAlbum);
-                  DupDetector.DuplicationList.addAll(DupDetector.FindDuplicatedSongs(TheseSongs));
+                  List<File> List = DupDetector.FindDuplicatedSongs(TheseSongs);
+                  DupDetector.DuplicationList.addAll(List);
+                  for( File CurrentFile:List){
+                    DupDetector.DuplicationListNames.add(CurrentFile.getName());
+                  }
               }
                     
         }
-        DeleteDuplication();
+        //DeleteDuplication();
        System.out.println(this.DupDetector.dupcnt);
 }
     
     public void DeleteDuplication() throws IOException{
+        //int Cnt=0;
         for(File CurrentSong:DupDetector.DuplicationList){
+           
                 if(CurrentSong.delete()){
                  //System.out.println("Deleted the file: " + CurrentSong.getName());
                  DupDetector.dupcnt-=1;
+                 
                 }else{
                  System.out.println("Failed to delete the file: "+ CurrentSong.getAbsolutePath());
                 }
-                
-                    
+                 //Cnt=Cnt+1;
+                 
         }
+        DupDetector.DuplicationListNames.clear();
+        DupDetector.DuplicationList.clear();
        //System.out.println(this.DupDetector.dupcnt);
 }
 }

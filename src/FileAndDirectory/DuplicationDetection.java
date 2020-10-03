@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 public class DuplicationDetection {
-     int dupcnt;
-     List<File> DuplicationList;
+     public int dupcnt;
+     public List<File> DuplicationList;
+     public List<String> DuplicationListNames;
      //Class Constuctor
      DuplicationDetection(){
         dupcnt=0;
         DuplicationList = new ArrayList<>();
+        DuplicationListNames = new ArrayList<>();
      }
      
      public List<File> FindDuplicatedSongs(File[] Songs) throws IOException{
@@ -39,6 +41,7 @@ public class DuplicationDetection {
                          if(FileUtils.contentEquals(Songs[j], Songs[k])){
                              cnt=cnt+1;
                              DuplicatedSongList.add(Songs[k]);
+                             //DuplicationListNames.add(Songs[k].getName())
                             }
                     }
                 }  
