@@ -16,28 +16,26 @@ import java.util.List;
  * @author wellsnp
  */
 public class FolderInfo {
-    public String path;
-    public File[] Artists;
-    FileFilters FileFilter;
-    public DuplicationDetection DupDetector;
-    public int Albums;
-    public int Songs;
-    public int RandomSongs;
-    public int mp3s;
-    public int wavs;
-   
+    private String path;
+    private File[] Artists;
+    private FileFilters FileFilter;
+    private DuplicationDetection DupDetector;
+    private int Albums;
+    private int Songs;
+    private int RandomSongs;
+    private int mp3s;
+    private int wavs;
     
       public FolderInfo(){
-      //Default Constructor
-      //Do Nothing
-      
+        //Default Constructor
+        //Do Nothing
       }  
 
-      public final void setPath(String inputStr){
+    public final void setPath(String inputStr){
          this.path=inputStr;
          this.initalize();
       }
-      public void initalize(){
+    public void initalize(){
         this.Artists= new File(this.path).listFiles(File::isDirectory);
         this.FileFilter = new FileFilters();
         this.DupDetector = new DuplicationDetection();
@@ -49,20 +47,20 @@ public class FolderInfo {
         this.printNumSongs();
       }
               
-      private void printPath(){
+    private void printPath(){
          System.out.println(this.path);
       }
-      public final void printNumArtists(){
+    public final void printNumArtists(){
          System.out.print("Path Contains: ");
          System.out.print(this.Artists.length);
          System.out.println(" Artists ");
       } 
-      public final void printNumAlbums(){
+    public final void printNumAlbums(){
          System.out.print("Path Contains: ");
          System.out.print(this.Albums);
          System.out.println(" Albums ");
       }
-      public final void printNumSongs(){
+    public final void printNumSongs(){
          System.out.print("Path Contains: ");
          System.out.print(this.Songs);
          System.out.println(" Songs In Albums");
@@ -76,7 +74,7 @@ public class FolderInfo {
          System.out.print(this.wavs);
          System.out.println(" .wav files");
       } 
-      public final void printFileArray(File[] Files){
+    public final void printFileArray(File[] Files){
             for( File FileCnt:Files){
                 System.out.println("\t"+FileCnt.getName());
             
@@ -100,6 +98,7 @@ public class FolderInfo {
            //}    
         }    
     //Designed to Count all the Albums within The Artist Folders 
+    
     private void cntAlbums(){
                     for( File ArtistCnt:Artists){
                         File[] Albums = new File(ArtistCnt.getAbsolutePath()).listFiles(File::isDirectory);
@@ -135,12 +134,7 @@ public class FolderInfo {
                         }
                         
                     }          
-    public void ListAllArtistAlbums(){
-           for( File ArtistCnt:Artists){
-               //System.out.println(ArtistCnt);
-               printAlbums(ArtistCnt);
-           }
-    }
+    
     public List<File> FindArtists(String FirstLetter){
             int cnt=0;
             List<File>  ArtistList = new ArrayList<>();
@@ -154,20 +148,27 @@ public class FolderInfo {
                     return ArtistList;
     }
     //Return a File Array The Albums of An Artist
-    public File[] ListAlbums(File Artist){
-            File[] Albums = new File(Artist.getAbsolutePath()).listFiles(File::isDirectory);
-            return Albums;
-            
-        }    
+    
+    public void ListAllArtistAlbums(){
+           for( File ArtistCnt:Artists){
+               //System.out.println(ArtistCnt);
+               printAlbums(ArtistCnt);
+           }
+    }
+    public File[] ListDir(File Path){
+            File[] Dir = new File(Path.getAbsolutePath()).listFiles(File::isDirectory);
+            return Dir;
+    }
     //Return a File Array of Songs in An Album
     public File[] ListSongs(File Album){
             File[] Songs = new File(Album.getAbsolutePath()).listFiles(File::isFile);
             return Songs;
          
     }    
+    
     public void RunGlobalDuplicationCheck() throws IOException{
         for(File CurrentArtist:Artists){
-            File[] AlbumList = ListAlbums(CurrentArtist);
+            File[] AlbumList = ListDir(CurrentArtist);
               for( File CurrentAlbum:AlbumList){
                   System.out.println("Current Album: "+CurrentAlbum.getName());
                   File[] TheseSongs=ListSongs(CurrentAlbum);
@@ -194,5 +195,28 @@ public class FolderInfo {
         DupDetector.clearDupListNames();
         DupDetector.clearDupList();
 }
+    
+    
+    public File[] getArtists() {
+        return Artists;
+    }
+    public String getPath() {
+        return path;
+    }
+    public int getAlbums() {
+        return Albums;
+    }
+    public int getSongs() {
+        return Songs;
+    }
+    public int getMp3s() {
+        return mp3s;
+    }
+    public int getWavs() {
+        return wavs;
+    }
+    public DuplicationDetection getDupDetector() {
+        return DupDetector;
+    }
 }
 

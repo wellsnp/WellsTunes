@@ -23,8 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public final class WellsTunesGUI {
         FolderInfo Folders;
-        ArtistList ArtistList;
-        AlbumList  AlbumList;
+        AAList ArtistList;
+        AAList AlbumList;
         SongList   SongList;
         AudioMedia MP3Player;
         Menus Menu;
@@ -40,6 +40,7 @@ public final class WellsTunesGUI {
         WellsTunesGUI(){
         InitGUIThread = new InitThread();
         CheckLibThread = new LibCheckThread(); 
+        CheckLibThread.setPriority(Thread.MAX_PRIORITY);
         MP3Player = new AudioMedia();
         Folders = new FolderInfo();
         Panels = new Panels();
@@ -48,8 +49,8 @@ public final class WellsTunesGUI {
         ActionHandler = new Actions(this);
         //These Objects Need To Be Registered With The ActionHandler. 
         SongList = new SongList(ActionHandler);
-        AlbumList = new AlbumList(ActionHandler);
-        ArtistList = new ArtistList(ActionHandler);
+        AlbumList = new AAList(ActionHandler);
+        ArtistList = new AAList(ActionHandler);
         Menu = new Menus(ActionHandler);
         Buttons = new Buttons(ActionHandler);  
         Search = new LibraryFilter(ActionHandler);
@@ -166,21 +167,26 @@ public final class WellsTunesGUI {
                     BufferedReader br = new BufferedReader(new FileReader(tempDir)); 
                     String path=br.readLine();
                     Folders.setPath(path);
-                    Thread.sleep(300); 
+                    //Thread.sleep(300); 
                 }
-               if(Folders.path!=null){
+               if(Folders.getPath()!=null){
                         
-                        String Num = Integer.toString(Folders.Artists.length);
+                        String Num = Integer.toString(Folders.getArtists().length);
                         
                         Boxes.ArtistInfo.Field.setText(Num);
-                        Boxes.AlbumInfo.Field.setText(Integer.toString(Folders.Albums));
+                        Boxes.AlbumInfo.Field.setText(Integer.toString(Folders.getAlbums()));
                         //Library is the Second component and Java is a zero based index code. 
                         Menu.menubar.getComponent(1).setEnabled(true);
                         Menu.menubar.getComponent(2).setEnabled(true);
-                        ArtistList.UpdateList(Folders);
+                        System.out.println(Folders.getPath());
+                        
+                        //ArtistList.UpdateList(new File(Folders.getPath()));
+                        //ArtistList.UpdateList(new File(Folders.getPath()));
+                        //frame.repaint();
+                        ArtistList.UpdateList(new File(Folders.getPath()));
                         frame.repaint();
                         
-                        
+                      
                         break;
                 }else{
                         Thread.sleep(300);
@@ -193,6 +199,7 @@ public final class WellsTunesGUI {
 
     public final class InitThread extends Thread {
 
+    @Override
     public void run(){
         try {
             initGUI();
@@ -204,10 +211,12 @@ public final class WellsTunesGUI {
   }
     public final class LibCheckThread extends Thread {
 
+    @Override
     public void run(){
         try {
-            checkMusicLib();
             System.out.println("Lib Check Is Running");
+            checkMusicLib();
+            
         } catch (InterruptedException | IOException ex) {
             Logger.getLogger(WellsTunesGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

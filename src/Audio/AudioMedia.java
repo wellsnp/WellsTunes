@@ -17,49 +17,39 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.embed.swing.JFXPanel;
 public class AudioMedia {
-       public Media Song; 
-       public SongMedia MP3Media;
-       //private ObservableList<Media> mediaList;
-       //private ObservableList<String> SongNames;
+       
+       private SongMedia MP3Media;
        private String CurrentSongName;
-
- 
-       public boolean status;
-       public MediaPlayer mediaPlayer;
-        public AudioMedia(){
+       private MediaPlayer mediaPlayer;
+        
+       public AudioMedia(){
           //JFXPanel Is only here to make this work!
           //https://stackoverflow.com/questions/6045384/playing-mp3-and-wav-in-java
-          status=false;
-          MP3Media = new SongMedia(); 
-          //this.mediaList = FXCollections.observableArrayList();  
+          //status=false;
+          MP3Media = new SongMedia();     
           final JFXPanel fxPanel = new JFXPanel();
-         }
+       }
 
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }     
     public void setMedia(SongMedia media) {
         this.MP3Media = media;
+    }
+    public SongMedia getMedia() {
+        return this.MP3Media ;
     }
     public void clearMedia() {
         this.MP3Media.getMediaList().clear();
         this.MP3Media.getMediaName().clear();
     }
-//    public void setSongNames(ObservableList<String> SongNames) {
-//        this.SongNames = SongNames;
-//    }
+
        
     public String getCurrentSongName() {
         return CurrentSongName;
     }       
-        public void addSong(File Song){
-          this.status=true;
-          this.Song= new Media(Song.toURI().toString());
-          this.mediaPlayer=new MediaPlayer(this.Song);
-          
-        }
-        public void playSong(){
-              mediaPlayer.play();
-        }
 
-        public void playSongList(){
+    public void playSongList(){
               if (this.MP3Media.getMediaList().isEmpty()){
                   System.out.println("No Media List");
                   //this.mediaPlayer.dispose();
@@ -85,8 +75,7 @@ public class AudioMedia {
                     }
               });
         }
-        
-        public void repeatSong(){
+    public void repeatSong(){
             
               this.mediaPlayer = new MediaPlayer(MP3Media.getMediaList().get(0));
               this.CurrentSongName=MP3Media.getMediaName().get(0);
@@ -103,9 +92,9 @@ public class AudioMedia {
         public void pauseSong(){
                this.mediaPlayer.pause();
         }
-        public void setStatus(boolean tf){
-              this.status=tf;
-        }
+//        public void setStatus(boolean tf){
+//              this.status=tf;
+//        }
 }
     
 

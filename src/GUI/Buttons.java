@@ -5,12 +5,9 @@
  */
 package GUI;
 
-import Audio.AudioMedia;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
-import java.awt.event.*;
-import javax.swing.JToggleButton.ToggleButtonModel;
 
 /**
  *
@@ -23,10 +20,9 @@ public class Buttons  {
     JButton PAUSE;
     TristateButton REPEAT;
     JToggleButton SHUFFLE;
-    AudioMedia MP3Player;
-    Menus Menus;
+    
     public Buttons(Actions ActionHandler){
-    this.MP3Player=MP3Player;
+    
     
     STOP = this.initButton("STOP",ActionHandler);
     PLAY = this.initButton("PLAY",ActionHandler);

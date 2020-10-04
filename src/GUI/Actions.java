@@ -7,19 +7,17 @@ package GUI;
 
 import Audio.mp3tags;
 import GUI.TristateButton.TristateState;
+import com.mpatric.mp3agic.NotSupportedException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,92 +61,86 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
 //Action Choices
     @Override
     public void actionPerformed(ActionEvent e) {
-        //row new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-
-                    //System.out.println("Item clicked: "+e.getActionCommand());    
-                    Object choice = e.getSource();
-                    if (choice.equals(App.Menu.File.Quit)) {
-                      System.exit(0);
-                    }
-                    if(choice.equals(App.Menu.File.MusicPath)){
-                        try {
-                            this.handelPath();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    if(choice.equals(App.Menu.Lib.Tags) & (App.Folders.path!=null)){
-                        
-                        TaggList tracks=App.SongList.getTrackTag();
-                        TaggList albums=App.SongList.getAlbumTag();
-                        TaggList artists=App.SongList.getArtistTag();
-                        DefaultListModel<String> songs = App.SongList.getSongTag();
-                        //TaggList tracks=App.SongList.getTrackTag();
-                        //TaggList tracks=App.SongList.getTrackTag();
-                        App.Menu.Lib.TagWindow.TrackNum.LoadTable(tracks);
-                        App.Menu.Lib.TagWindow.SongName.LoadTable(songs); 
-                        App.Menu.Lib.TagWindow.AlbumName.LoadTable(albums); 
-                        App.Menu.Lib.TagWindow.ArtistName.LoadTable(artists); 
-                        App.Menu.Lib.TagWindow.show();
-                        
-                        
-                        //App.Menu.Lib.TagWindow.Frame.repaint();
-                    }
-                    
-                    if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
-                        try {
-                            this.handelDupCheck();     
-                        } catch (IOException ex) {
-                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    if(choice.equals(App.Menu.Lib.DupWindow.Button) & (App.Folders.path!=null)){
-                        try {
-                            this.handelDupDelete();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    if((choice.equals(App.Menu.Player.Play)) & (App.Folders.path!=null)){
-                        this.handelPlayButtonMenu();
-                      
-                    }
-                    if((choice.equals(App.Menu.Player.Stop)) & (App.Folders.path!=null)){
-                        this.handelStop();
-                    }
-                    if((choice.equals(App.Menu.Player.Pause)) & (App.Folders.path!=null)){
-                        this.handelPause();
-                    }
-                    if(choice.equals(App.Buttons.STOP)){
-                        this.handelStop();
-                    }
-                    if(choice.equals(App.Buttons.PLAY)){
-                        this.handelPlayButtonMenu();
-                        
-                    }
-                    if(choice.equals(App.Buttons.PAUSE)){
-                        this.handelPause();
-                    }
-                    if(choice.equals(App.Search.SearchBox)){
-                        System.out.println("Search Enter");
-                        if(App.Search.AlbumName.isSelected()){
-                            App.SongList.UpdateList(App.Search.searchAlbums(App.Folders));
-                        }
-                        if(App.Search.ArtistName.isSelected()){
-                            App.SongList.UpdateList(App.Search.searchArtists(App.Folders));
-                        }
-                        if(App.Search.SongName.isSelected()){
-                            App.SongList.UpdateList(App.Search.searchSongs(App.Folders));
-                        }
-                    }
-                    else{
-                        System.out.println("Item clicked: "+e.getActionCommand()); 
-                    }
-                        
+        Object choice = e.getSource();
+        if (choice.equals(App.Menu.File.Quit)) {
+            System.exit(0);
+        }
+        if(choice.equals(App.Menu.File.MusicPath)){
+            try {
+                this.handelPath();
+            } catch (IOException ex) {
+                Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (App.Folders.getPath() != null) {
+            // <editor-fold defaultstate="collapsed" desc=" Long List of Actions ">
+            if (choice.equals(App.Menu.Lib.Tags)) {
+                
+                TaggList tracks = App.SongList.getTrackTag();
+                TaggList albums = App.SongList.getAlbumTag();
+                TaggList artists = App.SongList.getArtistTag();
+                DefaultListModel<String> songs = App.SongList.getSongTag();
+                App.Menu.Lib.TagWindow.TrackNum.LoadTable(tracks);
+                App.Menu.Lib.TagWindow.SongName.LoadTable(songs);
+                App.Menu.Lib.TagWindow.AlbumName.LoadTable(albums);
+                App.Menu.Lib.TagWindow.ArtistName.LoadTable(artists);
+                App.Menu.Lib.TagWindow.show();
+            }
+            
+            if (choice.equals(App.Menu.Lib.Duplicates)) {
+                try {
+                    this.handelDupCheck();
+                } catch (IOException ex) {
+                    Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            if (choice.equals(App.Menu.Lib.DupWindow.Button)) {
+                try {
+                    this.handelDupDelete();
+                } catch (IOException ex) {
+                    Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (choice.equals(App.Menu.Player.Play)) {
+                this.handelPlayButtonMenu();
+                
+            }
+            if (choice.equals(App.Menu.Player.Stop)) {
+                this.handelStop();
+            }
+            if (choice.equals(App.Menu.Player.Pause)) {
+                this.handelPause();
+            }
+            if (choice.equals(App.Buttons.STOP)) {
+                this.handelStop();
+            }
+            if (choice.equals(App.Buttons.PLAY)) {
+                this.handelPlayButtonMenu();
+                
+            }
+            if (choice.equals(App.Buttons.PAUSE)) {
+                this.handelPause();
+            }
+            if (choice.equals(App.Search.SearchBox)) {
+                System.out.println("Search Enter");
+                if (App.Search.AlbumName.isSelected()) {
+                    App.SongList.UpdateList(App.Search.searchAlbums(App.Folders));
+                }
+                if (App.Search.ArtistName.isSelected()) {
+                    App.SongList.UpdateList(App.Search.searchArtists(App.Folders));
+                }
+                if (App.Search.SongName.isSelected()) {
+                    App.SongList.UpdateList(App.Search.searchSongs(App.Folders));
+                }
+            } else {
+                System.out.println("Item clicked: " + e.getActionCommand());
+            }
+
+// </editor-fold>
+        }
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -156,27 +148,23 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
         int clickCnt=e.getClickCount();
             
         if(choice.equals(App.SongList.list)) {
-        System.out.println("Song List");
+        //System.out.println("Song List");
                 this.handelSongs(clickCnt);
         }
-         if(choice.equals(App.AlbumList.list)) {
-                System.out.println("Album List");
+        if(choice.equals(App.AlbumList.list)) {
+        //        System.out.println("Album List");
                 this.handelAlbums(clickCnt);
         }
-         
-          if(choice.equals(App.ArtistList.list)) {
-        //System.out.println("Artists List");
+        if(choice.equals(App.ArtistList.list)) {
           this.handelArtists(clickCnt);
         }
           
-            if(choice.equals(App.Buttons.REPEAT)) {
-        //System.out.println("Artists List");
-            App.Buttons.REPEAT.iterateState();
-            
+        if(choice.equals(App.Buttons.REPEAT)) {
+            App.Buttons.REPEAT.iterateState();   
         }
-        
-        
+
         } 
+    
     @Override
     public void itemStateChanged(ItemEvent e) {
        Object choice = e.getItem();
@@ -193,6 +181,46 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 }
         }
     }
+        //JTable (Tagg Editor)
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        
+            Object choice = e.getSource();
+            System.out.println(choice.getClass());
+            //System.out.println("Fuck Song");
+            if(choice.equals(App.Menu.Lib.TagWindow.SongName.getCellSelectionModel())){
+                TaggIndex=App.Menu.Lib.TagWindow.SongName.getSelectedRow();
+                
+                
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum.getCellSelectionModel())){
+                TaggIndex= App.Menu.Lib.TagWindow.TrackNum.getSelectedRow();
+                //System.out.println(Arrays.toString(index));
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName.getCellSelectionModel())){
+                TaggIndex = App.Menu.Lib.TagWindow.AlbumName.getSelectedRow();
+                //System.out.println(Arrays.toString(index));
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName.getCellSelectionModel())){
+                TaggIndex = App.Menu.Lib.TagWindow.ArtistName.getSelectedRow();
+                //System.out.println(index);
+            }
+        
+       
+    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+   
+    @Override
+    public void editingStopped(ChangeEvent e) {
+            try {
+                handelTagEdit(e.getSource());
+            } catch (IOException | NotSupportedException ex) {
+                Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+          }
+    
+    
 //Action Methods  
                //Menus Methods
                 public void handelPath() throws IOException, InterruptedException{
@@ -217,14 +245,13 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 
                 
                 }
-                
                 public void handelDupCheck() throws IOException{
                     
                     App.Folders.RunGlobalDuplicationCheck();
                     
-                    int NumDuplicates = App.Folders.DupDetector.getDupcnt();
+                    int NumDuplicates = App.Folders.getDupDetector().getDupcnt();
                     //List<File> Duplicates = App.Folders.DupDetector.DuplicationList;
-                    List<String>  Names = App.Folders.DupDetector.getDuplicationListNames(); 
+                    List<String>  Names = App.Folders.getDupDetector().getDuplicationListNames(); 
                     final JList<String> list = new JList<String>(Names.toArray(new String[Names.size()]));
                     App.Menu.Lib.DupWindow.TextField.setText(String.valueOf(NumDuplicates));
                     if(NumDuplicates>0){
@@ -243,8 +270,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
                             this.handelRepeatOne();
                     }else if (App.Buttons.REPEAT.getState().equals(TristateState.SELECTED)){
-                        if(App.MP3Player.mediaPlayer!=null){
-                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
+                        if(App.MP3Player.getMediaPlayer()!=null){
+                                Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus(); 
                                  if(CurrentStatus!=Status.PLAYING){
                                             this.handelRepeatAll();
                                     }    
@@ -253,8 +280,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                         }
                     }else{
                         
-                            if(App.MP3Player.mediaPlayer!=null){
-                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus(); 
+                            if(App.MP3Player.getMediaPlayer()!=null){
+                                Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus(); 
                                     if(CurrentStatus!=Status.PLAYING){
                                             this.handelPlay();
                                     }                                       
@@ -265,25 +292,23 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 
                 }
                 //Player Methods
-                public void handelPlay(){
-                        
-                        if(App.MP3Player.mediaPlayer!=null){
-                        Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                public void handelPlay(){        
+                        if(App.MP3Player.getMediaPlayer()!=null){
+                        Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                         System.out.println(CurrentStatus);
                             if(CurrentStatus==Status.STOPPED){
-                                App.MP3Player.mediaPlayer.dispose();
+                                App.MP3Player.getMediaPlayer().dispose();
                                 App.MP3Player.clearMedia();
                                 //App.SongList.UpdateList(App.SongList.CurrentAlbum);
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
-                                
                                 App.MP3Player.playSongList();
                             }  
                             if(CurrentStatus==Status.PAUSED){
-                                App.MP3Player.mediaPlayer.play();
+                                App.MP3Player.getMediaPlayer().play();
                             } 
                             if(CurrentStatus==Status.PLAYING || CurrentStatus==Status.UNKNOWN){
                                 System.out.println("Playing");
-                                App.MP3Player.mediaPlayer.dispose();
+                                App.MP3Player.getMediaPlayer().dispose();
                                 App.MP3Player.clearMedia();
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                
@@ -294,19 +319,17 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                                 //App.MP3Player.clearMedia();
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.playSongList(); 
-                                
-                                
                                 timer.schedule(tasker, 0 , 200);
                                 }
                 }
                 public void handelPause(){
-                    Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                    Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                         if(CurrentStatus==Status.PLAYING){
                             App.MP3Player.pauseSong();
                         }      
                 }
                 public void handelStop(){
-                    Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                    Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                         System.out.println(CurrentStatus);
                         if(CurrentStatus==Status.PLAYING){
                             App.MP3Player.stopSong();
@@ -324,11 +347,11 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                             @Override
                             public void run() {
                                 //System.out.println("Repeat Tasker");
-                                Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                                Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                                 
-                                       if(App.MP3Player.MP3Media.getMediaList().isEmpty()){
+                                       if(App.MP3Player.getMedia().getMediaList().isEmpty()){
                                            timer.cancel();
-                                           App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
+                                           App.MP3Player.getMediaPlayer().setOnEndOfMedia(new Runnable() {
                                                 @Override
                                                 public void run() { 
                                                     System.out.println("Play Again!");
@@ -350,13 +373,13 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 public void handelRepeatOne(){
                     //System.out.println("HandelReapeatOne");
                     if(App.Buttons.REPEAT.getState().equals(TristateState.INDETERMINATE)){
-                        if(App.MP3Player.mediaPlayer!=null){
+                        if(App.MP3Player.getMediaPlayer()!=null){
                             
-                        Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                        Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                         //System.out.println(CurrentStatus);
                             
                             if(CurrentStatus==Status.PAUSED){
-                                App.MP3Player.mediaPlayer.play();
+                                App.MP3Player.getMediaPlayer().play();
                             }else{//PLAYING OR STOPPED
                                 
                                 App.MP3Player.clearMedia();
@@ -368,20 +391,20 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                                     App.SongList.UpdateListFromSelection(App.SongList.getCurrentSongIndex());
                                     App.MP3Player.setMedia(App.SongList.buildSongList());
                                 }
-                                App.MP3Player.mediaPlayer.dispose();
+                                App.MP3Player.getMediaPlayer().dispose();
                                 App.MP3Player.repeatSong();
-                                App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
+                                App.MP3Player.getMediaPlayer().setOnEndOfMedia(new Runnable() {
                                 @Override
                                     public void run() {
                                         handelRepeatOne();
                                     }
                                 }); 
                             } 
-                        }else{//MP3Player.mediaPlayer is Not Null
+                        }else{//MP3Player.getMediaPlayer() is Not Null
                                 App.SongList.UpdateListFromSelection(App.SongList.getCurrentSongIndex());
                                 App.MP3Player.setMedia(App.SongList.buildSongList());
                                 App.MP3Player.repeatSong();
-                                App.MP3Player.mediaPlayer.setOnEndOfMedia(new Runnable() {
+                                App.MP3Player.getMediaPlayer().setOnEndOfMedia(new Runnable() {
                                 @Override
                                     public void run() {
                                         handelRepeatOne();
@@ -415,8 +438,8 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                     if (clicks == 2) {
                         int selectedItem = (int) App.SongList.list.getSelectedIndex();
                  
-                        if(App.MP3Player.mediaPlayer!=null){
-                            Status CurrentStatus=App.MP3Player.mediaPlayer.getStatus();
+                        if(App.MP3Player.getMediaPlayer()!=null){
+                            Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
                             System.out.println("Handel Songs Player Status");
                             System.out.println(CurrentStatus);
 
@@ -449,68 +472,14 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 public void updatePB(){
                 //Function for updating Current Song Time For Progress Bar
                 //Should Be Called In A Time Task event to update periodically.
-                    App.PB.setCurrentTime(App.MP3Player.mediaPlayer.getCurrentTime().toSeconds());
-                    App.PB.setSongLength(App.MP3Player.mediaPlayer.getMedia().getDuration().toSeconds());
+                    App.PB.setCurrentTime(App.MP3Player.getMediaPlayer().getCurrentTime().toSeconds());
+                    App.PB.setSongLength(App.MP3Player.getMediaPlayer().getMedia().getDuration().toSeconds());
                     App.PB.setString(App.MP3Player.getCurrentSongName());
                     //System.out.println(App.PB.SongLength);
                     //System.out.println(App.PB.CurrentTime);
                     App.PB.UpdatePB();
                 }
-
-    /////More Mouse Stuff Needed For Abstact Implementation
-    @Override
-    public void mousePressed(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //JTable (Tagg Editor)
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        
-            Object choice = e.getSource();
-            System.out.println(choice.getClass());
-            //System.out.println("Fuck Song");
-            if(choice.equals(App.Menu.Lib.TagWindow.SongName.getCellSelectionModel())){
-                TaggIndex=App.Menu.Lib.TagWindow.SongName.getSelectedRow();
-                
-                
-            }
-            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum.getCellSelectionModel())){
-                TaggIndex= App.Menu.Lib.TagWindow.TrackNum.getSelectedRow();
-                //System.out.println(Arrays.toString(index));
-            }
-            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName.getCellSelectionModel())){
-                TaggIndex = App.Menu.Lib.TagWindow.AlbumName.getSelectedRow();
-                //System.out.println(Arrays.toString(index));
-            }
-            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName.getCellSelectionModel())){
-                TaggIndex = App.Menu.Lib.TagWindow.ArtistName.getSelectedRow();
-                //System.out.println(index);
-            }
-        
-       
-    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-   
-    
-
-    private void handelTagEdit(Object choice){
+                private void handelTagEdit(Object choice) throws IOException, NotSupportedException{
             //System.out.println(choice.getClass());
         
             TableCellEditor Songs = App.Menu.Lib.TagWindow.SongName.getCellEditor(TaggIndex, 0);
@@ -554,24 +523,37 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
             
     
     }
-    
-    @Override
-    public void editingStopped(ChangeEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
-        handelTagEdit(e.getSource());
-        
-          }
-        
-    
-    
 
+
+// Unimplemented Abstract Action Events
     @Override
     public void editingCanceled(ChangeEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     
-    
-    
+
     }
+    
+   
+    
+    /////More Mouse Stuff Needed For Abstact Implementation
+    @Override
+    public void mousePressed(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }                
      

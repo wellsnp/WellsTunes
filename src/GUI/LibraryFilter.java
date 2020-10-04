@@ -57,8 +57,8 @@ public class LibraryFilter {
         Matcher matcher; 
        
                 ArrayList FilteredScrollListFiles = new ArrayList<>();
-                for(File CurrentArtist:Folders.Artists){
-                        File[] Albums=Folders.ListAlbums(CurrentArtist);
+                for(File CurrentArtist:Folders.getArtists()){
+                        File[] Albums=Folders.ListDir(CurrentArtist);
                         for (File CurrentAlbum:Albums){
                             String CurrentName = CurrentAlbum.getName();
                              matcher=pattern.matcher(CurrentName);
@@ -80,11 +80,11 @@ public class LibraryFilter {
         Matcher matcher; 
        
                 ArrayList FilteredScrollListFiles = new ArrayList<>();
-                for(File CurrentArtist:Folders.Artists){    
+                for(File CurrentArtist:Folders.getArtists()){    
                     String CurrentName = CurrentArtist.getName();
                     matcher=pattern.matcher(CurrentName);
                     if(matcher.find()){
-                        File[] Albums=Folders.ListAlbums(CurrentArtist);
+                        File[] Albums=Folders.ListDir(CurrentArtist);
                         for (File CurrentAlbum:Albums){
                             File[] Songs=Folders.ListSongs(CurrentAlbum);
                             for(File CurrentSong:Songs){
@@ -100,8 +100,8 @@ public class LibraryFilter {
         Matcher matcher; 
        
                 ArrayList FilteredScrollListFiles = new ArrayList<>();
-                for(File CurrentArtist:Folders.Artists){
-                        File[] Albums=Folders.ListAlbums(CurrentArtist);
+                for(File CurrentArtist:Folders.getArtists()){
+                        File[] Albums=Folders.ListDir(CurrentArtist);
                         for (File CurrentAlbum:Albums){
                                  File[] Songs=Folders.ListSongs(CurrentAlbum);
                                  for(File CurrentSong:Songs){

@@ -27,7 +27,7 @@ public class BaseList extends JScrollPane{
     
     private List<String> ScrollListNames;
     private List<File> ScrollListFiles;
-    private Actions ActionHandler; 
+    //private Actions ActionHandler; 
     protected JList<String> list;
     protected DefaultListModel<String> listmodel;
     private Color Even;

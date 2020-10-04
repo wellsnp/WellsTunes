@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.io.File;
 import FileAndDirectory.FolderInfo;
 
-public class AlbumList extends BaseList{
-    
-    public AlbumList(Actions ActionHandler){
+public class AAList extends BaseList{
+    //AAList is Artist&Albums List: Refactored Code To Remove Effectively Duplicate ArtistList and AlbumList;
+    public AAList(Actions ActionHandler){
             super(ActionHandler);
     }
     
@@ -24,14 +24,16 @@ public class AlbumList extends BaseList{
  public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Albums of Artist
-        File[] Albums=Folders.ListAlbums(InputFile);
+        File[] Dir=Folders.ListDir(InputFile);
         //this.ScrollListNames = new ArrayList<>();
         this.setScrollListFiles(new ArrayList<>());
-        listmodel.removeAllElements();
-        for(File CurrentAlbum:Albums){
-            //ScrollListNames.add(CurrentArtist.getName());
-            this.addToScrollListFiles(CurrentAlbum);    
-            listmodel.addElement(CurrentAlbum.getName());
+        if(!listmodel.isEmpty()){
+            listmodel.removeAllElements();
+        }
+        for(File CurrentDir:Dir){
+            
+            this.addToScrollListFiles(CurrentDir);    
+            listmodel.addElement(CurrentDir.getName());
         }
 
  }

@@ -5,15 +5,7 @@
  */
 package GUI;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -34,11 +26,11 @@ public class TaggList extends BaseList{
     }
 
 
-             public void setTLLM(TaggList TL){
-              int num = TL.listmodel.getSize();
-              for( int i = 0; i<num; i++){
-                  this.listmodel.add(i, TL.listmodel.elementAt(i));
-          }
-    
-}
+//             public void setTLLM(TaggList TL){
+//              int num = TL.listmodel.getSize();
+//              for( int i = 0; i<num; i++){
+//                  this.listmodel.add(i, TL.listmodel.elementAt(i));
+//          }
+//    
+//}
 }
