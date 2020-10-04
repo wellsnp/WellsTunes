@@ -88,7 +88,7 @@ class  popMenuAlbumTags extends PopUpMenu{
           
           popMenuAlbumTags(Actions ActionHandler){
               super();
-              Frame.setSize(1200, 400);
+              Frame.setSize(1200, 1200);
               Frame.setTitle("Album Tags");
               boxlayout = new BoxLayout(Panel, BoxLayout.X_AXIS);
               Panel.setLayout(boxlayout);
@@ -96,13 +96,13 @@ class  popMenuAlbumTags extends PopUpMenu{
               //ScrollPane.add(TrackNum);
               
               TrackNum=new TaggTable(ActionHandler);
-              TrackNum.setPreferredSize(new Dimension(20,300));
+              TrackNum.setPreferredSize(new Dimension(20,1200));
               SongName=new TaggTable(ActionHandler);
-              SongName.setPreferredSize(new Dimension(320,300));
+              SongName.setPreferredSize(new Dimension(320,1200));
               AlbumName=new TaggTable(ActionHandler);
-              AlbumName.setPreferredSize(new Dimension(420,300));
+              AlbumName.setPreferredSize(new Dimension(420,1200));
               ArtistName=new TaggTable(ActionHandler);
-              ArtistName.setPreferredSize(new Dimension(420,300));
+              ArtistName.setPreferredSize(new Dimension(420,1200));
               
 //TrackNum.list.enableInputMethods(true);
              //SP=new JScrollPane();

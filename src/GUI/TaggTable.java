@@ -16,24 +16,32 @@ import javax.swing.table.JTableHeader;
  * @author wells
  */
 public class TaggTable extends JTable{
-    private final DefaultTableModel model;
+    private DefaultTableModel model;
+    //private DefaultTableModel mymodel;
     private final ListSelectionModel cellSelectionModel;
 
  
     TaggTable(Actions ActionHandler){
-      super(0,1);
+      super(1,1);
+      //this.model = (DefaultTableModel) new myTableModel(1,1);
+      
       this.model = (DefaultTableModel) getModel();
-      this.setCellSelectionEnabled(true);
+      
+      //this.setCellSelectionEnabled(true);
+      //this.setEnabled(false);
       this.cellSelectionModel=getSelectionModel();
       this.cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       this.cellSelectionModel.addListSelectionListener(ActionHandler);
-      this.addKeyListener(ActionHandler);
+      this.getDefaultEditor(String.class).addCellEditorListener(ActionHandler);
+      this.setModel(model);
+      this.setSelectionModel(cellSelectionModel);
       this.setTableHeader(null);
     }
     
     public void LoadTable(TaggList TL){
         this.model.setRowCount(0);
         int cnt=this.model.getRowCount();
+       
         System.out.println("Row Cnt");
         System.out.println(cnt);
         
@@ -59,3 +67,23 @@ public class TaggTable extends JTable{
     
     
 }
+
+// class myTableModel extends DefaultTableModel{
+//
+//           myTableModel(int row, int col){
+//            super(row,col);
+//    }
+//         myTableModel(Object[][] tableData, Object[] colNames){
+//            super(tableData, colNames);
+//    }
+//         @Override
+//         public boolean isCellEditable(int row,int cols)
+//
+//                         {
+//                            return true;
+//                                                }      
+// }
+
+
+
+

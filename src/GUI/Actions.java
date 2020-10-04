@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Audio.mp3tags;
 import GUI.TristateButton.TristateState;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,8 +30,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellEditor;
 
 
 /**
@@ -39,7 +43,7 @@ import javax.swing.event.ListSelectionListener;
  */
 
 
-public class Actions implements ActionListener, MouseListener, ItemListener, ListSelectionListener, KeyListener{
+public class Actions implements ActionListener, MouseListener, ItemListener, ListSelectionListener, CellEditorListener{
         WellsTunesGUI App;
         Timer timer;
         TimerTask tasker;
@@ -480,7 +484,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
         
             Object choice = e.getSource();
             System.out.println(choice.getClass());
-            System.out.println("Fuck Song");
+            //System.out.println("Fuck Song");
             if(choice.equals(App.Menu.Lib.TagWindow.SongName.getCellSelectionModel())){
                 TaggIndex=App.Menu.Lib.TagWindow.SongName.getSelectedRow();
                 
@@ -503,60 +507,71 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
     //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
+    
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//         Object choice = e.getSource();
-//          int key = e.getKeyCode();
-//          if(key== KeyEvent.VK_ENTER){
-//            if(choice.equals(App.Menu.Lib.TagWindow.SongName)){
-//                System.out.println("Song"); 
-//                
-//            
-//            }
-//            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum)){
-//                System.out.println("Track");
-//            }
-//            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName)){
-//                System.out.println("Album");
-//            }
-//            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName)){
-//                System.out.println("Artist");
-//            }
-//          }
+    private void handelTagEdit(Object choice){
+            //System.out.println(choice.getClass());
         
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    Object choice = e.getSource();
-    System.out.println(choice.getClass());
-          int key = e.getKeyCode();
-          if(key== KeyEvent.VK_ENTER){
-            if(choice.equals(App.Menu.Lib.TagWindow.SongName)){
+            TableCellEditor Songs = App.Menu.Lib.TagWindow.SongName.getCellEditor(TaggIndex, 0);
+            TableCellEditor Album = App.Menu.Lib.TagWindow.AlbumName.getCellEditor(TaggIndex, 0);
+            TableCellEditor Track = App.Menu.Lib.TagWindow.TrackNum.getCellEditor(TaggIndex, 0);
+            TableCellEditor Artist = App.Menu.Lib.TagWindow.ArtistName.getCellEditor(TaggIndex, 0);
+        
+            String SongName = App.Menu.Lib.TagWindow.SongName.getValueAt(TaggIndex, 0).toString();
+            String AlbumName = App.Menu.Lib.TagWindow.AlbumName.getValueAt(TaggIndex, 0).toString();
+            String TrackNum = App.Menu.Lib.TagWindow.TrackNum.getValueAt(TaggIndex, 0).toString();
+            String ArtistName = App.Menu.Lib.TagWindow.ArtistName.getValueAt(TaggIndex, 0).toString();
+            
+            File CurrentFile=App.SongList.getScrollListFiles(TaggIndex);
+            mp3tags tagger =  new mp3tags();
+            tagger.checkID3v2(CurrentFile);
+        
+            if(choice.equals(Songs)){
+                //if(App.Menu.Lib.TagWindow.SongName)
+                System.out.println("Cell is Done Editing");
                 System.out.println("Song"); 
-                
+                tagger.setSongName(SongName);
             
             }
-            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum)){
+            if(choice.equals(Track)){
+                System.out.println("Cell is Done Editing");
                 System.out.println("Track");
+                tagger.setTrackNumber(TrackNum);
             }
-            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName)){
+            if(choice.equals(Album)){
+                System.out.println("Cell is Done Editing");
                 System.out.println("Album");
+                tagger.setAlbumName(AlbumName);
             }
-            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName)){
+            if(choice.equals(Artist)){
+                System.out.println("Cell is Done Editing");
                 System.out.println("Artist");
+                tagger.setArtistName(ArtistName);
+                System.out.println(ArtistName);
             }
-           System.out.println("TagIndex");
-           System.out.println(TaggIndex);
+           tagger.UpdateTags(CurrentFile);
+            
+    
+    }
+    
+    @Override
+    public void editingStopped(ChangeEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        handelTagEdit(e.getSource());
+        
           }
         
+    
+    
+
+    @Override
+    public void editingCanceled(ChangeEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+    
+    
     }
 }                
      
