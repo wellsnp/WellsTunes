@@ -30,38 +30,51 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-
-public class SongList extends BaseList{
+//extends BaseList
+public class SongList {
     private File CurrentAlbum;
     private int CurrentSongIndex;
     private int[] ShuffleArray;
     private final mp3tags tagger;
-    private final TaggList AlbumTag;
-    private final TaggList GenreTag;
-    private final TaggList TrackTag;
-    private final TaggList LengthTag;
-    private final TaggList ArtistTag;
+    private final BaseList SongTag;
+    private final BaseList AlbumTag;
+    private final BaseList GenreTag;
+    private final BaseList TrackTag;
+    private final BaseList LengthTag;
+    private final BaseList ArtistTag;
     private ArrayList Songs;
     public SongList(Actions ActionHandler)
     {   
-        super(ActionHandler);
+        //super(ActionHandler);
         tagger =    new mp3tags();
-        AlbumTag =  new TaggList();
+        
+        SongTag =   new BaseList(ActionHandler);
+        SongTag.setPreferredSize(new Dimension (600,500));
+        SongTag.list.setCellRenderer(this.getRenderer());
+        AlbumTag =  new BaseList();
         AlbumTag.setPreferredSize(new Dimension (600,800));
-        GenreTag =  new TaggList();
-        TrackTag =  new TaggList();
+        AlbumTag.list.setCellRenderer(BaseList.getRenderer());
+        
+        GenreTag =   new BaseList();
+        
+        TrackTag =   new BaseList();
         TrackTag.setPreferredSize(new Dimension (95,800));
-        LengthTag = new TaggList();
+        TrackTag.list.setCellRenderer(BaseList.getRenderer());
+        
+        LengthTag =  new BaseList();
         LengthTag.setPreferredSize(new Dimension (95,800));
-        ArtistTag = new TaggList();
+        LengthTag.list.setCellRenderer(BaseList.getRenderer());
+        
+        ArtistTag =  new BaseList();
         ArtistTag.setPreferredSize(new Dimension (400,800));
-        ListCellRenderer<? super String> renderer = getRenderer();
-        this.setPreferredSize(new Dimension (600,500));
-        this.list.setCellRenderer(getRenderer());
+        ArtistTag.list.setCellRenderer(BaseList.getRenderer());
+        //ListCellRenderer<? super String> renderer = getRenderer();
+        //this.setPreferredSize(new Dimension (600,500));
+        //this.list.setCellRenderer(getRenderer());
         this.bindScrollBars();
     }
     
-    @Override
+
     public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Songs of Album
@@ -85,10 +98,10 @@ public class SongList extends BaseList{
     
     
         
-        setScrollListFiles(new ArrayList<>());
-        setScrollListNames(new ArrayList<>());
+        SongTag.setScrollListFiles(new ArrayList<>());
+        SongTag.setScrollListNames(new ArrayList<>());
         ShuffleArray = new int[Songs.length];
-        listmodel.removeAllElements();
+        SongTag.clearList();
         AlbumTag.clearList();
         GenreTag.clearList();
         ArtistTag.clearList();
@@ -102,25 +115,25 @@ public class SongList extends BaseList{
            System.out.println(ShuffleArray[n]);
            
            n++;        
-            this.addToScrollListFiles(CurrentSong);
+            SongTag.addToScrollListFiles(CurrentSong);
             //ScrollListNames.add(CurrentSong.getName());
            
             if(tagger.checkID3v2(CurrentSong)){
-                listmodel.addElement((tagger.getSongName()==null)? "-":tagger.getSongName());
+                SongTag.listmodel.addElement((tagger.getSongName()==null)? "-":tagger.getSongName());
                 AlbumTag.listmodel.addElement((tagger.getAlbumName()==null)? "-":tagger.getAlbumName());
                 ArtistTag.listmodel.addElement((tagger.getArtistName()==null)? "-":tagger.getArtistName());
                 TrackTag.listmodel.addElement((tagger.getTrackNumber()==null)? "-":tagger.getTrackNumber());
                 //Base Model Used A String List
                 //GenreTag.listmodel.addElement(tagger.getGenre());
                 LengthTag.listmodel.addElement((tagger.getSongLength()==null)? "-":tagger.getSongLength());
-                this.addToScrollListNames((tagger.getSongName()==null)? "-":tagger.getSongName());
+                SongTag.addToScrollListNames((tagger.getSongName()==null)? "-":tagger.getSongName());
                                 
 //Populate Other Lists That We Will Build For The Tags
                 //System.out.println(CurrentSong.getName());
             }else{
                   //If there is no Tagged Song name, use the literal file name. 
-                 listmodel.addElement(CurrentSong.getName());
-                 this.addToScrollListNames(CurrentSong.getName());
+                 SongTag.listmodel.addElement(CurrentSong.getName());
+                 SongTag.addToScrollListNames(CurrentSong.getName());
              }
                 
         }
@@ -130,18 +143,18 @@ public class SongList extends BaseList{
     }
     
     public void UpdateListFromSelection(int Index){
-         this.clearScrollLists();
+         SongTag.clearScrollLists();
         //Update From Master Songs List//
         for(int j=Index; j<Songs.size(); j++){        
-            this.addToScrollListFiles((File) Songs.get(ShuffleArray[j]));
-            this.addToScrollListNames(listmodel.get(j));
+            SongTag.addToScrollListFiles((File) Songs.get(ShuffleArray[j]));
+            SongTag.addToScrollListNames(SongTag.listmodel.get(j));
          }
     this.CurrentSongIndex=Index;
     }
     
     public void ShuffleList(){
             Random rng = new Random();   // i.e., java.util.Random.
-            int n = listmodel.getSize();       // The number of items left to shuffle (loop invariant).
+            int n = SongTag.listmodel.getSize();       // The number of items left to shuffle (loop invariant).
             System.out.println("List Size");
             System.out.println(n);
             //FolderInfo Folders = new FolderInfo();
@@ -149,7 +162,7 @@ public class SongList extends BaseList{
              while (n > 1){
                 int k = rng.nextInt(n);  // 0 <= k < n.
                 n--;
-                this.listmodel=ShuffleGuts(listmodel, n, k);
+                this.SongTag.listmodel=ShuffleGuts(SongTag.listmodel, n, k);
                 this.TrackTag.listmodel=ShuffleGuts(TrackTag.listmodel, n, k);
                 this.ArtistTag.listmodel=ShuffleGuts(ArtistTag.listmodel, n, k);
                 this.AlbumTag.listmodel=ShuffleGuts(AlbumTag.listmodel, n, k);
@@ -159,19 +172,19 @@ public class SongList extends BaseList{
            ArrayList<File> Songs = this.copyFileList();
            System.out.println("Songs Size");
             System.out.println(Songs.size());
-           this.clearScrollLists();
+           SongTag.clearScrollLists();
            for(int j=0; j<Songs.size(); j++){
             //Songs Is Not Shuffled So We Need The Shuffle Array   
-            this.addToScrollListFiles(Songs.get(ShuffleArray[j]));
+            SongTag.addToScrollListFiles(Songs.get(ShuffleArray[j]));
             //listmode is Shuffled So We Do Not Need The Shuffle Array.
-            this.addToScrollListNames(listmodel.get(j));
+            SongTag.addToScrollListNames(SongTag.listmodel.get(j));
             System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
          }
 
     };
     public void UnShuffleList(){
-            int n = listmodel.getSize();   
+            int n = SongTag.listmodel.getSize();   
             System.out.println("List Size");
             System.out.println(n);// The number of items left to shuffle (loop invariant).
             int k = 0;
@@ -184,7 +197,7 @@ public class SongList extends BaseList{
                     }
                 }
                         
-                this.listmodel=UnShuffleGuts(listmodel, j, k);
+                this.SongTag.listmodel=UnShuffleGuts(SongTag.listmodel, j, k);
                 this.TrackTag.listmodel=UnShuffleGuts(TrackTag.listmodel, j, k);
                 this.ArtistTag.listmodel=UnShuffleGuts(ArtistTag.listmodel, j, k);
                 this.AlbumTag.listmodel=UnShuffleGuts(AlbumTag.listmodel, j, k);
@@ -194,10 +207,10 @@ public class SongList extends BaseList{
             //ArrayList<File> Songs = this.copyFileList();
             System.out.println("Songs Size");
             System.out.println(Songs.size());
-            this.clearScrollLists();
+            SongTag.clearScrollLists();
             for(int j=0; j<Songs.size(); j++){
-                this.addToScrollListFiles((File) Songs.get(j));
-                this.addToScrollListNames(listmodel.get(j));
+                SongTag.addToScrollListFiles((File) Songs.get(j));
+                SongTag.addToScrollListNames(SongTag.listmodel.get(j));
                 System.out.println("ShuffleArray");
                 System.out.println(ShuffleArray[j]);
             }
@@ -238,48 +251,25 @@ public class SongList extends BaseList{
  
     public SongMedia  buildSongList(){
                  System.out.println("buildSongList");
-                  List<File> Songs=this.getScrollListFiles();  
+                  List<File> Songs=SongTag.getScrollListFiles();  
                   ObservableList<Media>   mediaList = FXCollections.observableArrayList();
                   ObservableList<String> mediaName = FXCollections.observableArrayList();
                   SongMedia MP3Media = new SongMedia();
                   for (File CurrentSong:Songs) {
                     Media NewSong = new Media(CurrentSong.toURI().toString());
                     mediaList.add(NewSong);
-                    mediaName.add(removeFromScrollListNames());
+                    mediaName.add(SongTag.removeFromScrollListNames());
                 }
                   MP3Media.setMediaList(mediaList);
                   MP3Media.setMediaName(mediaName);
                  return MP3Media;
            } 
-    
-    @Override
-    public final ListCellRenderer<? super String> getRenderer() {
-        return new DefaultListCellRenderer(){
-            @Override
-            public Component getListCellRendererComponent(JList<?> list,
-                    Object value, int index, boolean isSelected,
-                    boolean cellHasFocus) {
-                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
-               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
-                if (index % 2 == 0) {    
-                    listCellRendererComponent.setBackground(getEven());
-                    
-                }else {
-                   
-                    listCellRendererComponent.setBackground(getOdd());
-                }
-                return listCellRendererComponent;
-            }
-        };
-    }
-
-    
+ 
     public ArrayList<File> copyFileList(){
         ArrayList<File> Songs = new ArrayList<>();
         
-        int N=getScrollListFilesSize();
-        List<File> CurrentSongList = this.getScrollListFiles();
+        int N=SongTag.getScrollListFilesSize();
+        List<File> CurrentSongList = SongTag.getScrollListFiles();
         for (int j=0; j<N; j++){
             Songs.add(CurrentSongList.get(j));
         } 
@@ -287,37 +277,37 @@ public class SongList extends BaseList{
     }
  
     private void bindScrollBars(){
-        this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        SongTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         TrackTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         AlbumTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         ArtistTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         
-        this.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
+        SongTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
         TrackTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
         AlbumTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
         ArtistTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
     }
     
-    public DefaultListModel<String> getSongTag(){
-     return listmodel;
+    public BaseList getSongTag(){
+     return SongTag;
     }
-    public TaggList getAlbumTag() {
+    public BaseList getAlbumTag() {
         return AlbumTag;
     }
 
-    public TaggList getGenreTag() {
+    public BaseList getGenreTag() {
         return GenreTag;
     }
 
-    public TaggList getTrackTag() {
+    public BaseList getTrackTag() {
         return TrackTag;
     }
 
-    public TaggList getLengthTag() {
+    public BaseList getLengthTag() {
         return LengthTag;
     }
 
-    public TaggList getArtistTag() {
+    public BaseList getArtistTag() {
         return ArtistTag;
     }  
     
@@ -356,5 +346,26 @@ private ObservableList<String>   mediaName;
 
 
 }
+
+public final ListCellRenderer<? super String> getRenderer() {
+        return new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list,
+                    Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
+               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
+                if (index % 2 == 0) {    
+                    listCellRendererComponent.setBackground(BaseList.getEven());
+                    
+                }else {
+                   
+                    listCellRendererComponent.setBackground(BaseList.getOdd());
+                }
+                return listCellRendererComponent;
+            }
+        };
+    }
 
 }

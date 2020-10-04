@@ -117,7 +117,7 @@ public final class WellsTunesGUI {
         
         
        Panels.pCenter.add(SongList.getTrackTag());
-       Panels.pCenter.add(SongList);
+       Panels.pCenter.add(SongList.getSongTag());
        Panels.pCenter.add(SongList.getAlbumTag());
        Panels.pCenter.add(SongList.getArtistTag());
        Panels.pCenter.add(SongList.getLengthTag());

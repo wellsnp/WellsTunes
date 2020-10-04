@@ -30,8 +30,8 @@ public class BaseList extends JScrollPane{
     //private Actions ActionHandler; 
     protected JList<String> list;
     protected DefaultListModel<String> listmodel;
-    private Color Even;
-    private Color Odd;
+    private static Color Even;
+    private static Color Odd;
     //Overloaded Constructors
     public BaseList(){
           
@@ -41,7 +41,7 @@ public class BaseList extends JScrollPane{
           this.setViewportView(list);
           //this.setPreferredSize(new Dimension (80,500));
           list.setLayoutOrientation(JList.VERTICAL);
-          
+          //list.setCellRenderer(getRenderer());
           
     };
     public BaseList(Actions ActionHandler){          
@@ -57,16 +57,17 @@ public class BaseList extends JScrollPane{
           this.setViewportView(list);
           this.setPreferredSize(new Dimension (200,500));
           list.setLayoutOrientation(JList.VERTICAL);
+          //list.setCellRenderer(getRenderer());
           //this.initMouseAdapter();
           list.addMouseListener(ActionHandler);
        
     }
 
 
-    public Color getEven() {
+    public static Color getEven() {
         return Even;
     }
-    public Color getOdd() {
+    public static Color getOdd() {
         return Odd;
     }
 
@@ -84,7 +85,7 @@ public class BaseList extends JScrollPane{
     public File getScrollListFiles(int n) {
         return ScrollListFiles.get(n);
     }    
-        public int getScrollListFilesSize() {
+    public int getScrollListFilesSize() {
         return ScrollListFiles.size();
     }
     
@@ -127,7 +128,9 @@ public class BaseList extends JScrollPane{
                 this.ScrollListFiles.clear();
                 this.ScrollListNames.clear();
     }
-    
+    public void clearList(){
+     listmodel.removeAllElements();
+    }
     
     public boolean isNullScrollListFiles(){
         return this.ScrollListFiles == null;
@@ -135,7 +138,7 @@ public class BaseList extends JScrollPane{
     public boolean isNullScrollListNames(){
         return this.ScrollListNames == null;
     }
-    public ListCellRenderer<? super String> getRenderer() {
+    public static ListCellRenderer<? super String> getRenderer() {
         return new DefaultListCellRenderer(){
             @Override
             public Component getListCellRendererComponent(JList<?> list,

@@ -10,10 +10,6 @@ package Audio;
  * @author wellsnp
  */
 import GUI.SongList.SongMedia;
-import GUI.TristateButton.TristateState;
-import java.io.File;
-
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.embed.swing.JFXPanel;
 public class AudioMedia {

@@ -78,10 +78,10 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
             // <editor-fold defaultstate="collapsed" desc=" Long List of Actions ">
             if (choice.equals(App.Menu.Lib.Tags)) {
                 
-                TaggList tracks = App.SongList.getTrackTag();
-                TaggList albums = App.SongList.getAlbumTag();
-                TaggList artists = App.SongList.getArtistTag();
-                DefaultListModel<String> songs = App.SongList.getSongTag();
+                BaseList tracks = App.SongList.getTrackTag();
+                BaseList albums = App.SongList.getAlbumTag();
+                BaseList artists = App.SongList.getArtistTag();
+                BaseList songs = App.SongList.getSongTag();
                 App.Menu.Lib.TagWindow.TrackNum.LoadTable(tracks);
                 App.Menu.Lib.TagWindow.SongName.LoadTable(songs);
                 App.Menu.Lib.TagWindow.AlbumName.LoadTable(albums);
@@ -147,7 +147,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
         Object choice=e.getComponent();
         int clickCnt=e.getClickCount();
             
-        if(choice.equals(App.SongList.list)) {
+        if(choice.equals(App.SongList.getSongTag().list)) {
         //System.out.println("Song List");
                 this.handelSongs(clickCnt);
         }
@@ -436,7 +436,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
                 }
                 public void handelSongs(int clicks){
                     if (clicks == 2) {
-                        int selectedItem = (int) App.SongList.list.getSelectedIndex();
+                        int selectedItem = (int) App.SongList.getSongTag().list.getSelectedIndex();
                  
                         if(App.MP3Player.getMediaPlayer()!=null){
                             Status CurrentStatus=App.MP3Player.getMediaPlayer().getStatus();
@@ -492,7 +492,7 @@ public class Actions implements ActionListener, MouseListener, ItemListener, Lis
             String TrackNum = App.Menu.Lib.TagWindow.TrackNum.getValueAt(TaggIndex, 0).toString();
             String ArtistName = App.Menu.Lib.TagWindow.ArtistName.getValueAt(TaggIndex, 0).toString();
             
-            File CurrentFile=App.SongList.getScrollListFiles(TaggIndex);
+            File CurrentFile=App.SongList.getSongTag().getScrollListFiles(TaggIndex);
             mp3tags tagger =  new mp3tags();
             tagger.checkID3v2(CurrentFile);
         

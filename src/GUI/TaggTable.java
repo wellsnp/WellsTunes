@@ -38,27 +38,27 @@ public class TaggTable extends JTable{
       this.setTableHeader(null);
     }
     
-    public void LoadTable(TaggList TL){
+    public void LoadTable(BaseList List){
         this.model.setRowCount(0);
         int cnt=this.model.getRowCount();
        
         System.out.println("Row Cnt");
         System.out.println(cnt);
         
-        for(int i=0; i< TL.listmodel.getSize();i++) {           
-            this.model.insertRow(i,new String[]{TL.listmodel.get(i)});
+        for(int i=0; i< List.listmodel.getSize();i++) {           
+            this.model.insertRow(i,new String[]{List.listmodel.get(i)});
         }
     }
-        public void LoadTable(DefaultListModel<String> DLM){
-        this.model.setRowCount(0);
-        int cnt=this.model.getRowCount();
-        System.out.println("Row Cnt");
-        System.out.println(cnt);
-        
-        for(int i=0; i< DLM.getSize();i++) {           
-            this.model.insertRow(i,new String[]{DLM.get(i)});
-        }
-    }
+//        public void LoadTable(DefaultListModel<String> DLM){
+//        this.model.setRowCount(0);
+//        int cnt=this.model.getRowCount();
+//        System.out.println("Row Cnt");
+//        System.out.println(cnt);
+//        
+//        for(int i=0; i< DLM.getSize();i++) {           
+//            this.model.insertRow(i,new String[]{DLM.get(i)});
+//        }
+//    }
     
     
        public ListSelectionModel getCellSelectionModel() {
