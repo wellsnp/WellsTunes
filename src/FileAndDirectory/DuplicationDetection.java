@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 public class DuplicationDetection {
-     public int dupcnt;
-     public List<File> DuplicationList;
-     public List<String> DuplicationListNames;
+     private int dupcnt;
+     private final List<File> DuplicationList;
+     private final List<String> DuplicationListNames;
      //Class Constuctor
      DuplicationDetection(){
         dupcnt=0;
@@ -25,7 +25,7 @@ public class DuplicationDetection {
         DuplicationListNames = new ArrayList<>();
      }
      
-     public List<File> FindDuplicatedSongs(File[] Songs) throws IOException{
+    public List<File> FindDuplicatedSongs(File[] Songs) throws IOException{
             int cnt=0;
             //int currentHash;
             //int nextHash;
@@ -33,25 +33,43 @@ public class DuplicationDetection {
                 for( int j=Songs.length-1; j>=0; j-- ){
                       // currentHash=Songs[j].hashCode();  
                     for( int k=j-1; k>=0;k--){
-                         //nextHash=Songs[k].hashCode();
-                          //System.out.println("Current Hash: "+currentHash);
-                          //System.out.println("Next Hash: "+nextHash);
-                          //System.out.println("");
-                          // System.out.println("Found: "+cnt+" Song Duplicates");
+                         
                          if(FileUtils.contentEquals(Songs[j], Songs[k])){
                              cnt=cnt+1;
                              DuplicatedSongList.add(Songs[k]);
-                             //DuplicationListNames.add(Songs[k].getName())
+                          
                             }
                     }
                 }  
-                
                 System.out.println("Found: "+cnt+" Song Duplicates");
-                //for(int j=0;j<DuplicatedSongList.size(); j++){
-                //    System.out.println("\t"+DuplicatedSongList.get(j).getName());
-                //}
+
                 System.out.println("");
-                  this.dupcnt+=cnt;
-                  return DuplicatedSongList;
+                this.dupcnt+=cnt;
+                return DuplicatedSongList;
     }
+    public int getDupcnt() {
+        return dupcnt;
+     }
+    public List<File> getDuplicationList() {
+        return DuplicationList;
+     }
+    public List<String> getDuplicationListNames() {
+        return DuplicationListNames;
+     } 
+    public void addToDupList(List<File> List){
+             this.DuplicationList.addAll(List);
+        }
+    public void addToDupNameList(String Str){
+             this.DuplicationListNames.add(Str);
+     }
+    public void clearDupList(){
+             this.DuplicationList.clear();
+        }
+    public void clearDupListNames(){
+             this.DuplicationListNames.clear();
+        }
+    public void decremetnDupCnt(){
+            this.dupcnt-=1;
+     }
 }
+

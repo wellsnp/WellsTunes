@@ -10,21 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.media.MediaPlayer.Status;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 /**
@@ -33,10 +39,11 @@ import javax.swing.JList;
  */
 
 
-public class Actions implements ActionListener, MouseListener, ItemListener{
+public class Actions implements ActionListener, MouseListener, ItemListener, ListSelectionListener, KeyListener{
         WellsTunesGUI App;
         Timer timer;
         TimerTask tasker;
+        private int TaggIndex;
 //Constructor
     public Actions(WellsTunesGUI App){
             this.App=App;
@@ -69,25 +76,34 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                             Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    if(choice.equals(App.Menu.Lib.Tags) & (App.Folders.path!=null)){
+                        
+                        TaggList tracks=App.SongList.getTrackTag();
+                        TaggList albums=App.SongList.getAlbumTag();
+                        TaggList artists=App.SongList.getArtistTag();
+                        DefaultListModel<String> songs = App.SongList.getSongTag();
+                        //TaggList tracks=App.SongList.getTrackTag();
+                        //TaggList tracks=App.SongList.getTrackTag();
+                        App.Menu.Lib.TagWindow.TrackNum.LoadTable(tracks);
+                        App.Menu.Lib.TagWindow.SongName.LoadTable(songs); 
+                        App.Menu.Lib.TagWindow.AlbumName.LoadTable(albums); 
+                        App.Menu.Lib.TagWindow.ArtistName.LoadTable(artists); 
+                        App.Menu.Lib.TagWindow.show();
+                        
+                        
+                        //App.Menu.Lib.TagWindow.Frame.repaint();
+                    }
+                    
                     if(choice.equals(App.Menu.Lib.Duplicates) & (App.Folders.path!=null)){
                         try {
-                            this.handelDupCheck();
-//                        try {
-//                            App.Folders.RunGlobalDuplicationCheck();
-//                        } catch (IOException ex) {
-//                            Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
-//                        }             
+                            this.handelDupCheck();     
                         } catch (IOException ex) {
                             Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    if(choice.equals(App.Menu.Lib.DupWindow.Delete) & (App.Folders.path!=null)){
-                     
+                    if(choice.equals(App.Menu.Lib.DupWindow.Button) & (App.Folders.path!=null)){
                         try {
-                            App.Folders.DeleteDuplication();
-                            
-                            App.Menu.Lib.DupWindow.close();
-                            App.Menu.Lib.DupWindow.DuplicationList.removeAll();
+                            this.handelDupDelete();
                         } catch (IOException ex) {
                             Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -202,15 +218,21 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
                     
                     App.Folders.RunGlobalDuplicationCheck();
                     
-                    int NumDuplicates = App.Folders.DupDetector.dupcnt;
+                    int NumDuplicates = App.Folders.DupDetector.getDupcnt();
                     //List<File> Duplicates = App.Folders.DupDetector.DuplicationList;
-                    List<String>  Names = App.Folders.DupDetector.DuplicationListNames; 
+                    List<String>  Names = App.Folders.DupDetector.getDuplicationListNames(); 
                     final JList<String> list = new JList<String>(Names.toArray(new String[Names.size()]));
-                    App.Menu.Lib.DupWindow.DuplicationInfo.setText(String.valueOf(NumDuplicates));
+                    App.Menu.Lib.DupWindow.TextField.setText(String.valueOf(NumDuplicates));
                     if(NumDuplicates>0){
-                          App.Menu.Lib.DupWindow.DuplicationList.setViewportView(list);            
+                          App.Menu.Lib.DupWindow.ScrollPane.setViewportView(list);            
                     }
                     App.Menu.Lib.DupWindow.show();
+                }
+                
+                public void handelDupDelete() throws IOException{
+                            App.Folders.DeleteDuplication();
+                            App.Menu.Lib.DupWindow.close();
+                            App.Menu.Lib.DupWindow.ScrollPane.removeAll();
                 }
                 
                 public void handelPlayButtonMenu(){
@@ -450,6 +472,91 @@ public class Actions implements ActionListener, MouseListener, ItemListener{
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    //JTable (Tagg Editor)
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        
+            Object choice = e.getSource();
+            System.out.println(choice.getClass());
+            System.out.println("Fuck Song");
+            if(choice.equals(App.Menu.Lib.TagWindow.SongName.getCellSelectionModel())){
+                TaggIndex=App.Menu.Lib.TagWindow.SongName.getSelectedRow();
+                
+                
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum.getCellSelectionModel())){
+                TaggIndex= App.Menu.Lib.TagWindow.TrackNum.getSelectedRow();
+                //System.out.println(Arrays.toString(index));
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName.getCellSelectionModel())){
+                TaggIndex = App.Menu.Lib.TagWindow.AlbumName.getSelectedRow();
+                //System.out.println(Arrays.toString(index));
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName.getCellSelectionModel())){
+                TaggIndex = App.Menu.Lib.TagWindow.ArtistName.getSelectedRow();
+                //System.out.println(index);
+            }
+        
+       
+    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//         Object choice = e.getSource();
+//          int key = e.getKeyCode();
+//          if(key== KeyEvent.VK_ENTER){
+//            if(choice.equals(App.Menu.Lib.TagWindow.SongName)){
+//                System.out.println("Song"); 
+//                
+//            
+//            }
+//            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum)){
+//                System.out.println("Track");
+//            }
+//            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName)){
+//                System.out.println("Album");
+//            }
+//            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName)){
+//                System.out.println("Artist");
+//            }
+//          }
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Object choice = e.getSource();
+    System.out.println(choice.getClass());
+          int key = e.getKeyCode();
+          if(key== KeyEvent.VK_ENTER){
+            if(choice.equals(App.Menu.Lib.TagWindow.SongName)){
+                System.out.println("Song"); 
+                
+            
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.TrackNum)){
+                System.out.println("Track");
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.AlbumName)){
+                System.out.println("Album");
+            }
+            if(choice.equals(App.Menu.Lib.TagWindow.ArtistName)){
+                System.out.println("Artist");
+            }
+           System.out.println("TagIndex");
+           System.out.println(TaggIndex);
+          }
+        
     }
 }                
      

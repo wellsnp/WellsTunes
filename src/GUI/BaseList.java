@@ -41,6 +41,8 @@ public class BaseList extends JScrollPane{
           this.setViewportView(list);
           //this.setPreferredSize(new Dimension (80,500));
           list.setLayoutOrientation(JList.VERTICAL);
+          
+          
     };
     public BaseList(Actions ActionHandler){          
           List<String> myList = new ArrayList<>(10);

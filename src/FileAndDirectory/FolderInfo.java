@@ -32,8 +32,7 @@ public class FolderInfo {
       //Do Nothing
       
       }  
-    
-    
+
       public final void setPath(String inputStr){
          this.path=inputStr;
          this.initalize();
@@ -92,7 +91,6 @@ public class FolderInfo {
                System.out.println("");
            }
        }
-    
     private void printAlbums(File Artist){
          
                File[] TheseAlbums = new File(Artist.getAbsolutePath()).listFiles(File::isDirectory);
@@ -136,15 +134,13 @@ public class FolderInfo {
                               this.RandomSongs+=Songs.length;  
                         }
                         
-                    }  
-              
+                    }          
     public void ListAllArtistAlbums(){
            for( File ArtistCnt:Artists){
                //System.out.println(ArtistCnt);
                printAlbums(ArtistCnt);
            }
     }
-
     public List<File> FindArtists(String FirstLetter){
             int cnt=0;
             List<File>  ArtistList = new ArrayList<>();
@@ -157,21 +153,18 @@ public class FolderInfo {
                  }
                     return ArtistList;
     }
-    
     //Return a File Array The Albums of An Artist
     public File[] ListAlbums(File Artist){
             File[] Albums = new File(Artist.getAbsolutePath()).listFiles(File::isDirectory);
             return Albums;
             
         }    
-  
     //Return a File Array of Songs in An Album
     public File[] ListSongs(File Album){
             File[] Songs = new File(Album.getAbsolutePath()).listFiles(File::isFile);
             return Songs;
          
     }    
-      
     public void RunGlobalDuplicationCheck() throws IOException{
         for(File CurrentArtist:Artists){
             File[] AlbumList = ListAlbums(CurrentArtist);
@@ -179,34 +172,27 @@ public class FolderInfo {
                   System.out.println("Current Album: "+CurrentAlbum.getName());
                   File[] TheseSongs=ListSongs(CurrentAlbum);
                   List<File> List = DupDetector.FindDuplicatedSongs(TheseSongs);
-                  DupDetector.DuplicationList.addAll(List);
+                  DupDetector.addToDupList(List);
                   for( File CurrentFile:List){
-                    DupDetector.DuplicationListNames.add(CurrentFile.getName());
+                    DupDetector.addToDupNameList(CurrentFile.getName());
                   }
               }
                     
         }
         //DeleteDuplication();
-       System.out.println(this.DupDetector.dupcnt);
+       System.out.println(this.DupDetector.getDupcnt());
 }
-    
     public void DeleteDuplication() throws IOException{
-        //int Cnt=0;
-        for(File CurrentSong:DupDetector.DuplicationList){
-           
+        List<File> DupList = DupDetector.getDuplicationList();
+        for(File CurrentSong:DupList){   
                 if(CurrentSong.delete()){
-                 //System.out.println("Deleted the file: " + CurrentSong.getName());
-                 DupDetector.dupcnt-=1;
-                 
+                 DupDetector.decremetnDupCnt();
                 }else{
                  System.out.println("Failed to delete the file: "+ CurrentSong.getAbsolutePath());
                 }
-                 //Cnt=Cnt+1;
-                 
         }
-        DupDetector.DuplicationListNames.clear();
-        DupDetector.DuplicationList.clear();
-       //System.out.println(this.DupDetector.dupcnt);
+        DupDetector.clearDupListNames();
+        DupDetector.clearDupList();
 }
 }
 

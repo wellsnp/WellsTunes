@@ -297,6 +297,10 @@ public class SongList extends BaseList{
         AlbumTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
         ArtistTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
     }
+    
+    public DefaultListModel<String> getSongTag(){
+     return listmodel;
+    }
     public TaggList getAlbumTag() {
         return AlbumTag;
     }
