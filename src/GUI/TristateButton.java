@@ -40,12 +40,14 @@ public class TristateButton extends JToggleButton{
   }
 
   // Overrides of superclass methods
+  @Override
   public void setEnabled(boolean enabled) {
     super.setEnabled(enabled);
     // Restore state display
     displayState();
   }
 
+  @Override
   public void setSelected(boolean selected) {
     setState(selected ?
         TristateState.SELECTED : TristateState.DESELECTED);
@@ -106,16 +108,19 @@ public class TristateButton extends JToggleButton{
   
   public enum TristateState {
   SELECTED {
+    @Override
     public TristateState next() {
       return INDETERMINATE;
     }
   },
   INDETERMINATE {
+    @Override
     public TristateState next() {
       return DESELECTED;
     }
   },
   DESELECTED {
+    @Override
     public TristateState next() {
       return SELECTED;
     }

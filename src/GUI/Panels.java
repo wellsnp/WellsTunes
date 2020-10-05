@@ -81,6 +81,7 @@ public class Panels {
            // 
         }
         //@Override
+        @Override
         public void setPanelLayOut(){
             boxlayout = new BoxLayout(this, BoxLayout.X_AXIS);
             this.setLayout(boxlayout);
@@ -99,6 +100,7 @@ public class Panels {
             this.setBackground(Color.lightGray);
         }
         //@Override
+        @Override
         public void setPanelLayOut(){
             gridlayout = new GridLayout(10,1);
             this.setLayout(gridlayout);
@@ -121,6 +123,7 @@ public class Panels {
             this.c.gridheight=3;
         }
         //@Override
+        @Override
         public void setPanelLayOut(){
             layout = new GridBagLayout();
             this.setLayout(layout);

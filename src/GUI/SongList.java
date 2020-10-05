@@ -30,7 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-//extends BaseList
+
 public class SongList {
     private File CurrentAlbum;
     private int CurrentSongIndex;
@@ -43,14 +43,14 @@ public class SongList {
     private final BaseList LengthTag;
     private final BaseList ArtistTag;
     private ArrayList Songs;
-    public SongList(Actions ActionHandler)
-    {   
-        //super(ActionHandler);
+    //Methods
+    public SongList(Actions ActionHandler){   
         tagger =    new mp3tags();
         
         SongTag =   new BaseList(ActionHandler);
         SongTag.setPreferredSize(new Dimension (600,500));
         SongTag.list.setCellRenderer(this.getRenderer());
+        
         AlbumTag =  new BaseList();
         AlbumTag.setPreferredSize(new Dimension (600,800));
         AlbumTag.list.setCellRenderer(BaseList.getRenderer());
@@ -68,13 +68,9 @@ public class SongList {
         ArtistTag =  new BaseList();
         ArtistTag.setPreferredSize(new Dimension (400,800));
         ArtistTag.list.setCellRenderer(BaseList.getRenderer());
-        //ListCellRenderer<? super String> renderer = getRenderer();
-        //this.setPreferredSize(new Dimension (600,500));
-        //this.list.setCellRenderer(getRenderer());
+       
         this.bindScrollBars();
     }
-    
-
     public void UpdateList(File InputFile){
         FolderInfo Folders = new FolderInfo();
       //Get Songs of Album
@@ -82,22 +78,17 @@ public class SongList {
         CurrentAlbum = InputFile;
         System.out.println("Current Album");
         System.out.println(this.CurrentAlbum.getName());
-        File[] Songs=Folders.ListSongs(InputFile);
+        File[] SongsList=Folders.ListSongs(InputFile);
         
-        this.UpdateListGuts(Songs);
+        this.UpdateListGuts(SongsList);
 
     }
     public void UpdateList(ArrayList<File> Songs){
-     
         File SongList[] =Songs.toArray(new File[Songs.size()]);
         this.UpdateListGuts(SongList);
-
-    }
-    
+    }   
     private void UpdateListGuts(File[] Songs){
-    
-    
-        
+
         SongTag.setScrollListFiles(new ArrayList<>());
         SongTag.setScrollListNames(new ArrayList<>());
         ShuffleArray = new int[Songs.length];
@@ -119,16 +110,16 @@ public class SongList {
             //ScrollListNames.add(CurrentSong.getName());
            
             if(tagger.checkID3v2(CurrentSong)){
-                SongTag.listmodel.addElement((tagger.getSongName()==null)? "-":tagger.getSongName());
-                AlbumTag.listmodel.addElement((tagger.getAlbumName()==null)? "-":tagger.getAlbumName());
-                ArtistTag.listmodel.addElement((tagger.getArtistName()==null)? "-":tagger.getArtistName());
-                TrackTag.listmodel.addElement((tagger.getTrackNumber()==null)? "-":tagger.getTrackNumber());
+                SongTag.listmodel.addElement(tagger.getSongName());
+                AlbumTag.listmodel.addElement(tagger.getAlbumName());
+                ArtistTag.listmodel.addElement(tagger.getArtistName());
+                TrackTag.listmodel.addElement(tagger.getTrackNumber());
                 //Base Model Used A String List
                 //GenreTag.listmodel.addElement(tagger.getGenre());
-                LengthTag.listmodel.addElement((tagger.getSongLength()==null)? "-":tagger.getSongLength());
-                SongTag.addToScrollListNames((tagger.getSongName()==null)? "-":tagger.getSongName());
+                LengthTag.listmodel.addElement(tagger.getSongLength());
+                SongTag.addToScrollListNames(tagger.getSongName());
                                 
-//Populate Other Lists That We Will Build For The Tags
+                //Populate Other Lists That We Will Build For The Tags
                 //System.out.println(CurrentSong.getName());
             }else{
                   //If there is no Tagged Song name, use the literal file name. 
@@ -140,8 +131,7 @@ public class SongList {
         //Sets the Master List of Songs. Never WIll Change Size By Clicking List. 
             this.Songs=this.copyFileList();
     
-    }
-    
+    }   
     public void UpdateListFromSelection(int Index){
          SongTag.clearScrollLists();
         //Update From Master Songs List//
@@ -149,9 +139,8 @@ public class SongList {
             SongTag.addToScrollListFiles((File) Songs.get(ShuffleArray[j]));
             SongTag.addToScrollListNames(SongTag.listmodel.get(j));
          }
-    this.CurrentSongIndex=Index;
-    }
-    
+        this.CurrentSongIndex=Index;
+    }  
     public void ShuffleList(){
             Random rng = new Random();   // i.e., java.util.Random.
             int n = SongTag.listmodel.getSize();       // The number of items left to shuffle (loop invariant).
@@ -182,7 +171,7 @@ public class SongList {
                 System.out.println(ShuffleArray[j]);
          }
 
-    };
+    }; 
     public void UnShuffleList(){
             int n = SongTag.listmodel.getSize();   
             System.out.println("List Size");
@@ -215,7 +204,6 @@ public class SongList {
                 System.out.println(ShuffleArray[j]);
             }
      }
-
     private DefaultListModel<String> ShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
                 String temp = listmodel.get(n); // n is now the last pertinent index;
                 listmodel.setElementAt(listmodel.get(k), n);
@@ -230,7 +218,7 @@ public class SongList {
                 Array[k]=temp;
                 return Array;
         
-    }
+    }  
     private DefaultListModel<String> UnShuffleGuts(DefaultListModel<String> listmodel, int n, int k){
                 String temp1 = listmodel.get(n); // n is now the last pertinent index;
                 String temp2 = listmodel.get(k);
@@ -247,8 +235,7 @@ public class SongList {
                 Array[k]=temp1;
                 return Array;
         
-    }
- 
+    } 
     public SongMedia  buildSongList(){
                  System.out.println("buildSongList");
                   List<File> Songs=SongTag.getScrollListFiles();  
@@ -263,8 +250,7 @@ public class SongList {
                   MP3Media.setMediaList(mediaList);
                   MP3Media.setMediaName(mediaName);
                  return MP3Media;
-           } 
- 
+           }
     public ArrayList<File> copyFileList(){
         ArrayList<File> Songs = new ArrayList<>();
         
@@ -275,7 +261,6 @@ public class SongList {
         } 
         return Songs;
     }
- 
     private void bindScrollBars(){
         SongTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         TrackTag.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -287,39 +272,52 @@ public class SongList {
         AlbumTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
         ArtistTag.getVerticalScrollBar().setModel(LengthTag.getVerticalScrollBar().getModel());
     }
-    
+    //Getters/Setter
     public BaseList getSongTag(){
      return SongTag;
     }
     public BaseList getAlbumTag() {
         return AlbumTag;
     }
-
     public BaseList getGenreTag() {
         return GenreTag;
     }
-
     public BaseList getTrackTag() {
         return TrackTag;
     }
-
     public BaseList getLengthTag() {
         return LengthTag;
     }
-
     public BaseList getArtistTag() {
         return ArtistTag;
-    }  
-    
+    }   
     public File getCurrentAlbum() {
         return CurrentAlbum;
     }
-
     public int getCurrentSongIndex() {
         return CurrentSongIndex;
     }    
-    
-//This Class Is Used To Package Up The Data Needed For The AudioMedia Object.
+    public final ListCellRenderer<? super String> getRenderer() {
+        return new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list,
+                    Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
+               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
+                if (index % 2 == 0) {    
+                    listCellRendererComponent.setBackground(BaseList.getEven());
+                    
+                }else {
+                   
+                    listCellRendererComponent.setBackground(BaseList.getOdd());
+                }
+                return listCellRendererComponent;
+            }
+        };
+    }    
+//Inner Class Is Used To Package Up The Data Needed For The AudioMedia Object.
 public static class SongMedia{
 private ObservableList<Media>   mediaList;
 private ObservableList<String>   mediaName;
@@ -346,26 +344,5 @@ private ObservableList<String>   mediaName;
 
 
 }
-
-public final ListCellRenderer<? super String> getRenderer() {
-        return new DefaultListCellRenderer(){
-            @Override
-            public Component getListCellRendererComponent(JList<?> list,
-                    Object value, int index, boolean isSelected,
-                    boolean cellHasFocus) {
-                JLabel listCellRendererComponent = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-                listCellRendererComponent.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,Color.white));
-               listCellRendererComponent.setFont(new Font("Times", Font.BOLD, 16));
-                if (index % 2 == 0) {    
-                    listCellRendererComponent.setBackground(BaseList.getEven());
-                    
-                }else {
-                   
-                    listCellRendererComponent.setBackground(BaseList.getOdd());
-                }
-                return listCellRendererComponent;
-            }
-        };
-    }
 
 }

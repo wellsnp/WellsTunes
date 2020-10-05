@@ -22,13 +22,11 @@ public class Buttons  {
     JToggleButton SHUFFLE;
     
     public Buttons(Actions ActionHandler){
-    
-    
-    STOP = this.initButton("STOP",ActionHandler);
-    PLAY = this.initButton("PLAY",ActionHandler);
-    PAUSE = this.initButton("PAUSE",ActionHandler);
-    SHUFFLE = this.initTButton("Shuffle/Normal",ActionHandler);
-    REPEAT = this.initTriButton("REPEAT ALL","REPEAT ONE","REPEAT OFF",ActionHandler);
+        STOP = this.initButton("STOP",ActionHandler);
+        PLAY = this.initButton("PLAY",ActionHandler);
+        PAUSE = this.initButton("PAUSE",ActionHandler);
+        SHUFFLE = this.initTButton("Shuffle/Normal",ActionHandler);
+        REPEAT = this.initTriButton("REPEAT ALL","REPEAT ONE","REPEAT OFF",ActionHandler);
     }
         
     private JButton initButton(String Str,Actions ActionHandler){
@@ -45,8 +43,6 @@ public class Buttons  {
         Button.setPreferredSize(new Dimension (150,30));
         return Button;
     };
-
-
     private TristateButton initTriButton(String Str1,String Str2,String Str3,Actions ActionHandler ){
     
         TristateButton Button = new TristateButton(Str1,Str2,Str3);

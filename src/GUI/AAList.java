@@ -10,7 +10,6 @@ package GUI;
  * @author wellsnp
  */
 import java.util.ArrayList;
-
 import java.io.File;
 import FileAndDirectory.FolderInfo;
 

@@ -24,7 +24,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 public class BaseList extends JScrollPane{
-    
+    //Fields
     private List<String> ScrollListNames;
     private List<File> ScrollListFiles;
     //private Actions ActionHandler; 
@@ -32,22 +32,19 @@ public class BaseList extends JScrollPane{
     protected DefaultListModel<String> listmodel;
     private static Color Even;
     private static Color Odd;
+    
     //Overloaded Constructors
     public BaseList(){
-          
           listmodel = new DefaultListModel<>();
-          list = new JList<String>(listmodel);
+          list = new JList<>(listmodel);
           this.defineColors();
           this.setViewportView(list);
-          //this.setPreferredSize(new Dimension (80,500));
-          list.setLayoutOrientation(JList.VERTICAL);
-          //list.setCellRenderer(getRenderer());
-          
-    };
+          list.setLayoutOrientation(JList.VERTICAL); 
+    }
     public BaseList(Actions ActionHandler){          
           List<String> myList = new ArrayList<>(10);
           listmodel = new DefaultListModel<>();
-          list = new JList<String>(listmodel);
+          list = new JList<>(listmodel);
           //list = new JList<String>(myList.toArray(new String[myList.size()]));
           //for (int index = 0; index < 20; index++) {
           //  myList.add("ListItem: " + index);
@@ -59,26 +56,21 @@ public class BaseList extends JScrollPane{
           list.setLayoutOrientation(JList.VERTICAL);
           //list.setCellRenderer(getRenderer());
           //this.initMouseAdapter();
-          list.addMouseListener(ActionHandler);
-       
+          list.addMouseListener(ActionHandler); 
     }
-
-
+    //Methods
     public static Color getEven() {
         return Even;
     }
     public static Color getOdd() {
         return Odd;
     }
-
     public List<String> getScrollListNames() {
         return ScrollListNames;
     }
     public String getScrollListNames(int n) {
         return ScrollListNames.get(n);
     }
-
-    
     public List<File> getScrollListFiles() {
         return ScrollListFiles;
     }
@@ -88,20 +80,15 @@ public class BaseList extends JScrollPane{
     public int getScrollListFilesSize() {
         return ScrollListFiles.size();
     }
-    
-    
     public void UpdateList(File InputFile){
      listmodel.removeAllElements();
     }
     private void defineColors(){
-    
-                    Color Field = Color.BLUE;
-                    this.Even = new Color(Field.getRed(),Field.getGreen(),Field.getBlue(),20);
-                    Field = Color.LIGHT_GRAY;
-                    this.Odd = new Color(Field.getRed(),Field.getGreen(),Field.getBlue(),20);
-    
+        Color Field = Color.BLUE;
+        BaseList.Even = new Color(Field.getRed(), Field.getGreen(), Field.getBlue(), 20);
+        Field = Color.LIGHT_GRAY;
+        BaseList.Odd = new Color(Field.getRed(), Field.getGreen(), Field.getBlue(), 20);
     }
-  
     public void setScrollListFiles(List<File> ScrollListFiles) {
         this.ScrollListFiles = ScrollListFiles;
     }
@@ -114,24 +101,19 @@ public class BaseList extends JScrollPane{
     public void addToScrollListNames(String String){
             this.ScrollListNames.add(String);
     }
-    
     public File removeFromScrollListFiles(){
             return ScrollListFiles.remove(0);
     }
-    
-
     public String removeFromScrollListNames(){
             return ScrollListNames.remove(0);
     }
-    
     public void clearScrollLists(){
                 this.ScrollListFiles.clear();
                 this.ScrollListNames.clear();
     }
     public void clearList(){
      listmodel.removeAllElements();
-    }
-    
+    }   
     public boolean isNullScrollListFiles(){
         return this.ScrollListFiles == null;
     }

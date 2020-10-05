@@ -5,18 +5,16 @@
  */
 package GUI;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 
 /**
  *
  * @author wells
  */
 public class TaggTable extends JTable{
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
     //private DefaultTableModel mymodel;
     private final ListSelectionModel cellSelectionModel;
 
@@ -48,42 +46,8 @@ public class TaggTable extends JTable{
         for(int i=0; i< List.listmodel.getSize();i++) {           
             this.model.insertRow(i,new String[]{List.listmodel.get(i)});
         }
-    }
-//        public void LoadTable(DefaultListModel<String> DLM){
-//        this.model.setRowCount(0);
-//        int cnt=this.model.getRowCount();
-//        System.out.println("Row Cnt");
-//        System.out.println(cnt);
-//        
-//        for(int i=0; i< DLM.getSize();i++) {           
-//            this.model.insertRow(i,new String[]{DLM.get(i)});
-//        }
-//    }
-    
-    
-       public ListSelectionModel getCellSelectionModel() {
+    }    
+    public ListSelectionModel getCellSelectionModel() {
         return cellSelectionModel;
-    }
-    
-    
+    }        
 }
-
-// class myTableModel extends DefaultTableModel{
-//
-//           myTableModel(int row, int col){
-//            super(row,col);
-//    }
-//         myTableModel(Object[][] tableData, Object[] colNames){
-//            super(tableData, colNames);
-//    }
-//         @Override
-//         public boolean isCellEditable(int row,int cols)
-//
-//                         {
-//                            return true;
-//                                                }      
-// }
-
-
-
-

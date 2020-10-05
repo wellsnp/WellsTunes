@@ -6,14 +6,10 @@
 package GUI;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -29,23 +25,24 @@ public abstract class PopUpMenu {
     JPanel Panel;
     JScrollPane ScrollPane;
     
-       PopUpMenu() {
+    PopUpMenu() {
         Frame=new JFrame();
         Panel= new JPanel();
         ScrollPane = new JScrollPane();
         Button = new JButton();
         TextField = new JTextField();
        }
-            
-            public void show(){
-                this.Frame.setVisible(true);
-            }
-            public void close(){
-                this.Frame.setVisible(false);
-            }
+         
+    public void show() {
+        this.Frame.setVisible(true);
+    }
+
+    public void close() {
+        this.Frame.setVisible(false);
+    }
        
     
-}
+} 
 
 class popMenuDup extends PopUpMenu{
         BoxLayout boxlayout;
@@ -104,7 +101,7 @@ class  popMenuAlbumTags extends PopUpMenu{
               ArtistName=new TaggTable(ActionHandler);
               ArtistName.setPreferredSize(new Dimension(420,1200));
               
-//TrackNum.list.enableInputMethods(true);
+            //TrackNum.list.enableInputMethods(true);
              //SP=new JScrollPane();
              //SP.setViewportView(TrackNum);
              Panel.add(new JScrollPane(TrackNum));

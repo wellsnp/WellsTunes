@@ -108,15 +108,27 @@ public class mp3tags {
    
 //Class getters          
     public String getSongName() {
-        return songName;
+        if(songName==(null)){
+            return "-";
+        }else{
+            return songName;
+        }
     }
 
     public String getArtistName() {
-        return artistName;
+        if(artistName==null){
+            return "-";
+        }else{
+            return artistName;
+        }
     }
 
     public String getAlbumName() {
-        return albumName;
+        if (albumName==null){
+            return "-";
+        }else{
+            return albumName;
+        }
     }
 
     public int getGenre() {
@@ -124,11 +136,19 @@ public class mp3tags {
     }
 
     public String getTrackNumber() {
-        return trackNumber;
+        if(trackNumber==null){
+            return "-";
+        }else{    
+            return trackNumber;
+        }
     }
 
     public String getSongLength() {
-        return songLength;
+        if(songLength==null){
+            return "-";
+        }else{
+            return songLength;
+        } 
     }
 
    

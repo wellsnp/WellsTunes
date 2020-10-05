@@ -51,7 +51,6 @@ public class LibraryFilter {
         
     
     }
-    
     public ArrayList searchAlbums(FolderInfo Folders){
         Pattern pattern = Pattern.compile(this.SearchBox.getText());
         Matcher matcher; 

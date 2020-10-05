@@ -42,7 +42,7 @@ public class Boxes {
     public class AlbumTextBox {
     //File Menus
         //JMenuBar menubar;
-         JLabel Label = new JLabel("Number of Albums");
+        JLabel Label = new JLabel("Number of Albums");
         JTextField Field = new JTextField(); 
         
         AlbumTextBox(){
@@ -52,7 +52,6 @@ public class Boxes {
         }
     }
 
-   
     public class ArtistTextBox {
     //File Menus
         //JMenuBar menubar;
