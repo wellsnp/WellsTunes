@@ -30,7 +30,7 @@ public class AAList extends BaseList{
             listmodel.removeAllElements();
         }
         for(File CurrentDir:Dir){
-            
+            //System.out.println(CurrentDir.toString());
             this.addToScrollListFiles(CurrentDir);    
             listmodel.addElement(CurrentDir.getName());
         }

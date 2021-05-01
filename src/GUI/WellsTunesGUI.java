@@ -171,21 +171,23 @@ public final class WellsTunesGUI {
                         
                         String Num = Integer.toString(Folders.getArtists().length);
                         
+                       
+                        System.out.println(Folders.getPath());
+                        Panels.pLeft.repaint();
+                        //ArtistList.UpdateList(new File(Folders.getPath()));
+                        ArtistList.UpdateList(new File(Folders.getPath()));
+                        frame.repaint();
+                        //ArtistList.UpdateList(new File(Folders.getPath()));
+                        Panels.pLeft.repaint();
+                        
+                      if(!ArtistList.listmodel.isEmpty()){
+                        ArtistList.UpdateList(new File(Folders.getPath()));
+                        Panels.pLeft.repaint();
                         Boxes.ArtistInfo.Field.setText(Num);
                         Boxes.AlbumInfo.Field.setText(Integer.toString(Folders.getAlbums()));
                         //Library is the Second component and Java is a zero based index code. 
                         Menu.menubar.getComponent(1).setEnabled(true);
                         Menu.menubar.getComponent(2).setEnabled(true);
-                        System.out.println(Folders.getPath());
-                        
-                        ArtistList.UpdateList(new File(Folders.getPath()));
-                        //ArtistList.UpdateList(new File(Folders.getPath()));
-                        //frame.repaint();
-                        //ArtistList.UpdateList(new File(Folders.getPath()));
-                        Panels.pLeft.repaint();
-                        
-                      if(!ArtistList.listmodel.isEmpty()){
-                          Panels.pLeft.repaint();
                         break;
                       }    
                }
