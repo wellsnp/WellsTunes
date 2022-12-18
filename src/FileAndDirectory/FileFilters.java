@@ -27,8 +27,20 @@ public class FileFilters {
                
         FilenameFilter wavFilter = (File dir, String name) -> {
         String lowercaseName = name.toLowerCase();
-        return lowercaseName.endsWith(".wav");    
+        return lowercaseName.endsWith(".wav");
         };
+        
+        FilenameFilter wavmp3Filter = (File dir, String name) -> {
+        String lowercaseName = name.toLowerCase();
+        
+        return (lowercaseName.endsWith(".wav") || lowercaseName.endsWith(".mp3")) ;  
+        
+        
+        
+        
+        };
+        
+
        
 };
     

@@ -4,7 +4,9 @@ package FileAndDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+//import java.util.Arrays;
 import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,6 +21,7 @@ public class FolderInfo {
     private String path;
     private File[] Artists;
     private FileFilters FileFilter;
+    private File[] WHAT;
     private DuplicationDetection DupDetector;
     private int Albums;
     private int Songs;
@@ -110,10 +113,10 @@ public class FolderInfo {
               for( File ArtistCnt:Artists){
                         File[] Albums = new File(ArtistCnt.getAbsolutePath()).listFiles(File::isDirectory);
                         for(File AlbumnCnt:Albums){
-                              File[] Songs = new File(AlbumnCnt.getAbsolutePath()).listFiles(File::isFile);
-                              File[] MP3   = new File(AlbumnCnt.getAbsolutePath()).listFiles(this.FileFilter.mp3Filter);
+                              //File[] Songs = new File(AlbumnCnt.getAbsolutePath()).listFiles(File::isFile);
+                              File[] MP3   = new File(AlbumnCnt.getAbsolutePath()).listFiles(this.FileFilter.wavmp3Filter);
                               File[] WAV   = new File(AlbumnCnt.getAbsolutePath()).listFiles(this.FileFilter.wavFilter);
-                              this.Songs+=Songs.length;  
+                              this.Songs+=MP3.length+WAV.length;//Songs.length;  
                               this.mp3s+=MP3.length;  
                               this.wavs+=WAV.length; 
                         }
@@ -124,13 +127,13 @@ public class FolderInfo {
     //Designed to Count all the Songs within an Artist folder But Not in a Album Folder    
     private void cntRandSongs(){
               for( File ArtistCnt:Artists){
-                        File[] Songs = new File(ArtistCnt.getAbsolutePath()).listFiles(File::isFile);
+                        //File[] Songs = new File(ArtistCnt.getAbsolutePath()).listFiles(File::isFile);
                         File[] MP3   = new File(ArtistCnt.getAbsolutePath()).listFiles(this.FileFilter.mp3Filter);
                         File[] WAV   = new File(ArtistCnt.getAbsolutePath()).listFiles(this.FileFilter.wavFilter);
                               
                               this.mp3s+=MP3.length;  
                               this.wavs+=WAV.length; 
-                              this.RandomSongs+=Songs.length;  
+                              this.RandomSongs+=MP3.length+WAV.length;//Songs.length;  
                         }
                         
                     }          
@@ -160,9 +163,12 @@ public class FolderInfo {
             return Dir;
     }
     //Return a File Array of Songs in An Album
-    public File[] ListSongs(File Album){
-            File[] Songs = new File(Album.getAbsolutePath()).listFiles(File::isFile);
-            return Songs;
+    public  File[] ListSongs(File Album){
+        
+            FileFilters FF=new FileFilters();
+            File[] SongList=new File(Album.getAbsolutePath()).listFiles(FF.wavmp3Filter);
+            
+            return SongList;
          
     }    
     
