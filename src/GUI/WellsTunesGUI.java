@@ -94,31 +94,31 @@ public final class WellsTunesGUI {
  
        
        frame.getContentPane().add(BorderLayout.NORTH, Menu.menubar);
-       frame.getContentPane().add(BorderLayout.CENTER,Panels.pCenter);
-       frame.getContentPane().add(BorderLayout.EAST,Panels.pRight);
-       frame.getContentPane().add(BorderLayout.WEST,Panels.pLeft);
-       frame.getContentPane().add(BorderLayout.SOUTH,Panels.pBottom);
+       frame.getContentPane().add(BorderLayout.CENTER,Panels.pCenter.panel);
+       frame.getContentPane().add(BorderLayout.EAST,Panels.pRight.panel);
+       frame.getContentPane().add(BorderLayout.WEST,Panels.pLeft.panel);
+       frame.getContentPane().add(BorderLayout.SOUTH,Panels.pBottom.panel);
 
        frame.pack();
        frame.setLocationRelativeTo(null);
        frame.setVisible(true);
     }
     private void initLeftPanel(){
-       Panels.pLeft.add(Boxes.ArtistInfo.Label);
-       Panels.pLeft.add(Boxes.ArtistInfo.Field);
-       Panels.pLeft.add(ArtistList);
-       Panels.pLeft.add(Boxes.AlbumInfo.Label);
-       Panels.pLeft.add(Boxes.AlbumInfo.Field);
-       Panels.pLeft.add(AlbumList);
+       Panels.pLeft.panel.add(Boxes.ArtistInfo.Label);
+       Panels.pLeft.panel.add(Boxes.ArtistInfo.Field);
+       Panels.pLeft.panel.add(ArtistList);
+       Panels.pLeft.panel.add(Boxes.AlbumInfo.Label);
+       Panels.pLeft.panel.add(Boxes.AlbumInfo.Field);
+       Panels.pLeft.panel.add(AlbumList);
        //Panels.pLeft.add(Boxes.Box3.Field);
        frame.repaint();
     }
     private void initCenterPanel(){
-       Panels.pCenter.add(SongList.getTrackTag());
-       Panels.pCenter.add(SongList.getSongTag());
-       Panels.pCenter.add(SongList.getAlbumTag());
-       Panels.pCenter.add(SongList.getArtistTag());
-       Panels.pCenter.add(SongList.getLengthTag());
+       Panels.pCenter.panel.add(SongList.getTrackTag());
+       Panels.pCenter.panel.add(SongList.getSongTag());
+       Panels.pCenter.panel.add(SongList.getAlbumTag());
+       Panels.pCenter.panel.add(SongList.getArtistTag());
+       Panels.pCenter.panel.add(SongList.getLengthTag());
        frame.repaint();
     }
     private void initBottomPanel(){
@@ -126,29 +126,29 @@ public final class WellsTunesGUI {
        Panels.pBottom.c.fill=GridBagConstraints.HORIZONTAL;
        Panels.pBottom.c.gridy=0;
        Panels.pBottom.c.gridx=0;       
-       Panels.pBottom.add(Buttons.PLAY,Panels.pBottom.c);
+       Panels.pBottom.panel.add(Buttons.PLAY,Panels.pBottom.c);
        Panels.pBottom.c.gridx=1;
-       Panels.pBottom.add(Buttons.PAUSE,Panels.pBottom.c);
+       Panels.pBottom.panel.add(Buttons.PAUSE,Panels.pBottom.c);
        Panels.pBottom.c.gridx=2;
-       Panels.pBottom.add(Buttons.STOP,Panels.pBottom.c);
+       Panels.pBottom.panel.add(Buttons.STOP,Panels.pBottom.c);
        Panels.pBottom.c.gridx=3;
-       Panels.pBottom.add(Buttons.SHUFFLE,Panels.pBottom.c);
+       Panels.pBottom.panel.add(Buttons.SHUFFLE,Panels.pBottom.c);
        Panels.pBottom.c.gridx=4;
-       Panels.pBottom.add(Buttons.REPEAT,Panels.pBottom.c);
+       Panels.pBottom.panel.add(Buttons.REPEAT,Panels.pBottom.c);
        Panels.pBottom.c.gridy=5;
        Panels.pBottom.c.gridx=0; 
        Panels.pBottom.c.gridwidth = 5;
        //Panels.pBottom.c.weighty = 1.0;   //request any extra vertical space
        Panels.pBottom.c.insets = new Insets(20,0,0,0);  //top padding
       // Panels.pBottom.c.anchor = GridBagCo2nstraints.PAGE_END; //bottom of space
-       Panels.pBottom.add(PB,Panels.pBottom.c);
+       Panels.pBottom.panel.add(PB,Panels.pBottom.c);
        frame.repaint();
     }
     private void initRightPanel(){
-       Panels.pRight.add(Search.SearchBox);
-       Panels.pRight.add(Search.SongName);
-       Panels.pRight.add(Search.AlbumName);
-       Panels.pRight.add(Search.ArtistName);
+       Panels.pRight.panel.add(Search.SearchBox);
+       Panels.pRight.panel.add(Search.SongName);
+       Panels.pRight.panel.add(Search.AlbumName);
+       Panels.pRight.panel.add(Search.ArtistName);
        //Panels.pRight.add(Boxes.Box3.Field);
             
        
@@ -173,16 +173,16 @@ public final class WellsTunesGUI {
                         
                        
                         System.out.println(Folders.getPath());
-                        Panels.pLeft.repaint();
+                        Panels.pLeft.panel.repaint();
                         //ArtistList.UpdateList(new File(Folders.getPath()));
                         ArtistList.UpdateList(new File(Folders.getPath()));
                         frame.repaint();
                         //ArtistList.UpdateList(new File(Folders.getPath()));
-                        Panels.pLeft.repaint();
+                        Panels.pLeft.panel.repaint();
                         
                       if(!ArtistList.listmodel.isEmpty()){
                         ArtistList.UpdateList(new File(Folders.getPath()));
-                        Panels.pLeft.repaint();
+                        Panels.pLeft.panel.repaint();
                         Boxes.ArtistInfo.Field.setText(Num);
                         Boxes.AlbumInfo.Field.setText(Integer.toString(Folders.getAlbums()));
                         //Library is the Second component and Java is a zero based index code. 

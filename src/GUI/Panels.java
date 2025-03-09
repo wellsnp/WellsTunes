@@ -28,27 +28,24 @@ public class Panels {
      pBottom = new BottomPanel("");
     }
     
-    
-    class BasicPanel extends JPanel {
-   
+       class BasicPanel {
+       
+       JPanel panel; 
        JLabel plabel;    
        Border loweredetched;
        public BasicPanel(){
+         panel = new JPanel();  
          plabel = new JLabel("");
-         this.add(plabel);
-         this.setBackground(Color.DARK_GRAY);
+         panel.add(plabel);
+         panel.setBackground(Color.DARK_GRAY);
          loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-         this.setBorder(loweredetched);
+         panel.setBorder(loweredetched);
         }
-        
+       
        public void setPanelLabel(String TextLabel){
             this.plabel.setText(TextLabel);
-        
-        }
-        
-        public void setPanelLayOut(){
-            
-        }
+       }
+       public void setPanelLayOut(){}
     }
     final class LeftPanel extends BasicPanel{
         
@@ -58,14 +55,14 @@ public class Panels {
             
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
-            this.setPreferredSize(new Dimension(300, 800));
-            this.setBackground(Color.pink);
+            panel.setPreferredSize(new Dimension(300, 800));
+            panel.setBackground(Color.pink);
             
         }
         @Override
         public void setPanelLayOut(){
-            boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-            this.setLayout(boxlayout);
+            boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+            panel.setLayout(boxlayout);
         }
     }
     final class CenterPanel extends BasicPanel{
@@ -76,15 +73,15 @@ public class Panels {
             
             this.setPanelLayOut();
             //this.setPanelLabel(TxtLabel);
-            this.setPreferredSize(new Dimension(1500, 800));
-            this.setBackground(Color.lightGray);
+            panel.setPreferredSize(new Dimension(1500, 800));
+            panel.setBackground(Color.lightGray);
            // 
         }
         //@Override
         @Override
         public void setPanelLayOut(){
-            boxlayout = new BoxLayout(this, BoxLayout.X_AXIS);
-            this.setLayout(boxlayout);
+            boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+            panel.setLayout(boxlayout);
         }   
     }
     final class RightPanel extends BasicPanel{
@@ -96,14 +93,14 @@ public class Panels {
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
             this.plabel.setPreferredSize(new Dimension(10, 10));
-            this.setPreferredSize(new Dimension(100, 800));
-            this.setBackground(Color.lightGray);
+            panel.setPreferredSize(new Dimension(100, 800));
+            panel.setBackground(Color.lightGray);
         }
         //@Override
         @Override
         public void setPanelLayOut(){
             gridlayout = new GridLayout(10,1);
-            this.setLayout(gridlayout);
+            panel.setLayout(gridlayout);
             //this.setBorder(BorderFactory.createTitledBorder(
             //      BorderFactory.createEtchedBorder(), "Search Library"));
         }   
@@ -116,8 +113,8 @@ public class Panels {
             this.c = new GridBagConstraints();
             this.setPanelLayOut();
             this.setPanelLabel(TxtLabel);
-            this.setPreferredSize(new Dimension(1920, 100));
-            this.setBackground(Color.lightGray);
+            panel.setPreferredSize(new Dimension(1920, 100));
+            panel.setBackground(Color.lightGray);
             
             //this.c.gridwidth=5;
             this.c.gridheight=3;
@@ -126,7 +123,7 @@ public class Panels {
         @Override
         public void setPanelLayOut(){
             layout = new GridBagLayout();
-            this.setLayout(layout);
+            panel.setLayout(layout);
         }   
     }   
 }
